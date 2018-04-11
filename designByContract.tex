@@ -1,6 +1,21 @@
-\chapter{Design by Contract}
- - koncept kontraktů softwarových modulů
- - jaký vliv to má na kvalitu kódu a SW (efekty použití, proč se to dělá)
- - obecně
- - způsoby popisu DbC kontraktu v Java technologiích (popis + ukázky použití)
- - DbC kontrakty v jiných technologiích
+\chapter{Design by contract}
+
+	\section{Koncept kontraktů softwarových modulů}
+	
+	\section{Vliv použití kontraktů na kvalitu kódu a software} 
+	%(efekty použití, proč se to dělá)
+	
+	\section{Design by contract}
+	Pojem design by contract zavedl francouzský profesor Bertrand Meyer ve ... \cite{meyerBio}
+	
+	
+	
+	Hlavním cílem design by contract je zvýšení spolehlivosti a správnosti u rozsáhlých softwarových projektů. Principem DbC je zajištění formální dohody mezi vývojářem a uživatelem určitého softwarového modulu. Pomocí design by contract může vývojář specifikovat očekávané hodnoty. Za předpokladu, že vývojář odvede kvalitní práci a uživatel tento kontrakt dodrží, mělo by to zamezit množství chyb spojených s integrací. Desing by contract zajišťuje správnost pomocí "assertions", kterých jsou celkem tři typy. Prvním z nich jsou tzv. pre-condtions, které zajišťují správné hodnoty vstupních parametrů, tedy hodnoty před tím, než je provedena určitá operace. Jejich opakem jsou pak post-conditions, které naopak zajišťují správnost výstupu, tedy hodnot po provedení dané operace. Třetím typem jsou tzv invariants, nebo-li neměnné proměnné, které musejí platit po celou dobu.
+	
+	Podmínky jsou definovány pomocí konstrukcí v kódu programu a jsou pak ověřovány při každém běhu. V případě, že byla některá z nich porušena, je vyvolána výjimka. Tímto chováním je zajištěno, že kontrakt bude dodržen.
+	\cite{DesignByContractComponentware}
+	
+	\section{Způsoby popisu kontraktů v Java technologiích} 
+	%(popis + ukázky použití)
+	
+	\section{Kontrakty v jiných technologiích}

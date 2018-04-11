@@ -1,18 +1,59 @@
 \chapter{Implementace nástroje pro analýzu kontraktů}
 
- - shrnout zadání (kontext, proč se ta aplikace dělá, pak návrh řešení) 
+	shrnout zadání (kontext, proč se ta aplikace dělá, pak návrh řešení) 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\section{Implementace knihovny}
-    - Použité technologie (Java, Maven, knihovny)
-    - Parsování Java
-    - Dekompilace Bytcode
-    - Porovnávání kontraktů
-    - Popis API
-    - Přidání nového kontraktu
+	\section{Implementace knihovny}
+	    \subsection{Použité technologie}
+			Knihovna byla implementována v jazyce Java verze 1.8 ve vývojovém prostředí IDEA IntelliJ Ultimate 2017.3.3. Pro zajištění snadného získání závislostí a následného zjednodušení použití knihovny byla pro vytvoření projektu použita technologie Apache Maven.
+			
+		\subsubsection{Knihovny třetích stran}
+			Při vývoji knihovny pro analýzu kontraktů byly použity následující knihovny třetích stran:
+			
+			\paragraph{Apache Log4j} 
+				Tato knihovna umožňuje pokročilé možnosti pro logování. Byla použita zejména pro zaznamenávání chyb a různých informačních záznamů \cite{log4j}.
+				
+			\paragraph{Procyon}
+				Knihovna Procyon byla použita pro dekompilaci přeložených Java souborů \texttt{*.class} \cite{procyon}.
+				
+			\paragraph{JavaParser}
+				JavaParser byl použit tokenizaci zdrojových souborů \cite{javaparser}. 
+				
+			\paragraph{Google Gson}
+				Tato knihovna poskytuje prostředky pro uložení objektů jazyka Java do reprezentace pomocí formátu JSON \cite{gson}. 
+				
+			\paragraph{jUnit 5}
+				Poskytuje možnosti testování pomocí jednotkových testů \cite{junit}.    	 
+		
+		
+		\subsection{Dekompilace Bytcode}
+			Pro dekompilaci Java \texttt{*.class} souborů byla použita knihovna Procyon. Ta umožňuje použití metody \texttt{decompile()}, která přečte vstupní soubor s přeloženým kódem a do jiného souboru uloží jeho dekompilovanou verzi. Tento dočasný soubor s dekompilovaným kódem je poté předán pro zpracování třídě \texttt{JavaFileParser}, která jej zpracuje stejně jako běžný zdrojový soubor. V knihovně dekompilaci obstarává metoda \texttt{decompileClassFile()}, která se nachází v třídě \texttt{io.IOServices}.
+					
+		    	 
+	    \subsection{Parsování Java souborů}	    
+			Pro zpracování zdrojových souborů jazyku Java byla použita knihovna JavaParser. Ta poskytuje metodu \texttt{parse()}, která vytvoří komplexní strukturu daného zdrojového souboru. V prvním kroku se tato struktura projde a vyhledá všechny třídy (\emph{class}) a také rozhraní \emph{interface} a výčtové typy \emph{enum}. Pro účely modelu jsou si tyto tři prvky rovny. Každý nalezený prvek je následně uložen do modelu. V případě třídy a rozhraní je se struktura prochází dále a do modelu jsou uloženy všechny konstruktory, které se z hlediska modelu považují za metody (viz níže). Následně jsou uloženy všechny anotace dané \uv{třídy}.
+			
+			Po této přípravě je využita třída \texttt{MethodVisitor}, která dědí od třídy \texttt{VoidVisitorAdapter} a umožňuje procházet všechny metody v daném souboru. V metodě pak máme k dispozici objekt typu \texttt{MethodDeclaration}, který obsahuje všechny potřebné údaje a také rodičovský \texttt{ExtendedJavaFile}. Pro každou metodu je nalezena její rodičovská třída. Hledá se nejvyšší rodič a tudíž vnořené metody nemají jako rodiče vyšší metodu ale nejvyšší dostupnou třídu. Pro danou metodu jsou následně uloženy všechny anotace a i její parametry. Následně je uloženo celé tělo metody jako seznam objektů typu \texttt{Node}, které umožňují další zpracování. Z těchto získaných dat je vytvořena instance objektu \texttt{ExtendedJavaMethod}, která je následně uložena do 
+		
+		\subsection{Extrakce kontraktů}
+			
+			\subsubsection{Obecně}
+			\subsubsection{Guava Precondtions}
+			\subsubsection{JSR305}
+		
+	    \subsection{Porovnávání kontraktů}
+	    
+	    \subsection{Popis API}
+	    
+	    \subsection{Přidání parseru pro nový typ kontraktu}
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Implementace uživatelské aplikace}
-   - Použité technologie (Java, JavaFX, Maven, knihovny)
-   - Rozdělení aplikace na grafickou a konzolovou část
-   - Možnosti a limitace aplikace
+	\section{Implementace uživatelské aplikace}
+	   \subsection{Použité technologie}
+	    	 Java, JavaFX, Maven, knihovny, ...	
+	    	   
+	   \subsection{Rozdělení aplikace}
+	   		\subsubsection{Grafická část}
+	   		\subsubsection{Konzolová část}
+	   
+	   \subsection{Možnosti a limitace aplikace}

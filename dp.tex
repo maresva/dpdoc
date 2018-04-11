@@ -1,28 +1,10 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Vzor pro sazbu kvalifikační práce
-%
-% Západočeská univerzita v Plzni
-% Fakulta aplikovaných věd
-% Katedra informatiky a výpočetní techniky
-%
-% Petr Lobaz, lobaz@kiv.zcu.cz, 2016/03/14
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \documentclass[czech,DP]{thesiskiv}
 
 %%%%%%%%%%%%%  Balíčky - start %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Zařadit literaturu do obsahu
 \usepackage[nottoc,notlot,notlof]{tocbibind}
-
-% Umožňuje vkládání obrázků
+\usepackage[numbers,sort&compress]{natbib}
 \usepackage[pdftex]{graphicx}
-
-% Odkazy v PDF jsou aktivní; navíc se automaticky vkládá
-% balíček 'url', který umožňuje např. dělení slov
-% uvnitř URL
 \usepackage[pdftex]{hyperref}
 \hypersetup{colorlinks=true,
   unicode=true,
@@ -31,14 +13,7 @@
   urlcolor=black,
   bookmarksopen=true}
 
-% Při používání citačního stylu csplainnatkiv
-% (odvozen z csplainnat, http://repo.or.cz/w/csplainnat.git)
-% lze snadno modifikovat vzhled citací v textu
-\usepackage[numbers,sort&compress]{natbib}
-
-
 %%%%%%%%%%%%%  Balíčky - konec  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 \author{Václav Mareš}
 \declarationmale
@@ -50,12 +25,7 @@
 \include{abstract}
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% VLASTNÍ TEXT PRÁCE
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%   VLASTNÍ TEXT PRÁCE   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
 % Titulní strana + Prohlášení, Poděkování, Abstrakt
@@ -66,6 +36,9 @@
 
 % Úvod
 \include{uvod}
+
+% Zajištění kvality software}
+\include{kvalita}
  
 % Design By Contract 
 \include{designByContract}
