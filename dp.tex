@@ -1,0 +1,111 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Vzor pro sazbu kvalifikační práce
+%
+% Západočeská univerzita v Plzni
+% Fakulta aplikovaných věd
+% Katedra informatiky a výpočetní techniky
+%
+% Petr Lobaz, lobaz@kiv.zcu.cz, 2016/03/14
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[czech,DP]{thesiskiv}
+
+%%%%%%%%%%%%%  Balíčky - start %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Zařadit literaturu do obsahu
+\usepackage[nottoc,notlot,notlof]{tocbibind}
+
+% Umožňuje vkládání obrázků
+\usepackage[pdftex]{graphicx}
+
+% Odkazy v PDF jsou aktivní; navíc se automaticky vkládá
+% balíček 'url', který umožňuje např. dělení slov
+% uvnitř URL
+\usepackage[pdftex]{hyperref}
+\hypersetup{colorlinks=true,
+  unicode=true,
+  linkcolor=black,
+  citecolor=black,
+  urlcolor=black,
+  bookmarksopen=true}
+
+% Při používání citačního stylu csplainnatkiv
+% (odvozen z csplainnat, http://repo.or.cz/w/csplainnat.git)
+% lze snadno modifikovat vzhled citací v textu
+\usepackage[numbers,sort&compress]{natbib}
+
+
+%%%%%%%%%%%%%  Balíčky - konec  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\author{Václav Mareš}
+\declarationmale
+
+% Název práce
+\title{Analýza popisů sémantického kontraktu v~Java technologiích}
+
+% Texty abstraktů (anglicky, česky)
+\include{abstract}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% VLASTNÍ TEXT PRÁCE
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+% Titulní strana + Prohlášení, Poděkování, Abstrakt
+\maketitle
+
+% Obsah
+\tableofcontents
+
+% Úvod
+\include{uvod}
+ 
+% Design By Contract 
+\include{designByContract}
+
+% Reprezentace gramatiky a jazyky
+\include{gramatikaAJazyky}
+
+% Datový model
+\include{model}
+
+% Implementace
+\include{implementace}
+
+% Optimalizace
+\include{optimalizace}
+
+% Testování
+\include{testovani}
+
+% Zhodnocení výsledků
+\include{zhodnoceni}
+
+% Závěr
+\include{zaver}
+
+% Přehled zkratek
+\include{prehledZkratek}
+
+% Literatura
+\include{literatura}
+
+% Seznam příloh
+\include{seznamPriloh}
+
+\appendix
+
+% A Uživatelská příručka
+\include{prilohaUzivatelskaPrirucka}
+
+% B Obsah CD
+\include{prilohaObsahCD}
+
+\end{document}
