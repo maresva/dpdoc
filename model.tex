@@ -1,6 +1,9 @@
 \chapter{Datový model}
 	\section{Rozbor vybraných DbC konstrukcí}
+		Po analýze dostupných materiálů jsem se rozhodl zvolit pro implementaci konstrukce Guava Preconditions a JSR305. Důvodem byla především jejich rozdílná reprezentace, kdy Guava Preconditions je realizováno pomocí volání metod uvnitř těl metod a umožňuje vytvářet pre-conditions. Na druhé straně JSR305 je tvořené anotacemi v záhlaví tříd, metod a také jako součást parametrů metod. Umožňuje tvoření všech tří typů kontraktů (pre-conditions, post-conditions, class invariants). Kromě této diverzity se také jedná o jedny z četných konstrukcí používaných v projektech \cite{contractsInWild}.
+			
 		\subsection{Guava Preconditions}
+			Jak již bylo zmíněno, Guava umožňuje tvorbu kontraktů pomocí pre-conditions voláním metod. 
 		
 		\subsection{JSR305}
 	
@@ -9,10 +12,27 @@
 	
 	\section{Vytvořený model}
 		\subsection{Popis}
-			Vytvořil jsem model...
+			Výsledný model jsem vytvořil na základě analýzy konstrukcí kontraktů s ohledem na následný export do dat, které bude možné dále zpracovávat. Aby byl zachován kontext kontraktů, usoudil jsem, že bude třeba zachovávat také informace o třídách a metodách v daném souboru. Rozhodl jsem se tedy vytvořit strukturu podobnou stromu, jejíž kořenem je samotný zdrojový soubor. Tento soubor obsahuje různé podrobnosti o tomto souboru jako je jeho jméno a cesta, typ a statistiky o jeho obsahu. Také obsahuje seznam všech tříd obsažených v tomto souboru.
+			Každá jednotlivá třída pak obsahuje jméno, svou hlavičku, seznam metod a také seznam všech kontraktů týkajících se této třídy, tedy class invariants. Metoda pak nese informaci o své signatuře a také seznam všech kontraktů této metody.
+			
+			Samotný kontrakt se pak skládá z těchto informací:
+			
+			\paragraph{\texttt{ContractType contractType}} Jedná se o výčtový typ, který určuje o jaký druh kontraktu se jedná. Při současném stavu knihovny to mohou být hodnoty Guava či JSR305.
+			
+			\paragraph{\texttt{ConditionType conditionType}} Opět výčtový typ který určuje typ kontraktu dle jeho podmínky. Rozlišují se tři druhy: pre-condtion, post-condition a class invariant.
+			
+			\paragraph{\texttt{String completeExpression}} Reprezentuje kompletní výraz celého kontraktu. I přesto, že celý výraz je možné vytvořit z jeho dílčích částí, je zde uveden pro rychlý přehled. Může také posloužit jako kontrola parsování či pro rychlé porovnání.
+			
+			\paragraph{\texttt{String function}} Tento řetězec určuje funkce o jaký se jedná. V případě Guava se jedná o název metody, v případě JSR305 o název anotace. Obecně se jedná o hlavní označení určující daný typ kontraktu.
+			
+			\paragraph{\texttt{String expression}} Obsahuje první parametr dané funkce. Důvodem, proč oddělit první parametr od ostatních, bylo, že kontrakty mají často pouze jeden parametr a pokud jich mají více, ostatní často nejsou tolik relevantní. Pro zvýšení přehlednosti byl tedy tento parametr uveden samostatně.
+			
+			\paragraph{\texttt{List<String> arguments}} Seznam ostatních argumentů daného kontraktu. Ostatní atributy až na výjimky slouží pouze k uvedení chybové zprávy, která se má zobrazit při porušení kontraktu. Mimo zprávy zde také bývají proměnné použité ve zprávě. 
+			
+			\paragraph{\texttt{String file, className, methodName}} Kontrakt také obsahuje jméno rodičovského souboru, jméno třídy a metody. I přesto, že je tyto atributy možné získat od rodičovských objektů, jsou zde z důvodů přehlednosti exportu a zejména pak kvůli porovnávání, kde urychlují celý proces.
 		
 		\subsection{Diagram}
 			Obrázek
 			
 		\subsection{Reprezentace modelu}
-			Data jsou reprezentována pomocí JSON...
+			Po dohodě s vedoucím práce jsem se rozhodl pro externí reprezentaci modelu použít formát JSON. Vzhledem k tomu, že JSON je široce používaný zápis dat a umožňuje relativně snadné ukládaní objektů typu Java a také umožňuje další zpracování. JSON je tak vhodný pro zpracovaní strojem, ale je dobře čitelný i pro lidské oko (v případě, že byl zformátován).
