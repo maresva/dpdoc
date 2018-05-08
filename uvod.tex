@@ -1,16 +1,7 @@
 \chapter{Úvod}
 
-... úvod do problematiky ...
+S rozvojem objektově orientovaného programování se rozmohl trend dělení software do nezávislých komponent, které jsou snadno nahraditelné a lze je vyvíjet takřka nezávisle. Kromě mnoha nepopiratelných výhod této metodiky jsou zde samozřejmě také potenciální rizika. Jedním z možných rizik může být špatná komunikace těchto samostatných součástí. Sémantické kontrakty jsou jednou z možností, jak snížit chybovost těchto integrací a zvýšit jejich přehlednost. Z tohoto důvodu má smysl se těmito konstrukcemi zabývat a analyzovat jejich použití.\\
 
- .. Design by contract je jednou z možností, jak snížit chybovost této integrace. Proto má smysl se těmito konstrukcemi zabývat a analyzovat jejich použití.
+Cílem diplomové práce je seznámit se s konceptem kontraktu softwarových modulů, zejména pak přístupem Design by Contract (DbC) a prostudovat způsoby popisu DbC kontraktu v Java technologiích. Hlavním cílem práce je návrh a implementace nástroje pro extrakci, případně porovnání, konstrukcí DbC ze zdrojových, respektive přeložených, souborů jazyka Java. Součástí je také analýza a návrh modelu, který bude takto získaná data reprezentovat. Závěrem práce by mělo být ověření správnosti získaných výsledků a jejich souhrn.\\ 
 
-
-Cílem diplomové práce je seznámit se 
-
-
- Seznamte se s konceptem kontraktu softwarových modulů, zejména přístupem Design by Contract (DbC), a prostudujte způsoby popisu DbC kontraktu v Java technologiích.
-2. Navrhněte model pro reprezentaci DbC konstrukcí, nezávislý na zdrojovém způsobu popisu, vhodný pro jejich analýzu a další zpracování.
-3. Navrhněte a implementujte nástroj (knihovnu či aplikační rámec), který umožní získání dat podle tohoto modelu ze zdrojové či přeložené formy Java programu, vytvoření jejich externí reprezentace, případně porovnání DbC konstrukcí. Nástroj bude schopen zpracovat alespoň dva způsoby popisu DbC konstrukcí a bude dovolovat snadné rozšíření pro další způsoby.
-4. S využitím nástroje vytvořte jednoduchou uživatelskou aplikaci pro načtení a zobrazení dat modelu.
-5. Důkladně ověřte správnou funkcionalitu nástroje a získané výsledky vyhodnoťte
- 
+Po přečtení této práce by měl čtenář získat základní informace o tom, co to jsou kontrakty, jakým způsobem se rozdělují a jaký mají vliv na kvalitu software. Podrobněji by se měl dozvědět o design by contract a různých způsobech jeho reprezentace. Čtenář také bude uveden do problematiky rozboru zdrojových i přeložených souborů jazyka Java a zejména pak s možnostmi extrakce kontraktů z těchto dat. V druhé části práci se čtenář seznámí s implementací nástroje pro extrakci a porovnávání kontraktů a jakým způsobem jsou v něm reprezentována data. Závěrem bude uvedeno testování tohoto nástroje spolu s jeho dosaženými výsledky.

@@ -1,7 +1,34 @@
 \chapter{Popis kontraktů softwarových rozhraní}
 
-	\section{Koncept kontraktů softwarových modulů}
-		Abychom v softwarovém inženýrství zajistili znovupoužitelnost a bezchybnost nezávislých komponent, je třeba specifikovat, jakým způsobem se mají používat a jak s nimi komunikovat. Jedná se o kontrakt mezi tím, kdo komponentu implementoval (dodavatel, vývojář) a tím, kdo ji používá (klient, uživatel). Vývojář zaručuje, že modul bude fungovat dle specifikace, za předpokladu, že bude používán správně. Správná komunikace mezi moduly bývá zpravidla zajištěna použitím rozhraní, která vynucují určité chování. Nicméně rozhraní uživatele omezuje pouze v použití správných metod a datových typů, ale na rozdíl od kontraktů již neklade požadavky na samotné hodnoty. Kontrakty mohou působit dojmem, že slouží jako náhrada testů, nicméně se nejedná o zaměnitelné funkce a naopak by se měly navzájem doplňovat. 
+	\section{Koncept kontraktů softwarových modulů}	
+		Abychom v softwarovém inženýrství zajistili znovupoužitelnost a bezchybnost nezávislých komponent, je třeba specifikovat, jakým způsobem se mají používat a jak s nimi komunikovat. Jedná se o kontrakt mezi tím, kdo komponentu implementoval (dodavatel, vývojář) a tím, kdo ji používá (klient, uživatel). Vývojář zaručuje, že modul bude fungovat dle specifikace, za předpokladu, že bude používán správně. Text této kapitoly čerpá primárně z těchto zdrojů: \cite{contractsInWild}\cite{applyingDbc}\cite{ooswConstruction}\cite{contractAware}.\\
+		
+		Kontrakty je možné dělit do čtyř úrovní, dle toho, jak jsou otevřené diskuzi, kde první úroveň je neměnná a čtvrtá je dynamická a otevřená změnám: 
+		\begin{itemize}
+			\item 1. úroveň - syntaktické
+			\item 2. úroveň - sémantické
+			\item 3. úroveň - interaktivní
+			\item 4. úroveň - mimo-funkční
+		\end{itemize}
+		
+		\subsection{Syntaktické kontrakty}
+			Základní vrstvou kontraktů jsou kontrakty syntaktické. Jejich znění je neměnné a jedná se o nutnou podmínku pro dodržení dohody mezi vývojářem a uživatelem. Specifikují operace, které může daná komponenta provádět, vstupní a výstupní parametry komponenty a výjimky, které během daných operací mohou nastat. Můžeme tedy říci, že pokrývají signatury a definice rozhraní použitých konstrukcí. 
+		
+		\subsection{Sémantické kontrakty}
+		
+		\subsection{Interaktivní kontrakty}
+		
+		\subsection{Mimo-funkční kontrakty}
+		
+		
+		...\\
+		%Správná komunikace mezi moduly bývá zpravidla zajištěna použitím rozhraní, která vynucují určité chování. Nicméně rozhraní uživatele omezuje pouze v použití správných metod a datových typů, ale na rozdíl od kontraktů již neklade požadavky na samotné hodnoty. 
+		
+		V této kapitole bude čtenář kromě konceptu kontraktů také seznámen s vlivem použití na kvalitu kódu. Podrobně bude rozebrána...\\
+		
+		...\\
+		
+		...Kontrakty mohou působit dojmem, že slouží jako náhrada testů, nicméně se nejedná o zaměnitelné funkce a naopak by se měly navzájem doplňovat.
 		
 	\section{Vliv na kvalitu kódu a software}
 		Použití kontraktů v kódu přináší mnoho výhod, které mohou zvýšit kvalitu vývoje, respektive pak výsledného softwaru. Často vynucují správné chování při statické nebo dynamické kontrole a zajišťují tak správnost toku dat. Poskytují dodatečné informace při popisu rozhraní a pomáhají tak v lepší orientaci v projektu. Při použití kontraktů tak vývojář ví, jaké nároky může mít na danou operaci, a co se na oplátku očekává, že dodrží. Použití kontraktů může také pomoci při debuggingu, či při analýze vstupů a výstupů. 
@@ -12,9 +39,9 @@
 	\section{Design by contract}
 		Pojem design by contract zavedl francouzský profesor Bertrand Meyer. První větší zmínka je uveden v publikaci \emph{Design by Contract, Technical Report} v roce 1987. Profesor v průběhu let působil na řadě univerzit jako např. v Politecnico di Milano či ETH Zurich a je autorem mnoha publikací a knih. Mimo design by contract, byl jeho významným příspěvkem do oblasti softwarového inženýrství programovací jazyk Eiffel, který je s DbC úzce spjat \cite{meyerBio}\cite{DesignByContractComponentware}\cite{eiffel}.	
 	
-		Hlavním cílem design by contract je zvýšení spolehlivosti a správnosti u rozsáhlých softwarových projektů. Principem DbC je zajištění formální dohody mezi vývojářem a uživatelem určitého softwarového modulu. Pomocí design by contract může vývojář specifikovat očekávané hodnoty. Za předpokladu, že vývojář odvede kvalitní práci a uživatel tento kontrakt dodrží, mělo by to zamezit množství chyb spojených s integrací. Desing by contract zajišťuje správnost pomocí \emph{assertions}, kterých jsou celkem tři typy. Prvním z nich jsou tzv. pre-condtions, které zajišťují správné hodnoty vstupních parametrů, tedy hodnoty před tím, než je provedena určitá operace. Jejich opakem jsou pak post-conditions, které naopak zajišťují správnost výstupu, tedy hodnot po provedení dané operace. Třetím typem jsou tzv class invariants, nebo-li neměnné proměnné, které musejí platit po celou dobu. Je možné říci, že class invariant je pre-condition a post-condition pro všechny veřejné metody v dané třídě.
+		Hlavním cílem design by contract je zvýšení spolehlivosti a správnosti u rozsáhlých softwarových projektů. Principem DbC je zajištění formální dohody mezi vývojářem a uživatelem určitého softwarového modulu. Pomocí design by contract může vývojář specifikovat očekávané hodnoty. Za předpokladu, že vývojář odvede kvalitní práci a uživatel tento kontrakt dodrží, mělo by to zamezit množství chyb spojených s integrací. Design by contract zajišťuje správnost pomocí \emph{assertions}, kterých jsou celkem tři typy. Prvním z nich jsou tzv. pre-conditions, které zajišťují správné hodnoty vstupních parametrů, tedy hodnoty před tím, než je provedena určitá operace. Jejich opakem jsou pak post-conditions, které naopak zajišťují správnost výstupu, tedy hodnot po provedení dané operace. Třetím typem jsou tzv class invariants, nebo-li neměnné proměnné, které musejí platit po celou dobu. Je možné říci, že class invariant je pre-condition a post-condition pro všechny veřejné metody v dané třídě.
 	
-	Podmínky jsou definovány pomocí konstrukcí v kódu programu. V závislosti na typu daného kontraktu, mohou poskytovat statickou kontrolu a/nebo jsou ověřovány při běhu. V případě, že byla některá z nich porušena, je vyvolána výjimka. Tímto chováním je zajištěno, že kontrakt bude dodržen \cite{contractsInWild}\cite{DesignByContractComponentware}.
+	Podmínky jsou definovány pomocí konstrukcí v kódu programu. V závislosti na typu daného kontraktu, mohou poskytovat statickou kontrolu a/nebo jsou ověřovány při běhu. V případě, že byla některá z nich porušena, je vyvolána výjimka. Tímto chováním je zajištěno, že kontrakt bude dodržen.
 	
 	\section{Rozdělení kontraktů}
 		Kontrakty můžeme rozdělit do několika kategorií dle způsobu jejich použití:
