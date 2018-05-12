@@ -1,20 +1,23 @@
 \chapter{Datový model}
 	Tato kapitola se zabývá podrobnostmi o datovém modelu nástroje. Pojednává o volbě reprezentace kontraktů, které byly použity pro tento projekt a obecně o společných atributech kontraktů. Jsou zde uvedeny podrobnosti o datovém modelu určeném pro reprezentaci kontraktů, ale také pro výsledky jejich porovnání. Oba tyto modely jsou zde popsány slovně, ale i pomocí UML diagramu. Závěr tvoří informace o externí reprezentaci těchto dat.
 
+
 	\section{Volba DbC konstrukcí}
-		Po analýze dostupných materiálů jsem se rozhodl zvolit pro implementaci konstrukce Guava Preconditions a JSR305. Důvodem byla především jejich rozdílná reprezentace, kdy Guava Preconditions je realizováno pomocí volání metod uvnitř těl metod a umožňuje vytvářet vstupní podmínky. Na druhé straně JSR305 je tvořené anotacemi v záhlaví tříd, metod a také jako součást parametrů metod. Umožňuje tvoření všech tří typů kontraktů (vstupní, výstupní i neměnné podmínky). Kromě této diverzity se také jedná o jedny z častých konstrukcí používaných v projektech viz \cite{contractsInWild}. Principy obou těchto nástrojů byly již popsány výše (viz 3. kapitola Popis kontraktů softwarových rozhraní) z čehož se bude vycházet.
+		Po analýze dostupných materiálů jsem se rozhodl zvolit pro implementaci konstrukce Guava Preconditions a JSR305. Důvodem byla především jejich rozdílná reprezentace, kdy Guava Preconditions je realizováno pomocí volání metod uvnitř těl metod a umožňuje vytvářet vstupní podmínky. Na druhé straně JSR305 je tvořené anotacemi v záhlaví tříd, metod a také jako součást parametrů metod. Umožňuje tvoření všech tří typů kontraktů (vstupní, výstupní i neměnné podmínky). Kromě této diverzity se také jedná o jedny z častých konstrukcí používaných v projektech viz \cite{contractsInWild}. Principy obou těchto nástrojů byly již popsány výše (viz 3. kapitola Popis kontraktů softwarových rozhraní), z čehož se bude vycházet.
+				
 				
 	\section{Společné znaky reprezentací kontraktů}		
-		Při rozboru jednotlivých nástrojů pro reprezentaci design by contract zjistíme, že sdílejí mnoho podobných aspektů, které jsou klíčové pro vytvoření obecného modelu, který je schopen zachytit libovolnou konstrukci tohoto kontraktu. 
+		Při rozboru jednotlivých nástrojů pro reprezentaci design by contract zjistíme, že sdílejí mnoho podobných aspektů, které jsou klíčové pro vytvoření obecného modelu, který je schopen zachytit libovolnou konstrukci kontraktu.\\ 
 		
-		TODO - doplnit společné znaky
+		Do modelu je třeba nejprve zanést, o jaký nástroj pro práci s kontrakty se jedná (Guava, JSR305, atd.). Každý kontrakt je také vždy definován jedním ze tří typů podmínek (vstupní, výstupní a neměnná), to je také velmi důležitá informace, kterou je třeba do modelu zaznamenat. Kontrakty jsou také typicky definovány funkcí, která určuje, co kontrakt ověřuje. Může se jednat o kontrolu argumentu, zda objekt není \texttt{null} atp. V případě, že kontrakt tuto informaci neobsahuje, může tato položka zůstat prázdná. Další důležitou informací je hodnota daného kontraktu, která představuje výraz, který je vyhodnocován. Některé kontrakty tuto hodnotu nevyžadují (např. \texttt{@Nonnull} u JSR305), ale ve většině případů jde o podmínku (např. \texttt{x > 0}). Některé druhy reprezentací kontraktů však umožňují i další argumenty. Typicky se jedná o informace o typu výjimky, která je vyhozena, či o její zprávě. Může se však také jednat o další upřesňující data. Obvykle tyto informace nemají z hlediska důležitosti vysokou prioritu, přesto by ale mělo být možné je do modelu zahrnout.
+		
 	
 	\section{Model pro extrakci kontraktů}
-			TODO - úvod ... je potřeba data uložit atd.			
+			Aby bylo možné kontrakty extrahovat ze zdrojových souborů, je také třeba mít k dispozici datový model, do kterého bude možné tato data uložit. Tento model jsem vytvořil na základě analýzy konstrukcí kontraktů s ohledem na následný export do formátu dat, který bude možné dále zpracovávat. Aby byl zachován kontext kontraktů, usoudil jsem, že bude třeba zachovávat také informace o třídách a metodách v daném souboru. Rozhodl jsem se tedy vytvořit strukturu podobnou stromu, jejíž kořenem je samotný zdrojový soubor. Tento soubor obsahuje různé podrobnosti o tomto souboru jako je jeho jméno a cesta, typ a statistiky o jeho obsahu. Také obsahuje seznam všech tříd obsažených v tomto souboru.\\
 			
-			Výsledný model jsem vytvořil na základě analýzy konstrukcí kontraktů s ohledem na následný export do dat, které bude možné dále zpracovávat. Aby byl zachován kontext kontraktů, usoudil jsem, že bude třeba zachovávat také informace o třídách a metodách v daném souboru. Rozhodl jsem se tedy vytvořit strukturu podobnou stromu, jejíž kořenem je samotný zdrojový soubor. Tento soubor obsahuje různé podrobnosti o tomto souboru jako je jeho jméno a cesta, typ a statistiky o jeho obsahu. Také obsahuje seznam všech tříd obsažených v tomto souboru.\\
+			Každá jednotlivá třída pak obsahuje jméno, svou hlavičku, seznam metod a také seznam všech kontraktů týkajících se této třídy, tedy neměnných podmínek. Metoda pak nese informaci o své signatuře a také seznam všech kontraktů této metody. Samotný kontrakt pak obsahuje informaci o tom, o jaký typ kontraktu a podmínky se jedná, kompletní výraz a také jeho dílčí části. Následuje podrobnější rozbor tohoto modelu rozdělením na jednotlivé entity.\\
 			
-			Každá jednotlivá třída pak obsahuje jméno, svou hlavičku, seznam metod a také seznam všech kontraktů týkajících se této třídy, tedy class invariants. Metoda pak nese informaci o své signatuře a také seznam všech kontraktů této metody. Samotný kontrakt pak obsahuje informaci o tom, o jaký typ kontraktu se jedná, o jakou podmínku se jedná, kompletní výraz a také jeho dílčí části.
+			Na obrázku \ref{modelExtractorDiagram} je vidět grafické znázornění datového modelu formou UML diagramu. Nejsou zde záměrně zobrazeny objekty \texttt{ContractComparison} a \texttt{JavaFileCompareReport}. Těm je věnován prostor v diagramu pro porovnávání kontraktů, který je na obrázku \ref{modelComparatorDiagram}. 
 			
 			
 			%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -92,28 +95,111 @@
 				\subsubsection{\texttt{List<String> arguments}} 
 					Seznam ostatních argumentů daného kontraktu. Ostatní atributy až na výjimky slouží pouze k uvedení chybové zprávy, která se má zobrazit při porušení kontraktu. Mimo zprávy zde také bývají proměnné použité ve zprávě.\\					
 	
-		Během zpracování jsou používány následující třídy: \texttt{ExtendedJavaFile}, \texttt{ExtendedJavaClass} a \texttt{ExtendedJavaMethod}. Ty obsahují dodatečné informace vůči výše zmíněným objektům. Jedná se o anotace, vstupní parametry a jednotlivé části těl metod.	Po zpracování jsou pak tyto objekty redukovány na ty výše zmíněné, které jsou připraveny pro externí reprezentaci.
+				
+				\begin{figure}[!htb]
+					\minipage{1\textwidth}	
+						\centering
+						\includegraphics[width=1\textwidth]{img/modelExtractorDiagram.pdf}
+						\caption[modelExtractorDiagram]{UML diagram datového modelu pro extrakci kontraktů}
+						\label{modelExtractorDiagram}
+					\endminipage\hfill
+				\end{figure}				
+					
+	
+		Během zpracování jsou používány následující třídy: \texttt{ExtendedJavaFile}, \texttt{ExtendedJavaClass} a \texttt{ExtendedJavaMethod}. Ty obsahují dodatečné informace vůči výše zmíněným objektům. Jedná se o anotace, vstupní parametry a jednotlivé části těl metod. Po zpracování jsou pak tyto objekty redukovány na ty výše zmíněné, které jsou připraveny pro externí reprezentaci.
 		
+
+	\section{Model pro porovnávání kontraktů}
+		Vzhledem k tomu, že nástroj umožňuje kromě extrakce kontraktů také jejich porovnání, je třeba vytvořit datový model, který umožní zachytit i tyto informace. Na základě toho, že porovnání bude mít největší hodnotu ve chvíli, kdy bude možné porovnat dva projekty, tedy dvě složky s mnoha zdrojovými, respektive přeloženými, soubory jazyka Java, usoudil jsem, že bude jeden hlavní objekt, který bude reprezentovat porovnání dvou složek. Ten bude obsahovat různé podrobnosti o tom, zda byly složky shodné, konkrétní případy, kde se lišily a také seznam souborů, ke kterým nebyl nalezen adekvátní pár v druhé složce. Jedná se tedy o přidané a odebrané soubory. Stejně jako v případě extrakce, i zde by měl být souhrn statistik, který poskytne dodatečné informace o tomto srovnání.\\
 		
-		\section{Diagram modelu pro extrakci kontraktů}
-			Na obrázku \ref{modelExtractorDiagram} je vidět grafické znázornění datového modelu formou UML diagramu. Nejsou zde záměrně zobrazeny objekty \texttt{ContractComparison} a \texttt{JavaFileCompareReport}. Těm je věnován prostor v diagramu pro porovnávání kontraktů, který je na obrázku \ref{modelComparatorDiagram}.		
+		Porovnání jednotlivých souborů budou pak zachycena v objektu, který bude mít podobné atributy jako ten pro složku. Tedy v čem se dané soubory lišili z hlediska tříd, metod a zejména kontraktů. I zde je k dispozici souhrn statistik. Celý model by měl být patrný z následujícího popisu, případně pak z obrázku \ref{modelComparatorDiagram}, kde je tento model znázorněn graficky formou UML diagramu.
+		
+		\subsection{Třída \texttt{JavaFolderCompareReport}}
+			Instance třídy \texttt{JavaFolderCompareReport} představují zprávy o porovnání dvou složek.
+			
+			\subsubsection{\texttt{String thisFolderPath}}
+				Cesta k první složce, která je porovnávána.
+				
+			\subsubsection{\texttt{String otherFolderPath}}
+				Cesta k druhé složce, která je porovnávána.
+				
+			\subsubsection{\texttt{boolean apiEqual}}
+				Obsahuje informaci o tom, zda jsou složky shodné na úrovni API. K tomu se vztahuje, zda jsou shodné soubory, třídy a metody na úrovni definic (nikoliv jejich těl).
+				
+			\subsubsection{\texttt{boolean contractEqual}}
+				Říká zda jsou složky shodné na úrovni kontraktů. Jedná se o to, zda jsou nějaké kontrakty přidány či odebrány nebo jakkoliv změněny.
+				
+			\subsubsection{\texttt{JavaFolderCompareStatistics javaFolderCompareStatistics}}
+				Tento objekt obsahuje statistické údaje k danému porovnání. Je zde počet přidaných a odebraných souborů a také počet přidaných/odebraných/změněných kontraktů. 
+			
+			\subsubsection{\texttt{List<String> filesAdded}}
+				Seznam cest souborů, které byly přidány.
+				
+			\subsubsection{\texttt{List<String> filesRemoved}}
+				Seznam cest souborů, které byly odebrány.
+				
+			\subsubsection{\texttt{List<JavaFileCompareReport> javaFileCompareReports}}
+				Jedná se o seznam porovnávacích zpráv jednotlivých souborů (viz níže). 
+				
+				
+		\subsection{Třída \texttt{JavaFileCompareReport}}
+			Tyto objektu reprezentují zprávy o porovnání dvou souborů.
+			
+			\subsubsection{\texttt{String thisFilePath}}
+				Cesta k prvnímu souboru, který je porovnáván.
+				
+			\subsubsection{\texttt{String otherFilePath}}
+				Cesta k druhému souboru, který je porovnáván.
+				
+			\subsubsection{\texttt{boolean apiEqual}}
+				Obsahuje informaci o tom, zda jsou soubory shodné na úrovni API. K tomu se vztahuje, zda jsou stejné deklarace tříd a metod.
+				
+			\subsubsection{\texttt{boolean contractEqual}}
+				Říká zda jsou složky shodné na úrovni kontraktů. Jedná se o to, zda jsou nějaké kontrakty přidány či odebrány nebo jakkoliv změněny.
+				
+			\subsubsection{\texttt{JavaFileCompareStatistics javaFileCompareStatistics}}
+				Statistiky porovnání daných dvou souborů. Obsahuje informace o počtu přidaných a odebraných tříd, metod a kontraktů.
+				
+			\subsubsection{\texttt{List<ApiChange> apiChanges}}
+				Seznam všech změn API, které byly mezi soubory detekovány. Obsahují informace o tom jaká třída či metoda byla přidána/odebrána a kolik kontraktů to ovlivnilo.
+				
+			\subsubsection{\texttt{List<ContractCompareReport> contractCompareReports}}
+				Seznam všech zpráv o porovnání jednotlivých kontraktů(viz níže).
+			
+				
+		\subsection{Třída \texttt{ContractCompareReport}}
+			Jednotlivé objekty \texttt{ContractCompareReport} představují zprávy o porovnání dvou kontraktů.
+			
+			\subsubsection{\texttt{ContractComparison contractComparison}}
+				Tento výčtový typ určuje, jestli byly kontrakty shodné, rozdílné či se jednalo o menší změny.
+				
+			\subsubsection{\texttt{ApiState apiState}}
+				Určuje zda byl nalezen párový kontrakt v druhém souboru, či jestli byl přidán nebo naopak odebrán.
+				
+			\subsubsection{\texttt{ContractType contractType}}
+				O jaký typ kontraktu se jedná (Guava, JSR305, atd.).
+				
+			\subsubsection{\texttt{String className}}
+				Označení třídy, ve které se oba kontrakty nacházejí.
+				
+			\subsubsection{\texttt{String methodName}}
+				Označení metody, ve které se oba kontrakty nacházejí.
+				
+			\subsubsection{\texttt{String thisContractExpression}}
+				Kompletní výraz, který reprezentuje první porovnávaný kontrakt.
+				
+			\subsubsection{\texttt{String otherContractExpression}}
+				Kompletní výraz, který reprezentuje druhý porovnávaný kontrakt.
+			
 		
 				\begin{figure}[!htb]
 					\minipage{1\textwidth}	
 						\centering
-						%\includegraphics[width=1\textwidth]{img/modelExtractorDiagram.png}
-						\includegraphics[width=1\textwidth]{img/modelExtractorDiagram.pdf}
-						\caption[modelExtractorDiagram]{UML diagram datového modelu}
-						\label{modelExtractorDiagram}
+						\includegraphics[width=1\textwidth]{img/modelComparatorDiagram.pdf}
+						\caption[modelComparatorDiagram]{UML diagram datového modelu pro porovnání kontraktů}
+						\label{modelComparatorDiagram}
 					\endminipage\hfill
 				\end{figure}
-
-
-	\section{Model pro porovnávání kontraktů}
-		TODO
-	
-	\section{Diagram modelu pro porovnávání kontraktů}
-		TODO
 
 			
 		\section{Externí reprezentace modelu}
