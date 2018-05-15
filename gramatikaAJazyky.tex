@@ -1,11 +1,11 @@
-\chapter{Tokenizace jazyka Java}
+\chapter{Analýza kódu jazyka Java}
 
 	\section{O jazyce Java}
 		Java \cite{javaEnviroment} je objektově orientovaný programovací jazyk, který byl vytvořen více než před 20 lety. Java byla inspirována řadou jazyků, jako je např. Eiffel, SmallTalk a Objective C. Snahou bylo vytvořit objektově orientovaný jazyk, který bude jednoduchý na pochopení, aniž by bylo třeba dlouhého tréninku. Jedním ze značných usnadnění, např. oproti jazyku C/C++, je Garbage Collector. Ten umožňuje automatické uvolňování paměti, což předchází častým chybám spojených s jejím manuálním uvolňováním.	Cílem také bylo, aby byla Java robustní a zabezpečená a jednalo se tak o spolehlivý jazyk. Java byla vytvářena za účelem architektonické a platformní nezávislosti a bylo ji tak možné použít takřka všude. Této přenositelnosti bylo zajištěno především tím, že se jedná o interpretovaný jazyk (viž níže). Při vývoji bylo také samozřejmě cíleno na zajištění co největší výkonnosti s čímž souvisí i umožnění tvorby vícevláknových aplikací.\\
 		
 		Java má řadu výhod, ale také nevýhod a stejně jako u každé jiné technologie je třeba zvážit, zda se jedná o vhodnou volbu pro náš projekt. Jazyk Java je dlouhodobě jedním z nejpoužívanějších programovacích jazyků a stále se vyvíjí \cite{javaTrend}.\\
 		
-		Tato kapitola bude čtenáře informovat o základních vlastnostech jazyka Java, především pak o jeho překladu do bajtkódu. Jejím hlavním cílem je představení gramatiky tohoto jazyka a úvod do problematiky tokenizace, která v důsledku umožní extrakci konstrukcí DbC. Dalším tématem budou také možnosti dekompilace bajtkódu a důsledky, které z toho vycházejí.
+		Tato kapitola bude čtenáře informovat o základních vlastnostech jazyka Java, především pak o jeho překladu do bajtkódu. Jejím hlavním cílem je představení gramatiky tohoto jazyka a úvod do problematiky tokenizace, která v důsledku umožní extrakci konstrukcí DbC. Dalším tématem budou také možnosti dekompilace bajtkódu a rozbor toho, jak se výsledek liší oproti zdrojovému kódu.
 		
 		
 		\subsection{Kompilace jazyka Java}	
@@ -15,19 +15,24 @@
 				JVM je softwarová abstrakce pro obecnou hardwarovou platformu. Slouží k tomu, aby bylo možné spustit program napsán v Java na různých zařízeních. Program je pak virtuálně spuštěn na JVM místo přímo na daném zařízení. Vzhledem k tomu, že se jedná o virtualizaci, je logické, že z hlediska výkonu a nároků na paměť není možné dosáhnout srovnatelných výsledků s programem, který je na danou platformu plně zoptimalizován. V tomto případě se jedná o daň za multiplatformnost jazyka Java.\\ 
 			
 			Když spustíme Java aplikace, nejprve se spustí JVM na daném zařízení. Ten načte hlavní třídu s metodou \texttt{main} spolu s jinými klíčovými částmi jako je např. \texttt{java.lang.Object}. K načtení těchto tříd se využívá tzv. \emph{Class Loader}. Poté, co jsou načteny klíčové části již JVM načítá třídy pouze na vyžádání, což se děje ve chvíli, kdy je daná třídy v programu potřeba. Tímto způsobem obsahuje JVM jen ten přeložený kód, který je v danou chvíli potřeba, což snižuje nároky na paměť, ale snižuje rychlost programu. Tato technika se nazývá \emph{Just-in-time kompilace} \cite{jit}\cite{classLoad}.
+			
+			\textbf{\textcolor{pblue}{TODO: JIT je něco jiného}}\\
 				
 	
 	\section{Gramatika}
-		základní popis gramatiky TODO
+		\textbf{\textcolor{pblue}{TODO: reprezentace některých konstrukcí, vč. anotací - do jakých základních konstrukcí jsou převáděny, jak se poznají v bytecode; retention policy u anotací.	}}\\
 	
 	\section{Rozbor kódu}
 		Abychom mohli zpracovávat zdrojový kód jazyka Java, je vhodné jej nejprve převést na snadněji zpracovatelnou formu než surový text. K tomu nám může pomoci lexikální a syntaktická analýza, pomocí nichž můžeme ve výsledku získat reprezentaci ve stromové podobě \cite{compilerTutorial}.
 	
 		\subsection{Lexikální analýza}
-			Aby bylo možné provést rozbor kódu, který je prezentován v textové podobě, je třeba nejprve provést lexikální analýzu. Ta spočívá v tom, že je proud znaků zpracováván a rozdělován dle bílých znaků\footnote{Bílými znaky jsou myšleny netisknutelné znaky jako jsou například mezery, tabulátory, nové řádky atd.} nebo operačních, respektive speciálních, symbolů (\texttt{=}, \texttt{:}, \texttt{\&}, ...) na tzv. lexémy, které reprezentují dílčí části kódu. Na základě sekvence znaků analyzátor pomocí regulárních výrazů určí, zda se jedná o identifikátor, číslo, klíčové slovo, řetězec atd. Pokud analyzátor narazí na nesrovnalost, např. v Java by začal lexém číslem a pokračoval písmeny, což by představovalo ilegální pojmenování identifikátoru, analýza vyhodí chybu. Tímto vznikne seznam lexémů, který je předán dál syntaktické analýze.
+		
+			\textbf{\textcolor{pblue}{TODO: toto je hodně volný a nepřesný popis lex a syn analýzy - nutno zpřesnit, viz aspoň FJP!}}\\					
+		
+			Aby bylo možné provést rozbor kódu, který je prezentován v textové podobě, je třeba nejprve provést lexikální analýzu. Ta spočívá v tom, že je proud znaků zpracováván a rozdělován dle bílých znaků\footnote{Bílými znaky jsou myšleny netisknutelné znaky jako jsou například mezery, tabulátory, nové řádky atd.} nebo operačních, respektive speciálních, symbolů (\texttt{=}, \texttt{:}, \texttt{\&}, ...) na tzv. lexémy, které reprezentují \textbf{\textcolor{pblue}{dílčí části kódu}}. Na základě sekvence znaků analyzátor pomocí regulárních výrazů určí, zda se jedná o identifikátor, číslo, klíčové slovo, řetězec atd. Pokud analyzátor narazí na nesrovnalost, např. v Java by začal lexém číslem a pokračoval písmeny, což by představovalo ilegální pojmenování identifikátoru, analýza vyhodí chybu. Tímto vznikne seznam lexémů, který je předán dál syntaktické analýze.
 			
 		\subsection{Syntaktická analýza}
-			Ze vstupního proudu lexému vytvořeného pomocí lexikální analýzy můžeme nyní za pomocí syntaktické analýzy vytvořit derivační strom. Díky této reprezentaci můžeme již dané lexémy rozdělit do různých konstrukcí jazyka, jako jsou třídy, metody, podmínky atd. Po tomto kroku jsme již tedy schopni zpracovávat zdrojový kód na takové úrovni, která nám umožní procházet anotace jednotlivých konstrukcí, či příkazy těla metod. Na základě toho jsme tedy schopni provádět analýzu, která umožní nalezení kontraktů ve zdrojovém kódu. 			
+			Ze vstupního proudu lexému vytvořeného pomocí lexikální analýzy můžeme nyní za pomocí syntaktické analýzy vytvořit derivační strom. Díky této reprezentaci \textbf{\textcolor{pblue}{můžeme již dané lexémy rozdělit do různých konstrukcí jazyka}}, jako jsou třídy, metody, podmínky atd. Po tomto kroku jsme již tedy schopni zpracovávat zdrojový kód na takové úrovni, která nám umožní procházet anotace jednotlivých konstrukcí, či příkazy těla metod. Na základě toho jsme tedy schopni provádět analýzu, která umožní nalezení kontraktů ve zdrojovém kódu. 			
 			
 		\subsection{Nástroje}
 			I přesto, že by bylo možné provádět zmíněné analýzy pomocí vlastního kódu, je také možné použít některý z dostupných nástrojů. Tyto nástroje umožňují parsování zdrojového kódu za použití samostatné aplikace nebo se může jednat o knihovnu, jejíž API můžeme použít přímo v našem kódu.
@@ -55,10 +60,13 @@
 		Při analýze kontraktů v jiných projektech není vždy možné získat zdrojové soubory. Z toho důvodu je užitečné umět analyzovat nejen soubory \texttt{.java}, ale také přeložené soubory \texttt{.class}.
 	
 		\subsection{Dekompilace}
-			Aby bylo možné soubory analyzovat je nutné je nejprve dekompilovat. Dekompilace je vlastně opačný proces kompilace a je třeba nahradit prvky, které byly přidány do bajtkódu těmi, které zde byly původně.
+			Aby bylo možné soubory analyzovat je nutné je nejprve dekompilovat. Dekompilace je vlastně opačný proces kompilace a je třeba nahradit prvky, které byly přidány do bajtkódu těmi, které zde byly původně. \textbf{\textcolor{pblue}{TODO: Zlepšit formulaci, více podrobností}}\\
 			
 			\subsubsection{Nástroje}
 				Nástrojů pro dekompilaci souborů v jazyce Java je celá řada. Některé je nutné pouštět samostatně, ty pak mohou být vytvořeny i v jiných programovacích jazycích. Vývojová prostředí jako např. Eclipse či IDEA IntelliJ umožňují instalaci balíčků, které podporují dekompilaci souborů. Některé z nástrojů je také možné použít přímo v kódu formou knihovny. Následuje seznam některých dostupných nástrojů, které jsou stále aktualizovány a umožňují dekompilaci moderních prvků jazyka Java \cite{top8decompilers}\cite{decompilersOnline}\cite{quickDecompilers}.
+				
+				\textbf{\textcolor{pblue}{TODO:
+				chybí podrobnější informace, do jaké reprezentace je bytecode daným nástrojem převeden a jestli/jak se s ní dá programově pracovat (tj. doménové a funkční API);, vč. příkladů; dále jaká jsou omezení či jiné pozoru-hodné vlastnosti nástrojů	 }}\\			
 				
 				\paragraph{JD Project}
 					JD Project (Java Decompiler) \cite{jd} je jedním z nejčastěji referovaných nástrojů v rámci Java dekompilace. JD disponuje samostatnou aplikací s grafickým uživatelským rozhraním, pomocí kterého je možné soubory dekompilovat a ihned vidět výsledek. JD také poskytuje doplněk do Eclipse a IDEA IntelliJ. Nejedná se o open-source nástroj, ale je dostupný zdroj pro GUI aplikaci.

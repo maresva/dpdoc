@@ -12,7 +12,7 @@
 			\begin{itemize}
 				\item 1. úroveň - syntaktické
 				\item 2. úroveň - sémantické
-				\item 3. úroveň - interaktivní
+				\item 3. úroveň - interakční
 				\item 4. úroveň - mimo-funkční
 			\end{itemize}
 		
@@ -20,7 +20,7 @@
 			Základní vrstvou kontraktů jsou kontrakty syntaktické. Jejich znění je neměnné a jedná se o nutnou podmínku pro dodržení dohody mezi vývojářem a uživatelem. Specifikují operace, které může daná komponenta provádět, vstupní a výstupní parametry komponenty a výjimky, které během daných operací mohou nastat. Můžeme tedy říci, že pokrývají signatury a definice rozhraní použitých konstrukcí. 
 		
 		\subsubsection{Sémantické kontrakty}
-			Úroveň sémantických kontraktů specifikuje chování definovaných operací, což umožňuje zabránit jejich chybnému použití a také zvyšuje přehlednost a transparentnost daného rozhraní. Vytyčuje hraniční hodnoty za použití operací \emph{assert}\footnote{Operace porovnání, která porovná reálnou hodnotu s hodnotou očekávanou. Pokud se tyto hodnoty neshodují nastane výjimka. Tato operace bývá často spojována s testováním.} (dále aserce), respektive pomocí definic \emph{pre-conditions} (dále vstupní podmínky), \emph{post-conditions} (dále výstupní podmínky) a \emph{class invariants} (dále neměnné podmínky). Vstupní podmínky kladou požadavky na vstupní argumenty, kontrolují se tedy na začátku operace. Výstupní podmínky specifikují omezení pro výstup operace a jsou tedy vyhodnoceny po dokončení operace. Neměnné podmínky kladou požadavky na vstup i výstup každé veřejné operace v dané třídě. Trojce těchto podmínek využívá aserce a je součástí konceptu design by contract, kterému je věnována část práce níže. Zde je příklad v pseudokódu znázorňující princip sémantických kontraktů:\\\\
+			Úroveň sémantických kontraktů specifikuje chování definovaných operací, což umožňuje zabránit jejich chybnému použití a také zvyšuje přehlednost a transparentnost daného rozhraní. Vytyčuje hraniční hodnoty za použití operací \emph{assert}\footnote{Operace porovnání, která porovná reálnou hodnotu s hodnotou očekávanou. Pokud se tyto hodnoty neshodují nastane výjimka. Tato operace bývá často spojována s testováním.} (dále aserce), respektive pomocí definic \emph{pre-conditions} (dále vstupní podmínky), \emph{post-conditions} (dále výstupní podmínky) a \emph{class invariants} (dále neměnné podmínky). Vstupní podmínky kladou požadavky na vstupní argumenty, kontrolují se tedy na začátku operace. Výstupní podmínky specifikují omezení pro výstup operace a jsou tedy vyhodnoceny po dokončení operace. Neměnné podmínky kladou požadavky na vstup i výstup každé veřejné operace v dané třídě. Trojice těchto podmínek využívá aserce a je součástí konceptu design by contract, kterému je věnována část práce níže. Zde je příklad v pseudokódu znázorňující princip sémantických kontraktů:\\\\
 			\- \- \- \- \- \texttt{method number example(number x)\{}\\
 			\- \- \- \- \- \- \- \- \- \- \texttt{\textcolor{pgrey}{// Vstupní podmínka na parametr x}}\\ 
         	\- \- \- \- \- \- \- \- \- \- \texttt{require(x > 0, "x has to be a positive number")}\\\\
@@ -32,7 +32,7 @@
     		
 			V příkladu je znázorněna metoda se vstupem v podobě čísla \texttt{x}. Je zde vstupní podmínka, která říká, že \texttt{x} musí být větší než 0. Pokud bude tato podmínka porušena, nastane výjimka a vypíše se zpráva \texttt{"x has to be a positive number"}. Obdobným způsobem funguje i výstupní podmínka, která je vyhodnocena před návratem z metody.
 		
-		\subsubsection{Interaktivní kontrakty}
+		\subsubsection{Interakční kontrakty}
 			Definují chování operací komponenty na úrovni synchronizace. Předchozí úrovně kontraktů považují jednotlivé operace za atomické, což samozřejmě nemusí být vždy pravda. Tato vrstva specifikuje paralelismy komponenty a s tím spjaté synchronizační prostředky.
 		
 		\subsubsection{Mimo-funkční kontrakty}
@@ -47,7 +47,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
 	\section{Design by contract}
-		Pojem design by contract zavedl francouzský profesor Bertrand Meyer \cite{meyerBio}\cite{eiffelStudio}. První větší zmínka je uveden v publikaci \emph{Design by Contract, Technical Report} v roce 1987. Profesor v průběhu let působil na řadě univerzit jako např. v Politecnico di Milano či ETH Zurich a je autorem mnoha publikací a knih. Mimo design by contract, byl jeho významným příspěvkem do oblasti softwarového inženýrství programovací jazyk Eiffel, který je s DbC úzce spjat.\\	
+		Pojem design by contract zavedl francouzský profesor Bertrand Meyer \cite{meyerBio}\cite{eiffelStudio}. První větší zmínka je uveden v publikaci \emph{Design by Contract, Technical Report} v roce 1987. B. Meyer v průběhu let působil na řadě univerzit jako např. v Politecnico di Milano či ETH Zurich a je autorem mnoha publikací a knih. Mimo design by contract, byl jeho významným příspěvkem do oblasti softwarového inženýrství programovací jazyk Eiffel, který je s DbC úzce spjat.\\	
 	
 		Hlavním cílem design by contract je zvýšení spolehlivosti a správnosti u rozsáhlých softwarových projektů. Principem DbC je zajištění formální dohody mezi vývojářem a uživatelem určitého softwarového modulu. Jak bylo zmíněno výše, DbC je spjato se třemi typy podmínek (vstupní podmínky, výstupní podmínky a neměnné podmínky). O neměnných podmínkách je také možné říci, že se jedná o vstupní a zároveň výstupní podmínky vše veřejných metod v dané třídě. Není nutné aby tyto podmínky platily v průběhu jednotlivých operací.\\
 	
@@ -66,8 +66,8 @@
 		\end{itemize}				
 		
 		\paragraph{CRE}
-		 Nejběžnějším způsobem pro specifikaci kontraktů jsou podmíněné výjimky, které jsou vyvolány za běhu při porušení kontraktu (podmínky). K dispozici jsou různé typy výjimek, které je možné použít, mezi ně patří např. IllegalStateException, IllegalArgumentException, NullpointerException, IndexOutOfBoundsException či UnsupportedOperationException. Všechny tyto výjimky jsou součástí standardní Javy, což je jeden z faktorů, proč je tento způsob tak četný.
-		
+		 Nejběžnějším způsobem pro specifikaci kontraktů jsou podmíněné výjimky, které jsou vyvolány za běhu při porušení kontraktu (podmínky). K dispozici jsou různé typy výjimek, které je možné použít, mezi ně patří např. IllegalStateException, IllegalArgumentException, NullpointerException, IndexOutOfBoundsException či UnsupportedOperationException. Tyto nebo analogické výjimky jsou součástí většiny dnes běžných programovacích jazyků a prostředí, což je jeden z faktorů, proč je tento způsob tak četný.
+				
 		\paragraph{API}
 		Další možností implementace kontraktů je využití specializovaného API, které poskytuje metody pro práci s kontrakty. Typicky se jedná o rozšířenou práci s výjimkami, se kterou se navenek pracuje jako se statickými metodami. Tato API zpravidla poskytují širší možnosti a umožňují tak sofistikovanější práci s kontrakty.
 		
@@ -85,16 +85,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
 	\section{Technologie pro popis sémantických kontraktů v jazyce Java}
-		V Java existuje celá řada nástrojů, které umožňují práci s kontrakty. Liší se v nabízených možnostech a ve způsobech, jak se s nimi pracuje. Některé z nich se již dále nevyvíjejí nicméně jsou stále používány. Zde je výčet některých z těchto nástrojů:		
+		V Java existuje celá řada nástrojů, které umožňují práci s kontrakty. Liší se v nabízených možnostech a ve způsobech, jak se s nimi pracuje. Některé z nich se již dále nevyvíjejí nicméně jsou stále používány. V tomto oddíle podrobněji rozebereme některé z nich.		
 	
 		\subsection{Guava Preconditions}
-			Knihovna Guava \cite{guava} od Google poskytuje řadu nových funkcí jako například různé kolekce, primitiva, práce se souběžnými programy atd. Z hlediska kontraktů je pro nás však zajímavá pouze třída \texttt{Preconditions}, která poskytuje metody pro validaci různých stavů. Je zde řada metod, které typicky začínají klíčovým slovem \texttt{check*} (např. \texttt{checkArgument}, \texttt{checkState}, \texttt{checkNotNull} atd.). Tyto metody jsou použity běžně v kódu programu a poskytují kontrolu pro vstupní argumenty, jedná se tedy pouze o definice vstupních podmínek, jak již název napovídá. Při porušení takovéto podmínky je pak vyvolána výjimka při běhu programu. Volitelnou částí každé metody je také zpráva, která má být při porušení kontraktu zobrazena. Tuto zprávu je pak možné parametrizovat dalšími argumenty. Guava Preconditions poskytuje dobré prostředí pro práci s kontrakty, avšak její nevýhodou je, že je omezena pouze na vstupní podmínky. Zde je vidět příklad použití Preconditons v kódu:\\\\
+			Knihovna Guava \cite{guava} od Google poskytuje řadu nových funkcí jako například různé kolekce, primitiva, práce se souběžnými programy atd. Z hlediska kontraktů je pro nás však zajímavá pouze třída \texttt{Preconditions}, která poskytuje metody pro validaci různých stavů. Je zde řada metod, které typicky začínají klíčovým slovem \texttt{check*} (např. \texttt{checkArgument}, \texttt{checkState}, \texttt{checkNotNull} atd.). Tyto metody jsou použity běžně v kódu programu a poskytují kontrolu pro vstupní argumenty, jedná se tedy pouze o definice vstupních podmínek, jak již název napovídá. Při porušení takovéto podmínky je pak vyvolána výjimka při běhu programu. Volitelným parametrem každé metody je také zpráva, která má být při porušení kontraktu zobrazena. Tuto zprávu je pak možné parametrizovat dalšími argumenty.\\
+			
+			Guava Preconditions poskytuje dobré prostředí pro práci s kontrakty, avšak její nevýhodou je, že je omezena pouze na vstupní podmínky. Zde je vidět příklad použití Preconditons v kódu:\\\\
 			\- \- \- \- \- \texttt{public void guavaPreconditionsExample(Object x)\{}\\
 			\- \- \- \- \- \- \- \- \- \- \texttt{String message = "x cannot be null.";}\\ 
         	\- \- \- \- \- \- \- \- \- \- \texttt{Preconditions.checkNotNull(x, message);}\\
     		\- \- \- \- \- \texttt{\}}\\
     		
-    		V tomto příkladu je vstupní parametr \texttt{Object x} omezen a vstupem nemůže být hodnota \texttt{null}, pokud se tak stane, nastane standardní výjimka \texttt{java.lang.NullPointerException}. Typ výjimky, který knihovna vrací je závislý na dané metodě (např. pro metodu \texttt{checkArgument(boolean)} je vrácena výjimka \texttt{IllegalArgumentException}).
+    		V tomto příkladu je vstupní parametr \texttt{Object x} omezen a vstupem nemůže být hodnota \texttt{null}, pokud se tak stane, je vyhozena standardní výjimka \texttt{java.lang.NullPointerException}. Typ výjimky, který knihovna vrací je závislý na dané metodě (např. v případě metody \texttt{checkArgument(boolean)} se jedná výjimku \texttt{IllegalArgumentException}).
 		
 		
 		\subsection{JSR305}
@@ -104,7 +106,7 @@
 			\- \- \- \- \- \texttt{@ParametersAreNullableByDefault}\\
 			\- \- \- \- \- \texttt{public class JSR3053ExampleClass \{}\\\\
    			\- \- \- \- \- \- \- \- \- \- \texttt{@CheckReturnValue}\\
-    		\- \- \- \- \- \- \- \- \- \- \texttt{public Obejct JSR305Example(@Nonnull Object x)\{}\\
+    		\- \- \- \- \- \- \- \- \- \- \texttt{public Object JSR305Example(@Nonnull Object x)\{}\\
       		\- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \texttt{\textcolor{pgrey}{// other code}}\\
     		\- \- \- \- \- \- \- \- \- \- \texttt{\}}\\
 			\- \- \- \- \- \texttt{\}}\\
@@ -132,7 +134,7 @@
 	
 		
 		\subsection{jContractor}
-			Posledním ukázkovým nástrojem je jContractor \cite{jcontractor}. Z hlediska definice kontraktů se jedná se o unikátní nástroj, který nepatří do žádné ze zmíněných skupin. Kontrakty jsou zde definovány tvorbou metod s danou jmennou konvencí. To znamená, že pokud chceme vytvořit vstupní podmínky pro metodu \texttt{push}, musíme definovat metodu \texttt{push\_Precondition}. Obdobně to platí i pro výstupní podmínky s příponou \texttt{\_Postcondition} a neměnné podmínky (\texttt{\_Invariant}). Jedná se o metody, jejichž návratovým typem je \texttt{boolean}, který určuje, zda byla podmínka splněna, či nikoliv. Podmínky jsou pak do kódu přidány při generování \emph{bytecode}\footnote{Programy psané v jazyce Java nejsou překládány přímo do strojového kódu, jak je typické, ale jsou překládány do tzv. bajtkódu, což umožňuje platformní nezávislost. Více informací je popsáno níže, ve 4. kapitole Tokenizace jazyka Java} (dále bajtkód) a zajišťují tak kontrolu pouze při běhu programu. Zde je krátká ukázka kódu demonstrující použití nástroje jContractor:\\\\  
+			Posledním příkladem je jContractor \cite{jcontractor}. Z hlediska definice kontraktů se jedná se o unikátní nástroj, který nepatří do žádné ze zmíněných skupin. Kontrakty jsou zde definovány tvorbou metod s danou jmennou konvencí. To znamená, že pokud chceme vytvořit vstupní podmínky pro metodu \texttt{push}, musíme definovat metodu \texttt{push\_Precondition}. Obdobně to platí i pro výstupní podmínky s příponou \texttt{\_Postcondition} a neměnné podmínky s příponou \texttt{\_Invariant}. Jedná se o metody, jejichž návratovým typem je \texttt{boolean}, který určuje, zda byla podmínka splněna, či nikoliv. Podmínky jsou pak do kódu přidány při generování \emph{bytecode}\footnote{Programy psané v jazyce Java nejsou překládány přímo do strojového kódu, jak je typické, ale jsou překládány do tzv. bajtkódu, což umožňuje platformní nezávislost. Více informací je popsáno níže, ve 4. kapitole Tokenizace jazyka Java} (dále bajtkód) a zajišťují tak kontrolu pouze při běhu programu. Zde je krátká ukázka kódu demonstrující použití nástroje jContractor:\\\\  
 				\- \- \- \- \- \texttt{\textcolor{pgrey}{// metoda push s vlastním kódem}}\\
 				\- \- \- \- \- \texttt{public void push (Object o) \{}\\
 				\- \- \- \- \- \- \- \- \- \- \texttt{...}\\
@@ -156,7 +158,10 @@
 
 			
 		\subsection{PhpDeal v PHP}
-			Jedním z nástrojů, které umožňují reprezentaci kontraktů pro jazyk PHP je aplikační rámec PhpDeal \cite{phpDeal}. Podobně jako jiné nástroje, pracuje na principu anotací. Při definici vstupních a výstupních podmínek jsou anotace uvedeny u dané funkce, neměnné podmínky jsou pak definovány jako anotace třídy. Anotace jsou definovány klíčovým slovem \texttt{@Contract}, kde za zpětným lomítkem následuje \texttt{Verify} pro vstupní podmínku, \texttt{Ensure} pro výstupní podmínku a \texttt{Invariant} pro neměnnou podmínku. V závorce pak následuje řetězec s podmínkou, která je ověřována. Nástroj také umožňuje integraci do IDE pro zvýraznění syntaxe. Použití je vidět na následujícím příkladu:\\\\
+	
+\textbf{\textcolor{pblue}{TODO: jak je vidět z příkladu, není to pravda, používá klíčová slova v dokumentačních komentářích - jsou tyto kontrakty nějak kontrolovány při běhu?	}}\\
+		
+			Jedním z nástrojů, které umožňují reprezentaci kontraktů pro jazyk PHP je aplikační rámec PhpDeal \cite{phpDeal}. Podobně jako jiné nástroje, pracuje na principu \textbf{\textcolor{pblue}{anotací}}. Při definici vstupních a výstupních podmínek jsou anotace uvedeny u dané funkce, neměnné podmínky jsou pak definovány jako anotace třídy. Anotace jsou definovány klíčovým slovem \texttt{@Contract}, kde za zpětným lomítkem následuje \texttt{Verify} pro vstupní podmínku, \texttt{Ensure} pro výstupní podmínku a \texttt{Invariant} pro neměnnou podmínku. V závorce pak následuje řetězec s podmínkou, která je ověřována. Nástroj také umožňuje integraci do IDE pro zvýraznění syntaxe. Použití je vidět na následujícím příkladu:\\\\
 			\- \- \- \- \- \texttt{/** @Contract\textbackslash Verify("\$amount\textgreater 0 \&\& is\_numeric(\$amount)")}\\	
 			\- \- \- \- \- \texttt{ * @Contract\textbackslash Ensure("\$this-\textgreater bal == \$\_\_old-\textgreater bal+\$amount")}\\
 			\- \- \- \- \- \texttt{ */}\\
@@ -168,7 +173,9 @@
 			
 		
 		\subsection{Jazyk Eiffel}
-			Některé programovací jazyky konstrukce DbC podporují nativně a není tak třeba používat žádné dodatečné nástroje. Jedním z předních zástupců této kategorie může být jazyk Eiffel \cite{eiffel}, který byl vyvíjen s cílem zajistit co největší spolehlivost v rámci programovacího jazyka. Jak již bylo zmíněno výše, byl navržen Bertrandem Meyerem, tedy stejným člověkem, který představil design by contract. Jazyk poskytuje mnoho zajímavých konstrukcí, zde bude však nastíněno použití konstrukcí DbC. Definice je zajištěna klíčovými slovy \texttt{require} pro vstupní podmínky, \texttt{ensure} pro výstupní podmínky a \texttt{invariant} pro neměnné podmínky. Vzhledem k povaze jazyka jsou vstupní a výstupní podmínky začleněny přímo do těla funkce, které jsou zde však nazývány \texttt{feature}. Neměnné podmínky jsou pak samostatně definovány v bloku \texttt{invariant}. Eiffel poskytuje různé rozšířené možnosti pro práci s kontrakty, základní principy by měly být patrné z následujícího příkladu:\\\\ 
+			Některé programovací jazyky konstrukce DbC podporují nativně a není tak třeba používat žádné dodatečné nástroje. Jedním z předních zástupců této kategorie je jazyk Eiffel \cite{eiffel}, který byl vyvíjen s cílem zajistit co největší spolehlivost v rámci programovacího jazyka. Jak již bylo zmíněno výše, byl navržen Bertrandem Meyerem, tedy stejným člověkem, který představil design by contract. Jazyk poskytuje mnoho zajímavých konstrukcí, zde bude však nastíněno použití konstrukcí DbC.\\
+			
+			 Definice je zajištěna klíčovými slovy \texttt{require} pro vstupní podmínky, \texttt{ensure} pro výstupní podmínky a \texttt{invariant} pro neměnné podmínky. Vzhledem k povaze jazyka jsou vstupní a výstupní podmínky začleněny přímo do těla funkce, které jsou zde však nazývány \texttt{feature}. Neměnné podmínky jsou pak samostatně definovány v bloku \texttt{invariant}. Eiffel poskytuje různé rozšířené možnosti pro práci s kontrakty, základní principy by měly být patrné z následujícího příkladu:\\\\\\\\
 			\- \- \- \- \- \texttt{feature}\\
 			\- \- \- \- \- \- \- \- \- \- \texttt{deposit (sum: INTEGER)}\\
 			\- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \texttt{require}\\
@@ -180,7 +187,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
-	\section{Souhrn nástrojů pro práci s kontrakty}
+	\section{Souhrn technologií pro popis kontraktů}
 		Výčet nástrojů výše je pouze omezený výběr příkladů, nikoliv kompletní seznam. To poukazuje na skutečnost, že nástrojů, které poskytují možnost práce se sémantickými kontrakty, existuje mnoho. Často se jedná o knihovny, které nabízejí širší možnosti použití než samotné kontrakty. V tabulce \ref{table:tabContracts} je vidět souhrn uvedených nástrojů. 		
 		
 		\begin{table}[H]
@@ -213,3 +220,5 @@
 		\normalsize	
 			
 		Co se základní funkcionality týče, až na výjimky nástroje poskytují srovnatelné možnosti. Typově se pak obvykle jedná o nástroje, které zprostředkovávají metody pomocí API či o anotace. Obecně se dá říci, že volba nástroje záleží spíše na preferencích skupiny, která bude daný nástroj používat. Je možné se rozhodovat podle toho, jaký typ reprezentace daný nástroj používá, či jak je technologie známá a oblíbená. Z tohoto důvodu má smysl zabývat se problematikou, jak zajistit unifikaci specifikací kontraktů z různých nástrojů a poskytnout tak jednotnou reprezentaci, která umožní další analýzu. 
+		
+		\textbf{\textcolor{pblue}{TODO: bylo by vhodné doplnit info o tom, jak živé jsou jednotlivé projekty a jak hodně se používaji (jde vyčíst z článku Dietrich a kol.)}}\\

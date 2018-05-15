@@ -1,9 +1,10 @@
 \chapter{Nástroj pro analýzu kontraktů}
-	Cílem práce z hlediska implementace bylo vytvořit nástroj, který by umožňoval získání dat podle výše navrženého modelu ze zdrojové či přeložené formy Java programu. Výsledná aplikace by pak měla umožnit vytvoření externí reprezentace dat a případně také porovnání DbC konstrukcí. Nástroj by měl být schopen zpracovat alespoň dva způsoby popisu DbC konstrukcí a měl by dovolovat snadné rozšíření pro další způsoby. S využitím tohoto nástroje by pak měla být vytvořena jednoduchá uživatelská aplikace, která by sloužila k načtení a zobrazení dat modelu.
+	Cílem práce z hlediska implementace bylo vytvořit nástroj, který by umožňoval získání dat podle výše navrženého modelu ze zdrojové či přeložené formy Java programu. Výsledná aplikace by pak měla umožnit vytvoření externí reprezentace dat a případně také porovnání DbC konstrukcí. Nástroj by měl být schopen zpracovat alespoň dva způsoby popisu DbC konstrukcí a měl by dovolovat snadné rozšíření pro další způsoby. S využitím tohoto nástroje by pak měla být vytvořena jednoduchá uživatelská aplikace, která by sloužila k načtení a zobrazení dat modelu.\\
 	
-	Smyslem aplikace je umožnit detekci kontraktů ve zdrojových, respektive přeložených, souborech jazyka Java. Nalezené kontrakty je pak možné analyzovat a zkoumat způsob a četnost použití jednotlivých typů v různých projektech. Do budoucna by tento nástroj mohl pomoci při analýze změny požadavků na rozhraní 
+	Smyslem aplikace je umožnit detekci kontraktů ve zdrojových, respektive přeložených, souborech jazyka Java. Nalezené kontrakty je pak možné analyzovat a zkoumat způsob a četnost použití jednotlivých typů v různých projektech. Aby bylo možno získaná data dále analyzovat je zde také export do formátu JSON. Nástroj umožňuje porovnání dvou adresářů s soubory, což může užitečné zejména při porovnání dvou projektů jiné verze my chceme zjistit, zda se nezměnilo rozhraní či jejich omezení v rámci kontraktů oproti předchozí verzi.
 	
 	
+	\textbf{\textcolor{pblue}{TODO: celková "architektura"  nástroje - tj. knihovna + gui, dále  struktura projektu a potom v textu důležité třídy v implementaci  (+možná jejich uml model)}}\\
 	
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -14,32 +15,43 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
 	    \subsection{Použité technologie}
-			Knihovna byla implementována v jazyce Java verze 1.8 ve vývojovém prostředí IDEA IntelliJ Ultimate 2017.3.3. Pro zajištění snadného získání závislostí a následného zjednodušení použití knihovny byla pro vytvoření projektu použita technologie Apache Maven.
+	    
+	    	\subsubsection{Programovací jazyk}
+				Pro realizaci knihovny jsem použil jazyk Java verze 1.8. Jedním z hlavních důvodů bylo, že nástroj zkoumá reprezentace kontraktů v jazyce Java, díky tomu je možné dané konstrukce snadno testovat a zkoušet přímo v tomto projektu. Vedoucí práce také upřednostňoval použití jazyka Java z důvodů případného propojení s jinými nástroji, které byly vyvinuty pro práci s kontrakty v rámci univerzity a jsou také realizovány v Java. Osobně mám s jazykem Java pravděpodobně největší zkušenosti, což byl další z důvodů, proč tento jazyk použít. Z těchto důvodů byla volba jazyka poměrně jednoznačná.\\
+				
+				I přesto, že v průběhu vývoje projektu vyšla verze Java 1.9 a posléze i 1.10, rozhodl jsem se po domluvě s vedoucím práce ponechat stabilní verzi 1.8 a nepřecházet v průběhu vývoje na novější verzi jazyka.
+				
+			\subsubsection{Vývojové prostředí}				
+				Nástroj byl realizován ve vývojovém prostředí IDEA IntelliJ Ultimate 2017.3.3.
+	    	
+			\subsubsection{Práce se závislostmi}
+				Pro zajištění závislostí jako jsou knihovny třetích stran, ale také pro snadnou distribuci knihovny jsem zvolil technologii Apache Maven \cite{maven}. Jedná se o široce používaný nástroj pro získávání závislostí a tvorbu projektů.
+				
+			\subsubsection{Logování}
+				Pro logování, tedy zobrazení a uložení chybových či informačních zpráv, byla použita knihovna Apache Log4j \cite{log4j}. Tato knihovna umožňuje pokročilé možnosti logování, které je možné dobře nastavit pomocí konfiguračních souborů. Opět se jedná o široce používanou technologii.
+				
+			\subsubsection{Tokenizace zdrojových souborů jazyka Java}
+				Pro implementaci tokenizace souborů jsem se rozhodl použít knihovnu JavaParser \cite{javaparser}. Učinil jsem tak na základě mého průzkumu (viz 4. kapitola Tokenizace jazyka Java). Knihovna poskytuje komplexní reprezentaci daného zdrojového souboru a je tak možné jej dále analyzovat a zpracovávat. Knihovnu je možné snadno použít přímo v projektu díky zprostředkovanému API.
+			
+			\subsubsection{Dekompilace přeložených souborů jazyka Java}
+				Jako dekompilátor přeložených souborů jazyka Java (\texttt{.class}) jsem použil knihovnu Procyon \cite{procyon}. Jedná se o nástroj, který umožňuje snadnou dekompilaci souborů a to včetně moderních konstrukcí jazyka Java. Hlavním důvodem volby této knihovny byla možnost použití dekompilace v rámci kódu za pomocí API.
+				
+			\subsubsection{Práce s formátem JSON}
+				Pro ukládání reprezentací do formátu JSON byla použita knihovna Gson \cite{gson}. Umožňuje intuitivní převod objektu typu Java\footnote{Mohou použity téměř libovolné objekty, avšak nesmějí být cyklické (Objekt nesmí ve své hierarchii atributů opět obsahovat tentýž objekt)} do formátu JSON za pomocí API. Mimo jiné také umožňuje formátování \emph{Pretty Print}, které je lépe čitelné pro člověka.
+				
+			\subsubsection{Testování}
+				Pro tvorbu jednotkových testů byla použita technologie jUnit 5 \cite{junit}.   	 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
-		\subsubsection{Externí knihovny}
-			Při vývoji knihovny pro analýzu kontraktů byly použity následující knihovny třetích stran:
-			
-			\paragraph{Apache Log4j} 
-				Tato knihovna umožňuje pokročilé možnosti pro logování. Byla použita zejména pro zaznamenávání chyb a různých informačních záznamů \cite{log4j}.
-				
-			\paragraph{Procyon}
-				Knihovna Procyon byla použita pro dekompilaci přeložených Java souborů \texttt{*.class} \cite{procyon}.
-				
-			\paragraph{JavaParser}
-				JavaParser byl použit tokenizaci zdrojových souborů \cite{javaparser}. 
-				
-			\paragraph{Google Gson}
-				Tato knihovna poskytuje prostředky pro uložení objektů jazyka Java do reprezentace pomocí formátu JSON \cite{gson}. 
-				
-			\paragraph{jUnit 5}
-				Poskytuje možnosti testování pomocí jednotkových testů \cite{junit}.    	 
+
+		\subsection{Návrh nástroje}
+			Celý nástroj je rozdělen do několika modulů .... viz obrázek
 		
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
 		\subsection{Dekompilace Bytcode}
-			Pro dekompilaci Java \texttt{*.class} souborů byla použita knihovna Procyon. Ta umožňuje použití metody \texttt{decompile()}, která přečte vstupní soubor s přeloženým kódem a do jiného souboru uloží jeho dekompilovanou verzi. Tento dočasný soubor s dekompilovaným kódem je poté předán pro zpracování třídě \texttt{JavaFileParser}, která jej zpracuje stejně jako běžný zdrojový soubor. V knihovně dekompilaci obstarává metoda \texttt{decompileClassFile()}, která se nachází v třídě \texttt{io.IOServices}.
+			Jak již bylo zmíněno výše, pro dekompilaci Java \texttt{.class} souborů byla použita knihovna Procyon. Ta poskytuje metodu \texttt{void decompile(String internalName, ITextOutput output)}, která přečte vstupní soubor s přeloženým kódem a do jiného souboru uloží jeho dekompilovanou verzi. V mém nástroji dekompilaci obstarává obalovací metoda \texttt{boolean decompileClass-\\File(String filename)}, která se nachází v třídě \texttt{io.IOServices}. Ta vytvoří dočasný soubor dle konfigurace a vrátí, za byla operace úspěšná. Z hlediska pracovního postupu dekompilaci vyvolává třída \texttt{JavaFileParser} v metodě \texttt{ExtendedJavaFile parseFile(File file)}v případě, že se vstupní soubor má koncovku \texttt{.class}. Pokud je dekompilace bez chyb, je daný, dočasně vytvořený, soubor zpracován stejným způsobem, jako by se jednalo o zdrojový soubor. Po zpracování je dočasný soubor smazán.
 					
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -59,7 +71,7 @@
 				Vzhledem k tomu, že všechny kontrakty tohoto typu jsou realizovány pomocí volání metod ze třídy \texttt{Preconditions}, zaměřuje se extrakce pouze na těla metod a tříd či ostatních částí metod si algoritmus nevšímá. Postupně se procházejí jednotlivé části metody (objekty \texttt{Node}) a ve chvíli kdy se narazí na \texttt{Node}, který je typu \texttt{MethodCallExpr}, tedy jedná se o volání metody, zjišťuje se, zda se jedná o volání některé z metod třídy \texttt{Preconditions}, pokud ano, je tento výraz dále zpracováván. Název Guava metody je uložen do kontraktu jako atribut \texttt{function}. První parametr metody, zpravidla ten klíčový, je uložen jako atribut \texttt{expression}. Ostatní parametry obvykle souvisejí pouze s tvarem chybové zprávy, ty jsou uloženy do seznamu \texttt{arguments}.
 				
 			\subsubsection{JSR305}
-				Na rozdíl od Guava Preconditions mohou být kontrakty typu JSR305 obsaženy v anotacích tříd a metod a také v jejich parametrech. Zde je tedy nutné procházet tyto bloky a naopak těla metod je možné zanedbat. Postupně se procházejí jednotlivé anotace tříd i metod. Jakmile je daná anotace výrazem JSR305, je uložena jako kontrakt. Tvar anotace představuje \texttt{function} a stejně jako v případě Guava, první parametr je uložen jako \texttt{expression} a ostatní jsou uloženy do seznamu \texttt{arguments}. Tyto anotace však obvykle parametr nemají. Takto nalezené kontrakty v anotacích třídy jsou označeny za neměnné proměnné (class invariants) a v anotacích metod se pak jedná o post-conditions, vztahují se k výstupu metody. Zbývají parametry metod, u kterých se opět zkoumají anotace stejným způsobem. Tyto anotace však vždy mívají alespoň jeden atribut a tím je tvar samotného paramteru.
+				Na rozdíl od Guava Preconditions mohou být kontrakty typu JSR305 obsaženy v anotacích tříd a metod a také v jejich parametrech. Zde je tedy nutné procházet tyto bloky a naopak těla metod je možné zanedbat. Postupně se procházejí jednotlivé anotace tříd i metod. Jakmile je daná anotace výrazem JSR305, je uložena jako kontrakt. Tvar anotace představuje \texttt{function} a stejně jako v případě Guava, první parametr je uložen jako \texttt{expression} a ostatní jsou uloženy do seznamu \texttt{arguments}. Tyto anotace však obvykle parametr nemají. Takto nalezené kontrakty v anotacích třídy jsou označeny za neměnné proměnné (class invariants) a v anotacích metod se pak jedná o post-conditions, vztahují se k výstupu metody. Zbývají parametry metod, u kterých se opět zkoumají anotace stejným způsobem. Tyto anotace však vždy mívají alespoň jeden atribut a tím je tvar samotného parametru.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
@@ -77,17 +89,16 @@
 	    	\subsubsection{Přidání položky do \texttt{ContractType}}
 	    		Nejprve je třeba přidat položku do výčtového typu \texttt{ContractType}. Název by měl být vhodně zvolen, protože je zobrazen v exportovaných datech, ale i v grafické aplikaci.
 	    		
+	    		\textbf{\textcolor{pblue}{TODO: tady by se vhodně dalo odkázat na uml model podstatných tříd/rozhraní nástroje (viz pozn. výše) }}\\
+	    		
 	    	\subsubsection{Vytvoření nového analyzátoru}
-	    		Následně je třeba vytvořit funkční část daného parseru. Je tedy nutné vytvořit třídu, která bude implementovat rozhraní \texttt{ContractParser}. Toto rozhraní požaduje pouze jednu metodu a tou je \texttt{ExtendedJavaFile retrieveContracts(ExtendedJavaFile extendedJavaFile)}. Aby byly zachovány konvence současné knihovny, měla by se tato třída jmenovat \texttt{TypXParser}, kde \texttt{TypX} reprezentuje název nového typu kontraktu. Tato třída by se měla nacházet v balíčku se stejným jménem (ale s malými písmeny) a tento balíček by se měl nacházet v balíčku \texttt{cz.zcu.kiv.contractparser.parser}. Tvar samotné metody již závisí na principech daného kontraktu. Obecně platí, že by se měly kontrakty detekovat a vytvořit na základě dat ze vstupního objektu typu \texttt{ExtendedJavaFile} a ve stejném objektu je také vrátit. Pro lepší představu doporučuji prozkoumat již implementované analyzátory pro JSR305 a Guava Preconditions.
+	    		Následně je třeba vytvořit funkční část daného parseru. Je tedy nutné vytvořit třídu, která bude implementovat rozhraní \texttt{ContractParser}. Toto rozhraní požaduje implementaci pouze jedné metody a tou je \texttt{ExtendedJavaFile retrieveContracts(ExtendedJavaFile extendedJavaFile)}. Aby byly zachovány jmenné konvence současné knihovny, měla by se tato třída jmenovat \texttt{TypXParser}, kde \texttt{TypX} reprezentuje název nového typu kontraktu. Tato třída by se měla nacházet v balíčku se stejným jménem (ale s malými písmeny) a ten by se měl nacházet v balíčku \texttt{cz.zcu.kiv.contractparser.parser}. Tvar samotné metody již závisí na principech daného kontraktu. Obecně platí, že by se měly kontrakty detekovat a vytvořit na základě dat ze vstupního objektu typu \texttt{ExtendedJavaFile} a ve stejném objektu je také vrátit. Pro lepší představu doporučuji prozkoumat již implementované analyzátory pro JSR305 a Guava Preconditions.
 	    		
 	    	\subsubsection{Doplnění továrny \texttt{ParserFactory}} 
 	    		Dalším krokem je doplnění továrny \texttt{ParserFactory}. Zde je pouze třeba přidat nový \texttt{case} do konstrukce \texttt{switch}. Tento blok by měl vracet instanci nového parseru v případě že vstoupí tento typ v objektu \texttt{ContractType}.
-	    		
-	    	\subsection{Doplnění metody \texttt{retrieveContracts()}}
-	    		Posledním krokem je přidat podmínku do metody \texttt{retrieveContracts()} ve třídě \texttt{parser.ContractExtractor}. Jedná se o jednoduchý kód, který zajišťuje, aby se provedla extrakce daného typu kontraktu, pokud byl daný kontrakt ve vstupní mapě, či vstupní mapa s typy kontraktů byla \texttt{null}. Dokončením této části by již měl být daný typ kontraktu plně funkční.
-	    		
+	    			
 	    	\subsection{Testování}
-	    		Pro bezchybnou funkci daného analyzátoru je vhodné vytvoření testů. Testovací data pro současné testy jsou umístěny v \texttt{resources/testFiles}. Pro přehlednější zobrazení ve vývojovém prostředí doporučuji v testovacích datech použít referenční jména tříd, ne pouze souborů. Důvodem je to, že IDE soubory typu \texttt{*.java} považuje za součást projektu a může tak zobraz pouze název třídy, místo názvu daného souboru.
+	    		Pro bezchybnou funkci daného analyzátoru je vhodné vytvoření testů. Testovací data pro současné testy jsou umístěny v \texttt{resources/testFiles}, kde jsou pak dále děleny do složek. Pro přehlednější zobrazení ve vývojovém prostředí doporučuji v testovacích datech použít referenční jména tříd, ne pouze souborů. Důvodem je to, že IDE soubory typu \texttt{.java} považuje za součást projektu a může tak zobraz pouze název třídy, místo názvu daného souboru.
 
     
     
@@ -112,7 +123,7 @@
 		
 		
 	    	   
-	   \subsection{Rozdělení aplikace}
+	   \subsection{Ovládání aplikace}
 	   		Pro zlepšení práce s aplikací, byla rozdělena na dvě části. Aplikaci je možné spustit bez parametrů jako grafickou aplikaci, případně je možné s použitím parametrů aplikaci obsluhovat pomocí konzole.
 	   		
 	   		\subsubsection{Grafická část}

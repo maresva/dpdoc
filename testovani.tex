@@ -1,13 +1,50 @@
 \chapter{Testování}
-
-	\section{Prostředky použité k testování}
-		 - Unit testy 
-		 - integrační testy - malá aplikace nemusí se tolik řešit
-		 - funkční testy - testovat na úrovni GUI (ošetření vstupů)
-		 - PMD
-		 
-		 - u GUI výpis test cases (co jsem zkoušel)
+	S cílem zajistit co největší spolehlivost a tedy i kvalitu tohoto nástroje, byla knihovna i uživatelská aplikace řádně otestována. Nástroj byl otestován pomocí automatizovaných jednotkových testů, ale také manuálním testováním.
+	
+	\section{Jednotkové testy}
+		V rámci knihovny byla vytvořena řada jednotkových testů. Tyto testy ověřují různé testovací případy a byly použity pro zajištění spolehlivosti, ale také jako kontrola během vývoje. Testy jsou zaměřeny zejména na extrakci kontraktů, kde se snaží analyzovat kontrakty z uměle vytvořených testovacích dat (viz níže). Jsou zde také testy pro ověření správnosti porovnávacího nástroje a také modulu pro tokenizaci zdrojových souborů. Celkem bylo implementováno 55 jednotkových testů různé komplexity.
+		
+	\section{Funkční testování}
+		Vzhledem k tomu, že uživatelská aplikace je plně závislá na vytvořené knihovně, je možné tuto knihovnu testovat zároveň s uživatelskou aplikací. Ta byla testována pomocí manuálního testování tím, že byly ověřovány různé testovací případy. Následuje seznam těchto případů, pro které byla aplikace úspěšně otestována.
+		
+		\subsection{Testovací případy}	
+			Zde zjednodušený popis testovacích případů, pro které byla uživatelská aplikace testována. Jednotlivá tlačítka a operace zmíněné v rámci popisu testovacích případů jsou podrobně popsány v příloze A Uživatelská příručka.
+			
+			\subsubsection{Spuštění aplikace}
+				Po spuštění	aplikace bez parametrů v pořádku naběhne grafická část aplikace. Ikony tlačítek i celého okna aplikace by měly být zobrazeny.
+				
+			\subsubsection{Přidání souborů - přidání prvních souborů}
+				Po stisknutí tlačítka \emph{Přidat soubory} naběhne okno pro výběr souborů. Zde je možné vybrat více souborů a je možné vybrat pouze soubory \texttt{.java} nebo \texttt{.class}.	 Po vybrání souborů naběhne načítací okno zobrazující průběh extrakce kontraktů (v případě malého množství souborů a/nebo vysokého výkonu se okno zobrazí jen velmi krátce).\\
+				
+				Po přidání souborů se vybrané soubory objeví v levém seznamu souborů (pokud není vybrán filtr \emph{Show Non Contract Objects}, soubory bez kontraktů se nezobrazí). Na základě toho se aktualizuje popisek pod seznamem (\emph{Files selected}, který by měl nyní jako druhé číslo ukazovat nový počet souborů. Dále se aktualizují údají v právé části \emph{Global Statistics}. Počet souborů i ostatní informace odpovídá přidaným datům přidaných souborů. Také se zpřístupní tlačítko \emph{Select All}, respektive \emph{Deselect All}. Do konzole je také vypsáno, kolik souborů se přidalo (celkové číslo zahrnuje i soubory skryté filtrem).\\
+				
+				Jestliže je okno je zavřeno tlačítkem \emph{Storno} či křížkem, okno se schová a aplikace pokračuje v běhu bez jakékoliv chyby. 
+				
+			\subsubsection{Přidání souborů - přidání dalších souborů}
+				Každé další přidání souborů funguje stejným způsobem jako to první. Pokud se ale pokusíme přidat soubory, které již v seznamu jsou, opětovně přidány nejsou a také nebudou zahrnuty do počtu přidaných souborů ve výpisu do konzole.
+				
+			\subsubsection{Přidány složky}
+				Po stisknutí tlačítka \emph{Přidat složku} se opět zobrazí okno pro výběr souborů. Nyní je však možné vybrat pouze složky a žádné soubory nejsou zobrazeny. Po výběru složky probíhá akce identicky jako při přidáním jednotlivých souborů (to samé platí pro opětovné přidání).\\
+				
+				Opět platí, že pokud je okno zavřeno tlačítkem \emph{Storno} či křížkem, schová se a aplikace pokračuje v běhu bez jakékoliv chyby. 
+				
+			\subsubsection{Vybrání souboru}
+				Ve chvíli, kdy jsou nějaké soubory v levém seznamu, je možné kliknout na název souboru (ne na zaškrtávací pole vedle), to soubor zvýrazní a také aktualizuje oblast \emph{File Details} v pravé dolní části. Zde by se měl zobrazit název daného souboru s kompletní cestou. Současně by se měly aktualizovat počty kontraktů dle typu. Také se zpřístupní tlačítko \emph{Show Details}.
+				
+			\subsubsection{Označení souborů}
+				Soubory je možné označit pomocí zaškrtávacích polí nalevo od názvů souborů či pomocí tlačítka \emph{Select All}/\emph{Deselect All}. Jestliže nejsou označeny všechny soubory, tlačítko by mělo mít nápis \emph{Select All} a jeho stisknutí by mělo všechny soubory označit. Naopak pokud jsou všechny soubory označeny, měl by zde být nápis \emph{Deselect All}, což by mělo zrušit označení všech položek.\\
+				
+				Ať je použito tlačítko, či zaškrtávací políčka, měl by vždy se aktualizovat popisek pod seznamem oznamující počet označených souborů. Mimo to by se také měly vždy zpřístupnit tlačítka pro export a mazání souborů v horním panelu. Naopak pokud není žádný soubor označen, tlačítka by se měla opět zablokovat.
+			
+			\subsubsection{Mazání souborů}
+				Tlačítko pro mazání souborů by mělo být přístupné pouze ve chvíli, kdy je označen alespoň jeden soubor. Po jeho stisku by měly ihned zmizet označené soubory ze seznamu a stejným způsobem jako při přidávání souborů by se měly aktualizovat všechny patřičné elementy rozhraní. Do konzole by se také měla napsat informace o počtu smazaných souborů. Pokud byly smazány všechny viditelné soubory, ale některé soubory zůstávají skryty, uživatele o tom informuje popisek zobrazený v seznamu. V opačném případě je zde napsáno, že list je prázdný a je možné soubory přidat pomocí tlačítek.
+			
+			\subsubsection{Export souborů}
+				Stejně jako mazání souborů, je i export dostupný pouze v případě, pokud je označen alespoň jeden soubor. 
+				
 	
 	\section{Testovací data}
 		 - popis testovacích dat (syntetická, skutečná - výsledky testů)
+		 
+		 
 	\section{Výsledky testů}
