@@ -31,7 +31,7 @@
 Všechny tyto atributy určují kvalitu software a v závislosti na typu projektu by mělo být cílem každého týmu, dosáhnout co nejlepších výsledků v daných oblastech. 
 
 
-\section{Zajištění kvality}
+\section{Aspekty ovlivňující kvalitu software}
 Po uvedení klíčových vlastností definující kvalitní systém je na místě prozkoumat možnosti zajištění těchto vlastností. Aspektů, které tyto vlastnosti ovlivňují je celá řada a zde je seznam některých z nich:
 
 	\subsection{Metodika řízení softwarového projektu}
@@ -44,13 +44,28 @@ Po uvedení klíčových vlastností definující kvalitní systém je na míst�
 		Na základě zpracovaných požadavků by měla být provedena analýza, která povede ke tvorbě několika kandidátních architektur, ze kterých by se nakonec měla zvolit architektura, která bude ve výsledku použita. Posléze může začít návrh systému na úrovni komponenty později tříd atd. V tomto kroku je důležité dbát na všechny funkční i mimo-funkční požadavky a vytvořit dostatečně robustní návrh, který se dokáže vyrovnat s menšími změnami.
 		
 	\subsection{Vývoj}
-		Během vývoje je vhodné, aby vývojáři dbali na stanovené zásady programování v dané skupině. Cílem je, aby byl kód přehledný i pro ostatní členy týmu a aby byly snazší další potenciální úpravy. S tím souvisí komentování kódu a programování proti rozhraní, což značně zvyšuje znovupoužitelnost. Pro další zvýšení přehlednosti, vyhnutí se potenciálním chybám a zajištění splnění požadavků je také možné využít kontraktů softwarových rozhraní. Ty jsou podrobněji rozepsány v následující kapitole.
+		Během vývoje je vhodné, aby vývojáři dbali na stanovené zásady programování v dané skupině. Cílem je, aby byl kód přehledný i pro ostatní členy týmu a aby byly snazší další potenciální úpravy. S tím souvisí komentování kódu a programování proti rozhraní, což značně zvyšuje znovupoužitelnost. Pro další zvýšení přehlednosti, vyhnutí se potenciálním chybám a zajištění splnění požadavků je také možné využít kontraktů softwarových rozhraní (viz níže).
 	
 	\subsection{Testování}
 		Testování je z hlediska kvality důležitým aspektem celého projektu, protože může odhalit řadu chyb, které ji značně snižují. Může se jím předejít pádům systému, chybám ve funkčnosti, problémům s výkonem atd. Pro testování je třeba správná analýza testovacích případů a hraničních hodnot, aby bylo docíleno vysokého pokrytí.
 	
 	
-\section{\textcolor{pblue}{TODO moc velký myšlenkový skok (postupy -> kontrakt}}
+\section{Preventivní techniky zajištění kvality}
 	\textbf{\textcolor{pblue}{TODO: }}\\
-	chybí 2.3 cca preventivní techniky zajištění kvality, vč. defenzivního programování, doporučneí pro 
-psaní bezpečného kódu (např. MISRA) a také kontrakty / DbC.
+	
+	Pro zajištění vysoké kvality software byla vytvořena řada preventivních metod, které umožňují předcházet chybám, v důsledku čehož vzniká kvalitnější software. V této části budou představeny některé z těchto technik.
+		
+
+	\subsection{Defenzivní programování}
+		Defenzivní programování \cite{defProgram} je technika, ve které předpokládáme, že náš program obsahuje chyby a očekáváme nejhorší možný vstup. Myšlenkou tedy je, snažit se odhalit všechny potenciální problémy (jakkoliv drobné) a pokusit se jím předejít. Ve výsledku to pak znamená větší množství ověřování a kontrol než je zvyklé při běžném programování. Snahou programátora by také mělo být naspat co nejpřehlednější kód, který umožňuje znovupoužitelnost a snižuje šanci chyb.\\ 
+		
+		V rámci této techniky je důležité upravit své programovací návyky, které mohou vézt k chybovosti kódu. Častou chybou může být např. ignorování návratového typu různých metod, které zpravují o její úspěšnosti. Problémy také mohou způsobovat neinicializované proměnné, u kterých nemáme žádnou informaci o tom, jakou obsahují hodnotu. Obecně je také potřeba vždy kontrolovat uživatelské vstupy a důkladně je ověřovat. Tím se můžeme vyhnout např. přístupu do jiné části paměti či práci s nulovými objekty. Pro zvýšení účinnosti kontrol můžeme také použít různé specializované techniky, které umožní lepší kontrolu našeho programu. Příkladem mohou být doporučení pro psaní bezpečného kódu či kontrakty (viz níže).\\
+		
+		Defenzivní programování je dobrý způsob, jak zvýšit přehlednost a snížit chybovost kódu, nicméně v extrémních případech můžeme docílit opačného efektu. Důvodem může být např. opakované kontrolování stejných hodnot, předcházení situacím, které nemohou nikdy nastat atd. Tuto techniku je tedy třeba brát s mírou.
+		
+	
+	\subsection{Doporučení pro psaní bezpečného kódu}
+		např. MISRA
+	
+	\subsection{Kontrakty}
+		Jednou z možností, jak zajistit kvalitu software, je také použití kontraktů. Ty reprezentují dohodu o použití dané komponenty, metody, rozhraní mezi vývojářem a uživatelem. Kladou určitá omezení na daný objekt, což snižuje šanci jeho špatného použití. Podrobnosti je možné nalézt v další kapitole, která je celá věnována kontraktům.
