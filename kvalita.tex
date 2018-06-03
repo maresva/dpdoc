@@ -50,9 +50,7 @@ Po uvedení klíčových vlastností definující kvalitní systém je na míst�
 		Testování je z hlediska kvality důležitým aspektem celého projektu, protože může odhalit řadu chyb, které ji značně snižují. Může se jím předejít pádům systému, chybám ve funkčnosti, problémům s výkonem atd. Pro testování je třeba správná analýza testovacích případů a hraničních hodnot, aby bylo docíleno vysokého pokrytí.
 	
 	
-\section{Preventivní techniky zajištění kvality}
-	\textbf{\textcolor{pblue}{TODO: }}\\
-	
+\section{Preventivní techniky zajištění kvality}	
 	Pro zajištění vysoké kvality software byla vytvořena řada preventivních metod, které umožňují předcházet chybám, v důsledku čehož vzniká kvalitnější software. V této části budou představeny některé z těchto technik.
 		
 
@@ -64,8 +62,13 @@ Po uvedení klíčových vlastností definující kvalitní systém je na míst�
 		Defenzivní programování je dobrý způsob, jak zvýšit přehlednost a snížit chybovost kódu, nicméně v extrémních případech můžeme docílit opačného efektu. Důvodem může být např. opakované kontrolování stejných hodnot, předcházení situacím, které nemohou nikdy nastat atd. Tuto techniku je tedy třeba brát s mírou.
 		
 	
-	\subsection{Doporučení pro psaní bezpečného kódu}
-		např. MISRA
+	\subsection{Doporučení pro psaní kódu}
+		Jednou z preventivních technik pro zajištění kvality jsou různá doporučení pro psaní kódu. Ta mohou být určena standardem, neoficiálními konvencemi či firemní politikou. Kód psaný na základě těchto doporučení bývá zpravidla více čitelný pro ostatní členy týmu, efektivnější a bezpečnější.
+		
+		Příkladem kódovacího standardu může být MISRA \cite{misra}. Jedná se o standard, který byl původně navržen pro zvýšení bezpečnosti a spolehlivosti vestavěných systémů v automobilech napsaných v jazyce C. Postupem času se rozšířil také do jazyka C++ a dostal se i mimo oblast automobilového průmyslu. 		
+		
+		\subsubsection{Analyzátory kódu}
+			V rámci kontroly kódu je možné použít analyzátory kódu. Tyto nástroje kontrolují napsaný kód buď staticky při překladu či použitím daného nástroje. Tím vývojář získá rychlou odezvu k právě napsanému kódu a může jej ihned opravit. Nějaké analyzátory bývají zpravidla integrovány ve vývojovém prostředí a mnoho prostředí také umožňuje přidání jiných validátorů. Ověření probíhá na základě definované sady pravidel, která často bývá vytvořena na základě standardu či obecných \emph{best practises} (osvědčené postupy).
 	
 	\subsection{Kontrakty}
-		Jednou z možností, jak zajistit kvalitu software, je také použití kontraktů. Ty reprezentují dohodu o použití dané komponenty, metody, rozhraní mezi vývojářem a uživatelem. Kladou určitá omezení na daný objekt, což snižuje šanci jeho špatného použití. Podrobnosti je možné nalézt v další kapitole, která je celá věnována kontraktům.
+		Jednou z možností, jak zajistit kvalitu software, je také použití kontraktů. Ty reprezentují dohodu o použití dané komponenty, či metody, mezi vývojářem a uživatelem. Kladou určitá omezení na daný objekt, což snižuje šanci jeho špatného použití. Podrobnosti je možné nalézt v další kapitole, která je celá věnována kontraktům.
