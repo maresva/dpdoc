@@ -1,11 +1,33 @@
 \chapter{Zhodnocení výsledků}
-	\textbf{\textcolor{pblue}{TODO: Doplnit}}\\
+	Hlavní cíle této práce byl úspěšně zapracovány. Ze vstupních souborů je možné extrahovat konstrukce DbC, které je možné dále exportovat do vnější reprezentace či porovnávat. Funkcionalita tohoto nástroje je pak zakomponována do uživatelské aplikace. Řešení má samozřejmě své silné i slabé stránky a zde bude proveden jejich rozbor.	
+	
+	
 	\section{Úspěšnost detekce kontraktů}
+		Na základě provedených testů a analýzy se mi podařilo úspěšně detekovat všechny kontrakty typu JSR305 či Guava Preconditions. Tyto kontrakty byly úspěšně uloženy do navržené datové struktury připraveny pro další zpracování. Kontrakty je možné extrahovat ze zdrojových i přeložených souborů jazyka Java. Kód daného souboru však musí být validní, jinak není možné jej zpracovat analyzátorem.
 	
 	\section{Úspěšnost porovnání kontraktů}
-	
- 	\section{Limitace}
- 	
+		\textbf{\textcolor{pblue}{TODO: Doplnit dle implementace porovnávání kontraktů}}
+	 	
  	\section{Prostor pro zlepšení}
- 		- co by šlo zlepšit doplnit
-  		- lepší parsování kontrakt expression - zhruba jak
+
+		\subsection{Rozpoznání dalších kontraktů}
+			Nástroj momentálně umožňuje rozpoznání pouze dvou typů kontraktů (JSR305, Guava Preconditions). To je pro použití v praxi samozřejmě nedostačující a dalším logickým krokem ve vývoji by mělo být přidání rozpoznání dalších specifikací. Nástroj je na to připraven a z hlediska integrace by se tedy nemělo jednat o problém. Obtížnost samotného rozpoznání je pak závislá na povaze dané reprezentace.
+			
+		\subsection{Porovnávání}
+			Pro porovnávání dvou složek se soubory obsahujícími kontrakty je možné udělat pokročilejší párování souborů. Pokud je soubor pouze přejmenován či přesunut je to kvalifikováno, jako že byl soubor odstraněn, respektive přidán, díky čemuž dané dva soubory nejsou porovnány. Pro částečné odstranění tohoto problému by bylo možné vytvořit heuristiku, která by porovnávala obsahy souborů, případně by bylo možné dát uživateli volbu v případě neprůkaznosti.\\
+			
+			\textbf{\textcolor{pblue}{TODO: Doplnit dle implementace porovnávání kontraktů}}
+  		
+  		\subsection{Efektivita}
+	  		Aplikace poskytuje prostor pro zlepšení v rámci efektivity algoritmů. Činnosti jako extrakce či porovnání by mohly být zpracovávány paralelně, což by mohlo činnost značně urychlit. V současné době se jednotlivé kontraktů zpracovávají sekvenčně, nicméně při snaze zvýšit efektivitu by bylo možné tyto činnosti spojit dohromady a snížit tak cyklomatičnost celého procesu. Toto zlepšení by však bylo na úkor přehlednosti, jelikož by se museli jednotlivé algoritmy prolínat.\\
+  		
+  		\subsection{Uživatelská aplikace}
+  			Vzhledem k tomu, že bylo cílem vytvořit pouze jednoduchou uživatelskou aplikaci, která bude primárně sloužit pro další výzkum této problematiky, je v této oblasti mnoho prostoru pro zlepšení. V současné podobně je aplikace vhodná pro zpracování menšího či středního množství souborů. Pro rozšířené použití, by bylo nasnadě zlepšit zobrazení souborů, které by bylo možné např. členit dle projektů, ukládat či jinak zachovávat současné projekty a obecně přidání funkcionalit tohoto typu.\\ 
+  			
+  			S těmito rozšířeními pro zpracování souborů by také souviselo perzistence zpracovaných dat. Momentálně jsou zpracované soubory uchovávány v paměti, což při malém množství souborů zrychluje práci, nicméně při větším množství souborů se jedná o paměťově náročnou činnost. Zpracované soubory by se tak mohli ukládat např. na pevný disk či do databáze.\\
+  			
+  			Pro zlepšení celkové uživatelské zkušenosti by také bylo vhodné doplnit řadu dodatečných akcí, které jsou typické pro programy na správu dat, jak je např. řazení souborů, další možnosti filtrace, ale např. také umožnit použití klávesových zkratek.\\
+  			
+  			V případě potřeby by také bylo možné zdokonalit konzolovou část aplikace, která by mohla poskytovat dodatečnou funkcionalitu či nastavení.\\
+  			
+  			Myslím, že díky své silně technické a akademické povaze, není potřebné žádné vylepší vzhledu, které by mohlo být prospěšné např. u komerční aplikace.

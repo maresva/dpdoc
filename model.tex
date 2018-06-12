@@ -13,90 +13,14 @@
 		
 	
 	\section{Model pro extrakci kontraktů}
-			Aby bylo možné kontrakty extrahovat ze zdrojových souborů, je také třeba mít k dispozici datový model, do kterého bude možné tato data uložit. Tento model jsem vytvořil na základě analýzy konstrukcí kontraktů s ohledem na následný export do formátu dat, který bude možné dále zpracovávat. Aby byl zachován kontext kontraktů, usoudil jsem, že bude třeba zachovávat také informace o třídách a metodách v daném souboru. Rozhodl jsem se tedy vytvořit strukturu podobnou stromu, jejíž kořenem je samotný zdrojový soubor. Tento soubor obsahuje různé podrobnosti o tomto souboru jako je jeho jméno a cesta, typ a statistiky o jeho obsahu. Také obsahuje seznam všech tříd obsažených v tomto souboru.\\
+			Aby bylo možné kontrakty extrahovat ze zdrojových souborů, je také třeba mít k dispozici datový model, do kterého bude možné tato data uložit. Tento model jsem vytvořil na základě analýzy konstrukcí kontraktů s ohledem na následný export do formátu dat, který bude možné dále zpracovávat. Aby byl zachován kontext kontraktů, usoudil jsem, že bude třeba zachovávat také informace o třídách a metodách v daném souboru. Rozhodl jsem se tedy vytvořit strukturu podobnou stromu, jejíž kořenem je samotný zdrojový soubor (třída \texttt{JavaFile}). Tento soubor obsahuje různé podrobnosti o tomto souboru jako je jeho jméno a cesta, typ a statistiky o jeho obsahu. Také obsahuje seznam všech tříd (třída \texttt{JavaClass}) obsažených v tomto souboru.\\
 			
-			Každá jednotlivá třída pak obsahuje jméno, svou hlavičku, seznam metod a také seznam všech kontraktů týkajících se této třídy, tedy neměnných podmínek. Metoda pak nese informaci o své signatuře a také seznam všech kontraktů této metody. Samotný kontrakt pak obsahuje informaci o tom, o jaký typ kontraktu a podmínky se jedná, kompletní výraz a také jeho dílčí části. Následuje podrobnější rozbor tohoto modelu rozdělením na jednotlivé entity.\\
+			Každá jednotlivá třída pak obsahuje jméno, svou hlavičku, seznam metod (třída \texttt{JavaMethod}) a také seznam všech kontraktů týkajících se této třídy, tedy neměnných podmínek. Metoda pak nese informaci o své signatuře a také seznam všech kontraktů (třída \texttt{Contract}) této metody. Samotný kontrakt pak obsahuje informaci o tom, o jaký typ kontraktu a podmínky se jedná, kompletní výraz a také jeho dílčí části.\\
 			
-			Na obrázku \ref{modelExtractorDiagram} je vidět grafické znázornění datového modelu formou UML diagramu. Nejsou zde záměrně zobrazeny objekty \texttt{ContractComparison} a \texttt{JavaFileCompareReport}. Těm je věnován prostor v diagramu pro porovnávání kontraktů, který je na obrázku \ref{modelComparatorDiagram}. 
+			Na obrázku \ref{modelExtractorDiagram} je vidět grafické znázornění datového modelu formou UML diagramu. Nejsou zde záměrně zobrazeny objekty \texttt{ContractComparison} a \texttt{JavaFileCompareReport}. Těm je věnován prostor v diagramu pro porovnávání kontraktů, který je na obrázku \ref{modelComparatorDiagram}.\\ 
 			
-			\textbf{\textcolor{pblue}{TODO: hlavní je model-diagram, popis jednotlivých metod je spíš nežádoucí (zbytečné podrobnosti, umělé nafukování textu práce) - omezit jen na klíčové příp. nesamovysvětlující metody/atributy.}}\\
-									
-			
-			%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-			\subsection{Třída \texttt{JavaFile}}
-				Instance této třídy představují samotné soubory. Zde je jeho kompletní struktura:
+			%hlavní je model-diagram, popis jednotlivých metod je spíš nežádoucí (zbytečné podrobnosti, umělé nafukování textu práce) - omezit jen na klíčové příp. nesamovysvětlující metody/atributy.	
 				
-				\subsubsection{\texttt{String fileName}}	
-					Jméno daného souboru bez cesty a bez koncovky.
-					
-				\subsubsection{\texttt{String fullPath}}
-					Tento atribut obsahuje absolutní cestu k analyzovanému souboru.
-					
-				\subsubsection{\texttt{String shortPath}}
-					Tato zkrácená cesta je použita při zpracování více souborů. Je pak uchována pouze rozdílná část těchto cest. To umožňuje přehlednější zobrazení v uživatelské aplikaci. Příkladem mohou být soubory, které mají tyto absolutní cesty: \texttt{C:/files/test/base/alpha.java} a \texttt{C:/files/test/common/beta.java}. Zkrácené cesty pak vypadají takto: \texttt{base/alpha.java} a \texttt{common/beta.java}.
-					
-				\subsubsection{\texttt{FileType fileType}}
-					Atribut \texttt{fileType} je výčtový typ, který představuje typ daného souboru. Může se jednat o \texttt{JAVA} pro soubory \texttt{.java} a \texttt{CLASS} pro soubory \texttt{.class}.
-					
-				\subsubsection{\texttt{JavaFileStatistics javaFileStatistics}}
-					Tento objekt obsahuje statistické údaje o daném souboru. je zde uložen počet tříd a metod. Také zde je počet metod s kontrakty a také celkový i dílčí počet všech kontraktů.
-					
-				\subsubsection{\texttt{List<JavaClass> javaClasses}}
-					Zde, v seznamu objektů \texttt{JavaClass} (viz níže), jsou uloženy jednotlivé třídy, které jsou v daném souboru obsaženy.
-			
-			
-			%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-			\subsection{Třída \texttt{JavaClass}}
-				Instance \texttt{JavaClass} představují jednotlivé třídy v daném souboru.
-				
-				\subsubsection{\texttt{String name}}				
-					Obsahuje jméno dané třídy.
-			
-				\subsubsection{\texttt{String signature}}				
-					Představuje signaturu dané třídy a mimo názvu obsahuje také ostatní podrobnosti.
-					
-				\subsubsection{\texttt{List<JavaMethod> javaMethods}}
-					Seznam objektů \texttt{JavaMethod} (viz níže), které reprezentují metody této třídy.
-					
-				\subsubsection{\texttt{List<Contract> invariants}}
-					Seznam objektů typu \texttt{Contract} (viz níže), které představují neměnné proměnné této třídy.
-			
-			
-			%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-			\subsection{Třída \texttt{JavaMethod}}
-				Objekty typu \texttt{JavaMethod} reprezentují metody v nadřazené třídě.
-				
-				\subsubsection{\texttt{String signature}}
-					Signatura této metody, která mimo jiné obsahuje návratový typ, název a vstupní parametry.
-					
-				\subsubsection{\texttt{boolean isConstructor}}
-					Určuje, zda daná metoda je konstruktor, či se jedná o běžnou metodu.
-					
-				\subsubsection{\texttt{List<Contract> contracts}}
-					Seznam objektů typu \texttt{Contract} (viz níže), které představují dílčí kontrakty dané metody. Jsou definovány vstupními i výstupními podmínkami.
-						
-			
-			%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-			\subsection{Třída \texttt{Contract}}			
-			
-				\subsubsection{\texttt{ContractType contractType}} 
-					Jedná se o výčtový typ, který určuje o jaký druh kontraktu se jedná. Při současném stavu knihovny to mohou být hodnoty Guava či JSR305.
-			
-				\subsubsection{\texttt{ConditionType conditionType}} 
-					Opět výčtový typ který určuje typ kontraktu dle jeho podmínky. Rozlišují se tři druhy: \texttt{PRE} pro vstupní podmínku, \texttt{POST} pro výstupní podmínku a \texttt{INVARIANT} pro neměnnou podmínku.
-			
-				\subsubsection{\texttt{String completeExpression}} 
-					Reprezentuje kompletní výraz celého kontraktu. I přesto, že celý výraz je možné vytvořit z jeho dílčích částí, je zde uveden pro rychlý přehled. Může také posloužit jako kontrola parsování či pro rychlé porovnání.
-			
-				\subsubsection{\texttt{String function}} 
-					Tento řetězec určuje funkci o jakou se jedná v rámci daného kontratku. V případě Guava se jedná o název metody, v případě JSR305 o název anotace. Obecně se jedná o hlavní označení určující daný kontrakt.
-			
-				\subsubsection{\texttt{String expression}} 
-					Obsahuje první parametr dané funkce. Důvodem, proč oddělit první parametr od ostatních, bylo, že kontrakty mají často pouze jeden parametr a pokud jich mají více, ostatní často nejsou tolik relevantní. Pro zvýšení přehlednosti byl tedy tento parametr uveden samostatně.
-			
-				\subsubsection{\texttt{List<String> arguments}} 
-					Seznam ostatních argumentů daného kontraktu. Ostatní atributy až na výjimky slouží pouze k uvedení chybové zprávy, která se má zobrazit při porušení kontraktu. Mimo zprávy zde také bývají proměnné použité ve zprávě.\\					
-	
 				
 				\begin{figure}[!htb]
 					\minipage{1\textwidth}	
@@ -118,83 +42,6 @@
 		
 		Porovnání jednotlivých souborů budou pak zachycena v objektu, který bude mít podobné atributy jako ten pro složku. Tedy v čem se dané soubory lišili z hlediska tříd, metod a zejména kontraktů. I zde je k dispozici souhrn statistik. Celý model by měl být patrný z následujícího popisu, případně pak z obrázku \ref{modelComparatorDiagram}, kde je tento model znázorněn graficky formou UML diagramu.
 		
-		\subsection{Třída \texttt{JavaFolderCompareReport}}
-			Instance třídy \texttt{JavaFolderCompareReport} představují zprávy o porovnání dvou složek.
-			
-			\subsubsection{\texttt{String thisFolderPath}}
-				Cesta k první složce, která je porovnávána.
-				
-			\subsubsection{\texttt{String otherFolderPath}}
-				Cesta k druhé složce, která je porovnávána.
-				
-			\subsubsection{\texttt{boolean apiEqual}}
-				Obsahuje informaci o tom, zda jsou složky shodné na úrovni API. K tomu se vztahuje, zda jsou shodné soubory, třídy a metody na úrovni definic (nikoliv jejich těl).
-				
-			\subsubsection{\texttt{boolean contractEqual}}
-				Říká zda jsou složky shodné na úrovni kontraktů. Jedná se o to, zda jsou nějaké kontrakty přidány či odebrány nebo jakkoliv změněny.
-				
-			\subsubsection{\texttt{JavaFolderCompareStatistics javaFolderCompareStatistics}}
-				Tento objekt obsahuje statistické údaje k danému porovnání. Je zde počet přidaných a odebraných souborů a také počet přidaných/odebraných/změněných kontraktů. 
-			
-			\subsubsection{\texttt{List<String> filesAdded}}
-				Seznam cest souborů, které byly přidány.
-				
-			\subsubsection{\texttt{List<String> filesRemoved}}
-				Seznam cest souborů, které byly odebrány.
-				
-			\subsubsection{\texttt{List<JavaFileCompareReport> javaFileCompareReports}}
-				Jedná se o seznam porovnávacích zpráv jednotlivých souborů (viz níže). 
-				
-				
-		\subsection{Třída \texttt{JavaFileCompareReport}}
-			Tyto objektu reprezentují zprávy o porovnání dvou souborů.
-			
-			\subsubsection{\texttt{String thisFilePath}}
-				Cesta k prvnímu souboru, který je porovnáván.
-				
-			\subsubsection{\texttt{String otherFilePath}}
-				Cesta k druhému souboru, který je porovnáván.
-				
-			\subsubsection{\texttt{boolean apiEqual}}
-				Obsahuje informaci o tom, zda jsou soubory shodné na úrovni API. K tomu se vztahuje, zda jsou stejné deklarace tříd a metod.
-				
-			\subsubsection{\texttt{boolean contractEqual}}
-				Říká zda jsou složky shodné na úrovni kontraktů. Jedná se o to, zda jsou nějaké kontrakty přidány či odebrány nebo jakkoliv změněny.
-				
-			\subsubsection{\texttt{JavaFileCompareStatistics javaFileCompareStatistics}}
-				Statistiky porovnání daných dvou souborů. Obsahuje informace o počtu přidaných a odebraných tříd, metod a kontraktů.
-				
-			\subsubsection{\texttt{List<ApiChange> apiChanges}}
-				Seznam všech změn API, které byly mezi soubory detekovány. Obsahují informace o tom jaká třída či metoda byla přidána/odebrána a kolik kontraktů to ovlivnilo.
-				
-			\subsubsection{\texttt{List<ContractCompareReport> contractCompareReports}}
-				Seznam všech zpráv o porovnání jednotlivých kontraktů(viz níže).
-			
-				
-		\subsection{Třída \texttt{ContractCompareReport}}
-			Jednotlivé objekty \texttt{ContractCompareReport} představují zprávy o porovnání dvou kontraktů.
-			
-			\subsubsection{\texttt{ContractComparison contractComparison}}
-				Tento výčtový typ určuje, jestli byly kontrakty shodné, rozdílné či se jednalo o menší změny.
-				
-			\subsubsection{\texttt{ApiState apiState}}
-				Určuje zda byl nalezen párový kontrakt v druhém souboru, či jestli byl přidán nebo naopak odebrán.
-				
-			\subsubsection{\texttt{ContractType contractType}}
-				O jaký typ kontraktu se jedná (Guava, JSR305, atd.).
-				
-			\subsubsection{\texttt{String className}}
-				Označení třídy, ve které se oba kontrakty nacházejí.
-				
-			\subsubsection{\texttt{String methodName}}
-				Označení metody, ve které se oba kontrakty nacházejí.
-				
-			\subsubsection{\texttt{String thisContractExpression}}
-				Kompletní výraz, který reprezentuje první porovnávaný kontrakt.
-				
-			\subsubsection{\texttt{String otherContractExpression}}
-				Kompletní výraz, který reprezentuje druhý porovnávaný kontrakt.
-			
 		
 				\begin{figure}[!htb]
 					\minipage{1\textwidth}	
