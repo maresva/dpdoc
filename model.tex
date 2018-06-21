@@ -22,6 +22,8 @@
 			
 			Každá jednotlivá třída pak obsahuje jméno, svou hlavičku, seznam metod (třída \texttt{JavaMethod}) a také seznam všech kontraktů týkajících se této třídy, tedy neměnných podmínek. Metoda pak nese informaci o své signatuře a také seznam všech kontraktů (třída \texttt{Contract}) dané metody. Samotný kontrakt pak obsahuje informaci o tom, o jaký typ kontraktu a podmínky se jedná, kompletní výraz a také jeho dílčí části (viz podrobnosti níže).\\
 			
+			V projektu je model reprezentován v rámci knihovny nástroje. Je zde balíček \texttt{model}, kde se nacházejí všechny zmíněné třídy.\\
+			
 			Na obrázku \ref{modelExtractorDiagram} je vidět grafické znázornění datového modelu formou UML diagramu. Nejsou zde záměrně zobrazeny objekty \texttt{ContractComparison} a \texttt{JavaFileCompareReport}. Těm je věnován prostor v diagramu pro porovnávání kontraktů, který je na obrázku \ref{modelComparatorDiagram}.\\ 
 							
 				\begin{figure}[!htb]
@@ -77,7 +79,9 @@
 		
 		S porovnáním dvou složek však také přibývá problém párování jednotlivých souborů, tříd, metod a kontraktů se svými protějšky v druhé složce. Na základě těchto informací jsem se tedy rozhodl, že hlavním objektem pro porovnání bude zpráva o rozdílech těchto dvou složek (projektů). Tato zpráva bude obsahovat různé podrobnosti o tom, zda byly složky shodné, konkrétní případy, kde se lišily a také seznam souborů, ke kterým nebyl nalezen adekvátní pár v druhé složce. Tím vzniká tedy seznam přidaných respektive odebraných souborů podobně jako u porovnávání dvou verzí při práci s VCS\footnote{VSC, neboli Version Control System je druh nástroje, který umožňuje týmu spravovat kód v průběhu času.}. Stejně jako v případě extrakce, i zde je souhrn statistik, který poskytuje dodatečné informace o tomto srovnání.\\
 				
-		Porovnání jednotlivých souborů jsou pak zachycena v objektu, který má podobné atributy jako ten pro složku, tedy v čem se dané soubory lišili z hlediska tříd, metod a zejména kontraktů. I zde je k dispozici souhrn statistik. Model by měl být patrný z z obrázku \ref{modelComparatorDiagram}, kde je tento model znázorněn graficky formou UML diagramu. Následuje také popis některých částí modelu, které nemusejí být na první pohled jasné, či se jedná o důležité prvky.
+		Porovnání jednotlivých souborů jsou pak zachycena v objektu, který má podobné atributy jako ten pro složku, tedy v čem se dané soubory lišili z hlediska tříd, metod a zejména kontraktů. I zde je k dispozici souhrn statistik. Model by měl být patrný z z obrázku \ref{modelComparatorDiagram}, kde je tento model znázorněn graficky formou UML diagramu. Následuje také popis některých částí modelu, které nemusejí být na první pohled jasné, či se jedná o důležité prvky.\\
+		
+		V projektu je pak tento model opět součástí knihovny a nachází se v balíčku pro porovnávání (\texttt{comparator.comparatormodel}).
 		
 				\subsection{Podrobnosti modelu}
 				
