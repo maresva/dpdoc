@@ -96,7 +96,9 @@
         	\- \- \- \- \- \- \- \- \- \- \texttt{Preconditions.checkNotNull(x, message);}\\
     		\- \- \- \- \- \texttt{\}}\\
     		
-    		V tomto příkladu je vstupní parametr \texttt{Object x} omezen a vstupem nemůže být hodnota \texttt{null}, pokud se tak stane, je vyhozena standardní výjimka \texttt{java.lang.NullPointerException}. Typ výjimky, který knihovna vrací je závislý na dané metodě (např. v případě metody \texttt{checkArgument(boolean)} se jedná výjimku \texttt{IllegalArgumentException}).
+    		V tomto příkladu je vstupní parametr \texttt{Object x} omezen a vstupem nemůže být hodnota \texttt{null}, pokud se tak stane, je vyhozena standardní výjimka \texttt{java.lang.NullPointerException}. Typ výjimky, který knihovna vrací je závislý na dané metodě (např. v případě metody \texttt{checkArgument(boolean)} se jedná výjimku \texttt{IllegalArgumentException}).\\
+    		
+    		Tento nástroj je hojně používány, což lze vyvodit z textu Contracts in Wild \cite{contractsInWild}, ale i z množství zmínek a návodů na internetu (např. \cite{guavaTutorial}). Jedná se také o živý projekt, který je stále aktualizován.
 		
 		
 		\subsection{JSR305}
@@ -120,7 +122,8 @@
 				\- \- \- \- \- \texttt{@Requires("x >= 0")}\\
 				\- \- \- \- \- \texttt{@Ensures("result >= 0")}\\
 				\- \- \- \- \- \texttt{static double sqrt(double x);}\\
-
+				
+			Nejnovější verzí tohoto nástroje je 1.3, která byla vydána v únoru 2016. Poslední aktivita proběhla v srpnu 2017, je tak možné se domnívat, že se v současné době jedná o definitivní verzi.
 
 		\subsection{valid4j}
 			Valid4j \cite{valid4j} je jednoduchý nástroj, který poskytuje metody pro práci s kontrakty za pomoci aserce. Podobně jako jiné nástroje využívá klíčových slov \texttt{require} pro vstupní a \texttt{ensure} pro výstupní podmínky. Tento nástroj neposkytuje podporu pro neměnné podmínky za pomocí specializovaných metod ale tohoto chování je možné dosáhnout použitím zmíněných metod. Zde je část kódu implementující kontrakty nástrojem valid4j.\\\\  
@@ -131,6 +134,8 @@
 				\- \- \- \- \- \- \- \- \- \- \texttt{ensure(getState(), equalTo(GREAT));}\\
 				\- \- \- \- \- \- \- \- \- \- \texttt{return ensure(r, notNullValue());}\\
 				\- \- \- \- \- \texttt{\}}\\	
+				
+			Poslední verzí tohoto nástroje je 0.5.0 z prosince 2015. Krátce poté se také zastavila aktivita v repozitáři GitHub, můžeme tak předpokládat, že projekt byl prozatím ukončen.
 	
 		
 		\subsection{jContractor}
@@ -145,8 +150,8 @@
 				\- \- \- \- \- \texttt{\}}\\
 				
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
 	\section{Popis sémantických kontraktů v jiných programovacích jazycích}
 		Použití kontraktů samozřejmě není omezeno pouze na Java, ale je rozšířeno do mnoha jiných jazyků. Mimo použití běžně dostupných prostředků, jako jsou například výjimky či aserce, které jsou k dispozici téměř v každém jazyce, existují také specializované nástroje, které umožňují rozšířenou práci s kontrakty. Následuje krátký výčet některých z nich.
 		
@@ -158,15 +163,14 @@
 
 			
 		\subsection{PhpDeal v PHP}
-	
-\textbf{\textcolor{pblue}{TODO: jak je vidět z příkladu, není to pravda, používá klíčová slova v dokumentačních komentářích - jsou tyto kontrakty nějak kontrolovány při běhu?	}}\\
-		
-			Jedním z nástrojů, které umožňují reprezentaci kontraktů pro jazyk PHP je aplikační rámec PhpDeal \cite{phpDeal}. Podobně jako jiné nástroje, pracuje na principu \textbf{\textcolor{pblue}{anotací}}. Při definici vstupních a výstupních podmínek jsou anotace uvedeny u dané funkce, neměnné podmínky jsou pak definovány jako anotace třídy. Anotace jsou definovány klíčovým slovem \texttt{@Contract}, kde za zpětným lomítkem následuje \texttt{Verify} pro vstupní podmínku, \texttt{Ensure} pro výstupní podmínku a \texttt{Invariant} pro neměnnou podmínku. V závorce pak následuje řetězec s podmínkou, která je ověřována. Nástroj také umožňuje integraci do IDE pro zvýraznění syntaxe. Použití je vidět na následujícím příkladu:\\\\
+			Jedním z nástrojů, které umožňují reprezentaci kontraktů pro jazyk PHP je aplikační rámec PhpDeal \cite{phpDeal}. Funguje na principu klíčových slov v dokumentačních komentářích, ty jako argument obsahují řetězec s PHP kódem, pomocí kterého je možné konstruovat podmínky. Při definici vstupních a výstupních podmínek jsou konstrukce uvedeny u dané funkce, neměnné podmínky jsou pak definovány v rámci třídy. Kontrakty jsou definovány klíčovým slovem \texttt{@Contract}, kde za zpětným lomítkem následuje \texttt{Verify} pro vstupní podmínku, \texttt{Ensure} pro výstupní podmínku a \texttt{Invariant} pro neměnnou podmínku. V závorce pak následuje řetězec s podmínkou, která je ověřována. Podmínky jsou vyhodnocovány při běhu programu v závislosti na definici nástroje. Je doporučeno vypnout vyhodnocování pro produkční verzi. Nástroj také umožňuje integraci do IDE pro zvýraznění syntaxe. Použití je vidět na následujícím příkladu:\\\\
 			\- \- \- \- \- \texttt{/** @Contract\textbackslash Verify("\$amount\textgreater 0 \&\& is\_numeric(\$amount)")}\\	
 			\- \- \- \- \- \texttt{ * @Contract\textbackslash Ensure("\$this-\textgreater bal == \$\_\_old-\textgreater bal+\$amount")}\\
 			\- \- \- \- \- \texttt{ */}\\
 			\- \- \- \- \- \texttt{public function deposit(\$amount)}\\
-			\- \- \- \- \- \texttt{\{ ... \}}
+			\- \- \- \- \- \texttt{\{ ... \}} \\
+			
+			PhpDeal není příliš rozšířený nástroj, ale je snadný na použití. Poslední aktualizace proběhla na konci roku 2017, 
 		
 		\subsection{Boost.Contract v C++}
 			Knihovna Boost.Contract \cite{boostContract} poskytuje podporu pro design by contract v jazyce C++. Pracuje na principu API a poskytuje tak funkce pro realizaci podmínek. Funkce se nazývají \texttt{precondition} a \texttt{postcondition}. Pro realizaci neměnných proměnných slouží definice funkce jménem \texttt{invariant}, která pak zajišťuje kontrolu všech vstupů a výstupů. Pro aserci je používána funkce \texttt{BOOST\_CONTRACT\_ASSERT}.
@@ -175,7 +179,7 @@
 		\subsection{Jazyk Eiffel}
 			Některé programovací jazyky konstrukce DbC podporují nativně a není tak třeba používat žádné dodatečné nástroje. Jedním z předních zástupců této kategorie je jazyk Eiffel \cite{eiffel}, který byl vyvíjen s cílem zajistit co největší spolehlivost v rámci programovacího jazyka. Jak již bylo zmíněno výše, byl navržen Bertrandem Meyerem, tedy stejným člověkem, který představil design by contract. Jazyk poskytuje mnoho zajímavých konstrukcí, zde bude však nastíněno použití konstrukcí DbC.\\
 			
-			 Definice je zajištěna klíčovými slovy \texttt{require} pro vstupní podmínky, \texttt{ensure} pro výstupní podmínky a \texttt{invariant} pro neměnné podmínky. Vzhledem k povaze jazyka jsou vstupní a výstupní podmínky začleněny přímo do těla funkce, které jsou zde však nazývány \texttt{feature}. Neměnné podmínky jsou pak samostatně definovány v bloku \texttt{invariant}. Eiffel poskytuje různé rozšířené možnosti pro práci s kontrakty, základní principy by měly být patrné z následujícího příkladu:\\\\\\\\
+			 Definice je zajištěna klíčovými slovy \texttt{require} pro vstupní podmínky, \texttt{ensure} pro výstupní podmínky a \texttt{invariant} pro neměnné podmínky. Vzhledem k povaze jazyka jsou vstupní a výstupní podmínky začleněny přímo do těla funkce, které jsou zde však nazývány \texttt{feature}. Neměnné podmínky jsou pak samostatně definovány v bloku \texttt{invariant}. Eiffel poskytuje různé rozšířené možnosti pro práci s kontrakty, základní principy by měly být patrné z následujícího příkladu:\\\\
 			\- \- \- \- \- \texttt{feature}\\
 			\- \- \- \- \- \- \- \- \- \- \texttt{deposit (sum: INTEGER)}\\
 			\- \- \- \- \- \- \- \- \- \- \- \- \- \- \- \texttt{require}\\
@@ -199,19 +203,21 @@
 					& & & {\bf Vstup.} & {\bf Výstup.} & {\bf Neměn.}\\
 				\hline
 				\hline
-					  Guava Preconditions & Java & API & ANO & NE & NE\\
+					  Guava & Java & API & ANO & NE & NE\\
 					  JSR305 & Java & Anotace & ANO & ANO & ANO\\
 					  Cofoja & Java & Anotace & ANO & ANO & ANO\\
 					  valid4j & Java & API & ANO & ANO & NE*\\
 					  jContractor & Java & Speciální & ANO & ANO & ANO\\
 					  Code Contracts & .NET & API & ANO & ANO & ANO\\
-					  PhpDeal & PHP & Anotace & ANO & ANO & ANO\\					  
+					  PhpDeal & PHP & Anotace** & ANO & ANO & ANO\\					  
 					  Boost.Contract & C++ & API & ANO & ANO & ANO\\
 				\hline
 		\end{tabular}\\
-		
+				
 		\footnotesize
+			\noindent
 			\- \- \- \textbf{*} Neměnné podmínky je možné vytvořit pomocí vstupních a výstupních podmínek.
+			\- \- \- \- \- \- \- \textbf{**} Anotace jsou následovány funkčním PHP kódem
 					
 		\caption{Souhrn nástrojů pro práci s kontrakty}
 		\label{table:tabContracts}
@@ -220,5 +226,3 @@
 		\normalsize	
 			
 		Co se základní funkcionality týče, až na výjimky nástroje poskytují srovnatelné možnosti. Typově se pak obvykle jedná o nástroje, které zprostředkovávají metody pomocí API či o anotace. Obecně se dá říci, že volba nástroje záleží spíše na preferencích skupiny, která bude daný nástroj používat. Je možné se rozhodovat podle toho, jaký typ reprezentace daný nástroj používá, či jak je technologie známá a oblíbená. Z tohoto důvodu má smysl zabývat se problematikou, jak zajistit unifikaci specifikací kontraktů z různých nástrojů a poskytnout tak jednotnou reprezentaci, která umožní další analýzu. 
-		
-		\textbf{\textcolor{pblue}{TODO: bylo by vhodné doplnit info o tom, jak živé jsou jednotlivé projekty a jak hodně se používaji (jde vyčíst z článku Dietrich a kol.) co není v Dietrich napsat neuvedeno nebo zkusit nalézt a napsat nějak obecně používá se málo/hodně...}}\\

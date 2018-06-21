@@ -14,10 +14,7 @@
 			\subsubsection{Java Virtual Machine (JVM)}			
 				JVM je softwarová abstrakce pro obecnou hardwarovou platformu. Slouží k tomu, aby bylo možné spustit program napsán v Java na různých zařízeních. Program je pak virtuálně spuštěn na JVM místo přímo na daném zařízení. Vzhledem k tomu, že se jedná o virtualizaci, je logické, že z hlediska výkonu a nároků na paměť není možné dosáhnout srovnatelných výsledků s programem, který je na danou platformu plně zoptimalizován. V tomto případě se jedná o daň za multiplatformnost jazyka Java.\\ 
 			
-			Když spustíme Java aplikace, nejprve se spustí JVM na daném zařízení. Ten načte hlavní třídu s metodou \texttt{main} spolu s jinými klíčovými částmi jako je např. \texttt{java.lang.Object}. K načtení těchto tříd se využívá tzv. \emph{Class Loader}. Poté, co jsou načteny klíčové části již JVM načítá třídy pouze na vyžádání, což se děje ve chvíli, kdy je daná třídy v programu potřeba. Tímto způsobem obsahuje JVM jen ten přeložený kód, který je v danou chvíli potřeba, což snižuje nároky na paměť, ale snižuje rychlost programu. Tato technika se nazývá \emph{Just-in-time kompilace} \cite{jit}\cite{classLoad}.
-			
-			\textbf{\textcolor{pblue}{TODO: JIT je něco jiného}}\\
-				
+			Když spustíme Java aplikace, nejprve se spustí JVM na daném zařízení. Ten načte hlavní třídu s metodou \texttt{main} spolu s jinými klíčovými částmi jako je např. \texttt{java.lang.Object}. K načtení těchto tříd se využívá tzv. \emph{Class Loader}. Poté, co jsou načteny klíčové části již JVM načítá třídy pouze na vyžádání, což se děje ve chvíli, kdy je daná třídy v programu potřeba. Tímto způsobem obsahuje JVM jen ten přeložený kód, který je v danou chvíli potřeba, což snižuje nároky na paměť, ale snižuje rychlost programu. 
 	
 	\section{Gramatika}
 		\textbf{\textcolor{pblue}{TODO: reprezentace některých konstrukcí, vč. anotací - do jakých základních konstrukcí jsou převáděny, jak se poznají v bytecode; retention policy u anotací.	}}\\
