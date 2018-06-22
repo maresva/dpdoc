@@ -16,33 +16,47 @@
 			
 			Když spustíme Java aplikace, nejprve se spustí JVM na daném zařízení. Ten načte hlavní třídu s metodou \texttt{main} spolu s jinými klíčovými částmi jako je např. \texttt{java.lang.Object}. K načtení těchto tříd se využívá tzv. \emph{Class Loader}. Poté, co jsou načteny klíčové části již JVM načítá třídy pouze na vyžádání, což se děje ve chvíli, kdy je daná třídy v programu potřeba. Tímto způsobem obsahuje JVM jen ten přeložený kód, který je v danou chvíli potřeba, což snižuje nároky na paměť, ale snižuje rychlost programu. 
 	
-	\section{Gramatika}
-		\textbf{\textcolor{pblue}{TODO: reprezentace některých konstrukcí, vč. anotací - do jakých základních konstrukcí jsou převáděny, jak se poznají v bytecode; retention policy u anotací.	}}\\
-	
 	\section{Rozbor kódu}
-		Abychom mohli zpracovávat zdrojový kód jazyka Java, je vhodné jej nejprve převést na snadněji zpracovatelnou formu než surový text. K tomu nám může pomoci lexikální a syntaktická analýza, pomocí nichž můžeme ve výsledku získat reprezentaci ve stromové podobě \cite{compilerTutorial}.
-	
+		Abychom mohli zpracovávat zdrojový kód jazyka Java, je vhodné jej nejprve převést na snadněji zpracovatelnou formu než surový text. K tomu nám může pomoci lexikální a syntaktická analýza, pomocí nichž můžeme ve výsledku získat reprezentaci ve stromové podobě. Toho je běžně využíváno při tvorbě překladače a interpretu \cite{compilerTutorial}\cite{basicsOfCompilerDesign}\cite{fjp}.
+			
 		\subsection{Lexikální analýza}
-		
-			\textbf{\textcolor{pblue}{TODO: toto je hodně volný a nepřesný popis lex a syn analýzy - nutno zpřesnit, viz aspoň FJP!}}\\					
-		
-			Aby bylo možné provést rozbor kódu, který je prezentován v textové podobě, je třeba nejprve provést lexikální analýzu. Ta spočívá v tom, že je proud znaků zpracováván a rozdělován dle bílých znaků\footnote{Bílými znaky jsou myšleny netisknutelné znaky jako jsou například mezery, tabulátory, nové řádky atd.} nebo operačních, respektive speciálních, symbolů (\texttt{=}, \texttt{:}, \texttt{\&}, ...) na tzv. lexémy, které reprezentují \textbf{\textcolor{pblue}{dílčí části kódu}}. Na základě sekvence znaků analyzátor pomocí regulárních výrazů určí, zda se jedná o identifikátor, číslo, klíčové slovo, řetězec atd. Pokud analyzátor narazí na nesrovnalost, např. v Java by začal lexém číslem a pokračoval písmeny, což by představovalo ilegální pojmenování identifikátoru, analýza vyhodí chybu. Tímto vznikne seznam lexémů, který je předán dál syntaktické analýze.
+			Aby bylo možné provést rozbor kódu, který je prezentován v textové podobě, je třeba nejprve provést lexikální analýzu. Ta spočívá v tom, že je proud znaků zpracováván a rozdělován do tzv. lexémů. Lexém je posloupnost znaků, která tvoří ucelenou část kódu (např. číslo, název proměnné atd.). Lze je rozdělit do různých kategorií: identifikátory, klíčová slova (rezervované identifikátory), čísla, jednoznakové omezovače atd.\\
+			
+			Zpracování začíná prvním dosud nezpracovaným znakem ze vstupu. Končí ve chvíli, kdy se nacházíme v koncovém stavu a již není možné přidat další znak. Tím je daná posloupnost znaků uzavřena a tvoří tak jeden lexém. Např. při zpracování kódu \texttt{var+4} začneme zpracovávat písmenem \texttt{v} a postupujeme dál přes \texttt{a} a \texttt{r}. Písmenem může začít pouze identifikátor nebo klíčové slovo. Ve chvíli, kdy dojdeme k \texttt{+}, víme, že je tento lexém kompletní, protože znak \texttt{+} nemůže být součástí identifikátoru resp. klíčového slova. Rozlišení, zda se jedná o identifikátor nebo klíčové slovo je řešeno pomocí tabulky klíčových slov.\\
+			
+			Toto zpracování se řídí definovanou gramatikou jazyka. Protože se jedná o gramatiku typu 3, je možné jí nahradit regulárními výrazy. Pokud by analyzátor narazil na neplatný symbol v dané posloupnosti, je vyhozena chyba. Lexikální analýza není schopna odhalit chybu, jako např. že není platná posloupnost \texttt{* *}, protože se jedná o dva platné lexémy. Ve chvíli, kdyby by se jednalo o text \texttt{**}, vznikne chyba, protože to není platný tvar z hlediska regulárního výrazu. Seznam lexémů je dále předáván ke zpracování syntaktické analýze.
+			
+				\begin{figure}[!htb]
+					\minipage{1\textwidth}	
+						\centering
+						\includegraphics[width=1\textwidth]{img/lexicalAnalysis.pdf}
+						\caption[lexicalAnalysis]{Princip lexikální analýzy}
+						\label{lexicalAnalysis}
+					\endminipage\hfill
+				\end{figure}			
 			
 		\subsection{Syntaktická analýza}
-			Ze vstupního proudu lexému vytvořeného pomocí lexikální analýzy můžeme nyní za pomocí syntaktické analýzy vytvořit derivační strom. Díky této reprezentaci \textbf{\textcolor{pblue}{můžeme již dané lexémy rozdělit do různých konstrukcí jazyka}}, jako jsou třídy, metody, podmínky atd. Po tomto kroku jsme již tedy schopni zpracovávat zdrojový kód na takové úrovni, která nám umožní procházet anotace jednotlivých konstrukcí, či příkazy těla metod. Na základě toho jsme tedy schopni provádět analýzu, která umožní nalezení kontraktů ve zdrojovém kódu. 			
+			Ve chvíli, kdy je text převeden do lexémů pomocí lexikální analýzy, je možné provést syntaktickou analýzu, někdy nazývanou parsování. Lexikální analýza není schopna kontrolovat syntaxi kvůli limitacím regulárních výrazů. Syntaktická analýza však pracuje na úrovni bezkontextové gramatiky, která je té regulární nadřazená, proto to umožňuje. Na obrázku \ref{bkg} je možné vidět ukázku této gramatiky. Velká písmena (\texttt{S}, \texttt{Z}, \texttt{E}, ..) představují neterminální symboly, jejich výčet je na levé straně obrázku. Za šipkou pak následuje, na co je možné dané neterminální symbol přepsat. To často mohou být další neterminální symboly a celý výraz se takto rozrůstá. Svislými čarami (\texttt{|}) jsou odděleny možnosti, na které se může symbol přepsat. Symbol \texttt{F} tedy může být rozepsán na \texttt{(E)} nebo na \texttt{V}.\\
+			
+			Ostatní řetězce (zde \texttt{if}, \texttt{then}, \texttt{\{}, ...) jsou potom terminální výrazy, které jsou konečné a nejde je dále rozepsat. Symbol malé \texttt{e} je speciální a představuje prázdný znak, který ukončuje danou posloupnost. Pomocí symbolů \texttt{+} a \texttt{*} je možné vyjádřit opakování daného výrazu. Tímto způsobem je tedy možné vyjádřit gramatiku programovacího jazyka. Pokud vstupní lexémy neodpovídají této gramatice, vzniká syntaktická chyba.
+			
+			\begin{figure}[!htb]
+				\minipage{1\textwidth}	
+					\centering
+					\includegraphics{img/gramatika.png}
+					\caption[bkg]{Ukázka bezkontextové gramatiky}
+					\label{bkg}
+				\endminipage\hfill
+			\end{figure}
+			
+			Jedním ze způsobů, jak zpracovávat tuto gramatiku je rekurzivní sestup. Každý z neterminálních symbolů je prezentován procedurou, která se vykoná, ve chvíli, kdy se jedná o daný symbol. Takto se postupně rekurzivně volají procedury dokud není zpracován celý vstup. V proceduře s terminálním souborem pak můžeme vykonat určitou akci, která koresponduje s daným výrazem, např. přidat do seznamu další strojovou instrukci. Pro rozhodování je použita technika, kdy se nahlíží na další lexémy na vstupu a podle toho se určí o jaký výraz se jedná. Gramatika musí být vždy jednoznačná.
 			
 		\subsection{Nástroje}
 			I přesto, že by bylo možné provádět zmíněné analýzy pomocí vlastního kódu, je také možné použít některý z dostupných nástrojů. Tyto nástroje umožňují parsování zdrojového kódu za použití samostatné aplikace nebo se může jednat o knihovnu, jejíž API můžeme použít přímo v našem kódu.
 			
 			\paragraph{JFLex}
-				JFLex \cite{jflex} je lexikální analyzátor pro jazyk Java. Protože lexikální analýza sama o sobě nestačí k analýze kódu vhodné pro detekci kontraktů, je třeba tento nástroj použít s jiným, který umožní syntaktickou analýzu. Může se jednat např. o CUP, BYacc/J či ANTLR (viz níže). 						
-			
-			\paragraph{CUP}
-				TODO
-			
-			\paragraph{BYacc/J}
-				TODO
-			
+				JFLex \cite{jflex} je lexikální analyzátor pro jazyk Java. Protože lexikální analýza sama o sobě nestačí k analýze kódu vhodné pro detekci kontraktů, je třeba tento nástroj použít s jiným, který umožní syntaktickou analýzu. Může se jednat např. o ANTLR, BYacc/J či CUP. 						
+						
 			\paragraph{ANTLR}			
 				ANTLR \cite{antlr} je široce používaný nástroj, který umožňuje na základě zadané gramatiky vytvořit a procházet strom daného zdrojového kódu. ANTLR je primárně určen ke zpracování vlastní gramatiky např. při tvorbě vlastního překladače, nicméně je možné také použít gramatiku jazyka Java pro rozbor jejího zdrojového kódu.
 			
@@ -52,27 +66,37 @@
 			\paragraph{Roaster}
 				Roaster \cite{roaster} je nástroj podobný JavaParser. Také umožňuje nejen parsování, ale i editaci zdrojových kódů jazyka Java. Mimo dostupného API umožňuje také práci s konzolí  pro jednoduché použití.
 	
+		
+	\section{Gramatika jazyka Java}
+		\textbf{\textcolor{pblue}{TODO: reprezentace některých konstrukcí, vč. anotací - do jakých základních konstrukcí jsou převáděny, jak se poznají v bytecode; retention policy u anotací.	}}\\
+		
 	
 	\section{Rozbor přeložených souborů}
 		Při analýze kontraktů v jiných projektech není vždy možné získat zdrojové soubory. Z toho důvodu je užitečné umět analyzovat nejen soubory \texttt{.java}, ale také přeložené soubory \texttt{.class}.
 	
 		\subsection{Dekompilace}
-			Aby bylo možné soubory analyzovat je nutné je nejprve dekompilovat. Dekompilace je vlastně opačný proces kompilace a je třeba nahradit prvky, které byly přidány do bajtkódu těmi, které zde byly původně. \textbf{\textcolor{pblue}{TODO: Zlepšit formulaci, více podrobností}}\\
+			Aby bylo možné soubory analyzovat, musíme je nejprve dekompilovat. Dekompilace je vlastně opačný proces kompilace a jejím cílem je tedy získat původní zdrojový kód z cílové podoby. Tou bývají obvykle strojové instrukce, v případě Java se jedná o bajtkód. Výhodou bajtkódu je, že obsahuje vysoké množství různých podrobností, které umožňují téměř bezztrátovou rekonstrukci zdrojového kódu. Jednoduchý princip je vidět na obrázku \ref{decompilation}.
+			
+			\begin{figure}[!htb]
+				\minipage{1\textwidth}	
+					\centering
+					\includegraphics{img/decompilation.pdf}
+					\caption[decompilation]{Dekompilace}
+					\label{decompilation}
+				\endminipage\hfill
+			\end{figure}
 			
 			\subsubsection{Nástroje}
-				Nástrojů pro dekompilaci souborů v jazyce Java je celá řada. Některé je nutné pouštět samostatně, ty pak mohou být vytvořeny i v jiných programovacích jazycích. Vývojová prostředí jako např. Eclipse či IDEA IntelliJ umožňují instalaci balíčků, které podporují dekompilaci souborů. Některé z nástrojů je také možné použít přímo v kódu formou knihovny. Následuje seznam některých dostupných nástrojů, které jsou stále aktualizovány a umožňují dekompilaci moderních prvků jazyka Java \cite{top8decompilers}\cite{decompilersOnline}\cite{quickDecompilers}.
-				
-				\textbf{\textcolor{pblue}{TODO:
-				chybí podrobnější informace, do jaké reprezentace je bytecode daným nástrojem převeden a jestli/jak se s ní dá programově pracovat (tj. doménové a funkční API);, vč. příkladů; dále jaká jsou omezení či jiné pozoru-hodné vlastnosti nástrojů	 }}\\			
+				Nástrojů pro dekompilaci souborů v jazyce Java je celá řada. Některé je nutné pouštět samostatně, ty pak mohou být vytvořeny i v jiných programovacích jazycích. Vývojová prostředí jako např. Eclipse či IDEA IntelliJ umožňují instalaci balíčků, které podporují dekompilaci souborů. Některé z nástrojů je také možné použít přímo v kódu formou knihovny. Následuje seznam některých dostupných nástrojů, které jsou stále aktualizovány a umožňují dekompilaci moderních prvků jazyka Java \cite{top8decompilers}\cite{decompilersOnline}\cite{quickDecompilers}.	
 				
 				\paragraph{JD Project}
-					JD Project (Java Decompiler) \cite{jd} je jedním z nejčastěji referovaných nástrojů v rámci Java dekompilace. JD disponuje samostatnou aplikací s grafickým uživatelským rozhraním, pomocí kterého je možné soubory dekompilovat a ihned vidět výsledek. JD také poskytuje doplněk do Eclipse a IDEA IntelliJ. Nejedná se o open-source nástroj, ale je dostupný zdroj pro GUI aplikaci.
+					JD Project (Java Decompiler) \cite{jd} je jedním z nejčastěji referovaných nástrojů v rámci Java dekompilace. JD disponuje samostatnou aplikací s grafickým uživatelským rozhraním, pomocí kterého je možné soubory dekompilovat a ihned vidět výsledek. JD také poskytuje doplněk do Eclipse a IDEA IntelliJ. Nejedná se o open-source nástroj, ale je dostupný zdroj pro GUI aplikaci. Nástroj bohužel nedisponuje API, aby bylo možné jej použít přímo v kódu.
 					
 				\paragraph{Procyon}
-					Procyon \cite{procyon} je open-source nástroj, který také umožňuje dekompilaci. Nemá samostatné GUI jako JD, nicméně je možné reprezentaci zobrazit použitím externích nástrojů. Disponuje také API, které je možné použít přímo v kódu.
+					Procyon \cite{procyon} je open-source nástroj, který také umožňuje dekompilaci. Nemá samostatné GUI jako JD, nicméně je možné reprezentaci zobrazit použitím externích nástrojů. Disponuje také API, které je možné použít přímo v kódu. Stačí zavolat metodu \texttt{decompile()}, kam vstupuje jméno souboru, který chceme dekompilovat a také kam má být směrován výstup. Výsledkem je pak zdrojový kód. Nejedná se samozřejmě přesnou kopii, ale jsou zde jisté limitace (viz níže).
 					
 				\paragraph{CFR}
-					CFR \cite{cfr} je dalším z nástrojů, který umožňuje dekompilaci i konstrukcí Java 1.9. Nástroj je možné použít pouze v rámci příkazové řádky.\\
+					CFR \cite{cfr} je dalším z nástrojů, který umožňuje dekompilaci i konstrukcí Java 1.9. Nástroj je možné použít pouze v rámci příkazové řádky, kdy je na výstup směrován dekompilovaný kód. Součástí tedy není API, které by umožnilo použití v kódu.\\
 					
 				Nástrojů pro dekompilaci jazyka Java je velké množství a jejich výběr není snadný zejména poroto, že se neustále vyvíjejí na základě nových verzí Java. Při výběru je samozřejmě také důležité, jakým způsobem je daný nástroj možné používat, jaké konstrukce dokáže dekompilovat a roli může hrát také rychlost.
 				
