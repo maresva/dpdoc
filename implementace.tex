@@ -48,7 +48,7 @@
 				Pro logování, tedy zobrazení a uložení chybových či informačních zpráv, byla použita knihovna Apache Log4j \cite{log4j}. Tato knihovna umožňuje pokročilé možnosti logování, které je možné dobře nastavit pomocí konfiguračních souborů. Opět se jedná o široce používanou technologii.
 				
 			\subsubsection{Tokenizace zdrojových souborů jazyka Java}
-				Pro implementaci tokenizace souborů jsem se rozhodl použít knihovnu JavaParser \cite{javaparser}. Učinil jsem tak na základě mého průzkumu (viz 4. kapitola Tokenizace jazyka Java). Knihovna poskytuje komplexní reprezentaci daného zdrojového souboru a je tak možné jej dále analyzovat a zpracovávat. Knihovnu je možné snadno použít přímo v projektu díky zprostředkovanému API.
+				Pro implementaci tokenizace souborů jsem se rozhodl použít knihovnu JavaParser \cite{javaparser}. Učinil jsem tak na základě mého průzkumu (viz kapitola 4 - Analýza kódu jazyka Java). Knihovna poskytuje komplexní reprezentaci daného zdrojového souboru a je tak možné jej dále analyzovat a zpracovávat. Knihovnu je možné snadno použít přímo v projektu díky zprostředkovanému API.
 			
 			\subsubsection{Dekompilace přeložených souborů jazyka Java}
 				Jako dekompilátor přeložených souborů jazyka Java (\texttt{.class}) jsem použil knihovnu Procyon \cite{procyon}. Jedná se o nástroj, který umožňuje snadnou dekompilaci souborů a to včetně moderních konstrukcí jazyka Java. Hlavním důvodem volby této knihovny byla možnost použití dekompilace v rámci kódu za pomocí API. Více informací je opět k dispozici ve 4. kapitole.
@@ -145,7 +145,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
 	    \subsection{Porovnávací modul}
-	    	Modul pro porovnávání kontraktů se skládá ze tří tříd a modelu pro porovnávání. Struktura tohoto modulu je vidět na obrázku \ref{comparatorUMLdiagram}. Model byl představen výše (viz 5. kapitola - Datový model) a nebude zde proto opět detailně rozebírán. Dílčími třídami pak jsou \texttt{ContractComparator}, která specifikuje porovnávání samotných kontraktů, \texttt{JavaFileComparator} pro porovnávání souborů a nakonec \texttt{JavaFolderComparator}, který umožňuje porovnávání složek. Porovnávací modul je v projektu uložen v balíčku \texttt{comparator}.\\
+	    	Modul pro porovnávání kontraktů se skládá ze tří tříd a modelu pro porovnávání. Struktura tohoto modulu je vidět na obrázku \ref{comparatorUMLdiagram}. Model byl představen výše (viz kapitola 5 - Datový model) a nebude zde proto opět detailně rozebírán. Dílčími třídami pak jsou \texttt{ContractComparator}, která specifikuje porovnávání samotných kontraktů, \texttt{JavaFileComparator} pro porovnávání souborů a nakonec \texttt{JavaFolderComparator}, který umožňuje porovnávání složek. Porovnávací modul je v projektu uložen v balíčku \texttt{comparator}.\\
 	    	
 	    	Porovnávací metoda \texttt{compareContracts()} z \texttt{ContractComparator} je využita v modelové třídě \texttt{Contract}, kde je volána v metodě \texttt{compareTo()}. To samé platí pro metodu \texttt{compareJavaFiles()} ze třídy \texttt{JavaFileComparator}, která je volána v \texttt{JavaFile} v metodě \texttt{compareJavaFileTo()}. Díky tomu je možné kontrakty a soubory snadno porovnávat pomocí konstrukce jako např. \texttt{contractX.compareTo(contractY}).\\
 	    	
@@ -165,7 +165,7 @@
 	    \subsubsection{Porovnávání kontraktů}
 	    	Při porovnávání kontraktů se nejprve zkontroluje, zda je shodný typ reprezentace kontraktu, typ podmínky a také funkce. Jestliže je nějaká z~těchto položek negativní, kontrakty jsou považovány za rozdílné (\texttt{DIFFERENT} dle výčtového typu \texttt{ContractComparison}). Pokud jsou shodné, je porovnán výraz obou kontraktů. Jestliže je výraz rozdílný, je vrácena hodnota \texttt{DIFFER-}\\\texttt{ENT\_EXPRESSION}, pokud ne, zkontrolují se ostatní argumenty. Pokud je některý z nich rozdílný, či je jich rozdílný počet, je navrácena hodnota \texttt{MINOR-}\\\texttt{\_CHANGE}). Pokud byly všechny testované položky v pořádku, je vráceno \texttt{EQUAL}.\\
 	    	
-	    	Podrobnosti o modelu a jednotlivých hodnotách porovnání byly zmíněny výše v 5.kapitole. Je zde velký prostor pro zlepšení v oblasti porovnávání výrazů, to je více rozebráno níže v kapitole Zhodnocení výsledků.
+	    	Podrobnosti o modelu a jednotlivých hodnotách porovnání byly zmíněny výše v 5.kapitole. Je zde velký prostor pro zlepšení v oblasti porovnávání výrazů, to je více rozebráno níže v kapitole 8 - Zhodnocení výsledků.
 	    
 	    \subsubsection{Porovnávání souborů}
 	    	Porovnávání kontraktů v souborech není triviální z důvodu párování jednotlivých kontraktů. Pokud je změněno pořadí kontraktů a změní se jejich definice, je obtížné přiřadit daný kontrakt ke svému protějšku v druhém souboru.\\
