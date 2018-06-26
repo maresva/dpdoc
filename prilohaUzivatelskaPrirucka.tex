@@ -1,5 +1,5 @@
 \chapter{Uživatelská příručka}	
-	V této uživatelské příručce je vysvětleno jak nástroj nainstalovat, spustit a používat.
+	V této uživatelské příručce je vysvětleno jak nástroj nainstalovat, spustit a~používat.
 	
 	\section{Instalace}
 		Pro instalaci je třeba mít k dispozici Apache Maven \cite{maven}, aby bylo možné aplikaci sestavit. Tento software je zdarma ke stažení. Po jeho instalaci jej můžeme využít pomocí příkazu \texttt{mvn} (pro snazší použití je vhodné přidat Maven do systémové proměnné).\\
@@ -68,9 +68,9 @@
 				\paragraph{Filtry}					
 					Poslední sekcí extrakční části jsou filtry, které jsou zobrazeny pod panelem nástrojů a jsou realizovány zaškrtávacími políčky (viz obrázek \ref{guide01}). Pomocí těchto filtrů je možné změnit zobrazení dat v aplikaci a také ovlivnit export. Nejprve jsou zde jednotlivé reprezentace kontraktů, které je možné libovolně zobrazovat či skrývat (ve výchozím stavu jsou všechny viditelné). Pak je zde možnost \textbf{Show Non Contract Objects}. Ta určuje, zda se mají zobrazovat i soubory, třídy či metody, které neobsahují žádný kontrakt.\\
 						
-			Posledním filtrem je \textbf{MinJSON}. Pokud je tento filtr použit, veškerý export je ukládán v minimalizovaném formátu JSON. To může být užitečné např. při další práci s těmito soubory, aby se zmenšila jejich velikost. Ve výchozím stavu je tento přepínač vypnutý a všechny exporty jsou prováděny v tzv. \emph{pretty print}, což znamená, že je JSON dobře čitelný pro člověka, protože je členěn dle hierarchie.\\
+			Posledním filtrem je \textbf{MinJSON}. Pokud je tento filtr použit, veškerý export je ukládán v minimalizovaném formátu JSON. To může být užitečné např. při další práci s těmito soubory, aby se zmenšila jejich velikost. Ve výchozím stavu je tento přepínač vypnutý a všechny exporty jsou prováděny v~tzv. \emph{pretty print}, což znamená, že je JSON dobře čitelný pro člověka, protože je členěn dle hierarchie.\\
 			
-			Aby nastavené filtry byly aktivovány, je třeba stisknout tlačítko \textbf{Filter}. Kromě filtru \textbf{MinJSON}, který ovlivní pouze export, ovlivňují filtry vše v aplikaci. Mění tedy seznam souborů, statistiky i detail daného souboru.
+			Aby nastavené filtry byly aktivovány, je třeba stisknout tlačítko \textbf{Filter}. Kromě filtru \textbf{MinJSON}, který ovlivní pouze export, ovlivňují filtry vše v~aplikaci. Mění tedy seznam souborů, statistiky i detail daného souboru.
 			
 			\begin{figure}[!htb]
 				\minipage{1\textwidth}	
@@ -94,7 +94,7 @@
 			\end{figure}						
 			
 			\subsubsection{Extrakce kontraktů - detail souboru}
-				Po stisku tlačítka \textbf{Show Details} se zobrazí nové okno s podrobnostmi o vybraném souboru (viz \ref{guide05}). Je zde tedy název souboru a statistické údaje jako je počet tříd, metod a kontraktů. Cennou informací je zde strom zpracovaného souboru. Zde jsou vidět jednotlivé třídy a metody daného souboru v hierarchické podobě a uvnitř nich se nachází samotné kontrakty. Zde je možné zjistit podrobnosti o tom, o jaké kontrakty se jedná, jaký mají přesný tvar atd. Tento strom je zjednodušenou verzí JSON verze tohoto souboru. Ten je možné zobrazit přepnutím záložky z \textbf{Tree View} do \textbf{Raw Unfiltered JSON}. Jedná se o stejná data, která jsou uložena v případě využití exportu.\\
+				Po stisku tlačítka \textbf{Show Details} se zobrazí nové okno s podrobnostmi o~vybraném souboru (viz \ref{guide05}). Je zde tedy název souboru a statistické údaje jako je počet tříd, metod a kontraktů. Cennou informací je zde strom zpracovaného souboru. Zde jsou vidět jednotlivé třídy a metody daného souboru v hierarchické podobě a uvnitř nich se nachází samotné kontrakty. Zde je možné zjistit podrobnosti o tom, o jaké kontrakty se jedná, jaký mají přesný tvar atd. Tento strom je zjednodušenou verzí JSON verze tohoto souboru. Ten je možné zobrazit přepnutím záložky z \textbf{Tree View} do \textbf{Raw Unfiltered JSON}. Jedná se o stejná data, která jsou uložena v případě využití exportu.\\
 				
 				Kromě zobrazení těchto informací zde není možné provádět žádnou aktivní činnost, okno je možné pouze zavřít standardním způsobem. Okno se také zavře v případě, že byla zavřena hlavní aplikace, nicméně je možné mít otevřené libovolné množství těchto oken s podrobnostmi, což je možné využít např. při jejich porovnávání.
 				
@@ -121,7 +121,7 @@
 			\end{figure}
 		
 		\paragraph{Panel nástrojů}	
-			Aplikace umožňuje pouze porovnání dvou složek. Tyto složky vybereme pomocí panelu nástrojů, který je oproti extrakční části změněn. První dvě tlačítka slouží tedy k výběru složek, po jejich stisknutí se zobrazí okno průzkumníka souborů, kde je možné vybrat pouze adresář. Tyto vybrané složky pak můžeme porovnat pomocí tlačítka \textbf{Compare}, které se po výběru složek zpřístupní. Tímto se podobně jako v předchozí části přidají soubory do seznamu v levé části. Tato akce opět zabere nějaký čas, během kterého je zobrazeno načítací okno. V případě, že bychom chtěli porovnat jiné složky, stačí zvolit novou složku pomocí jednoho z tlačítek a aplikace smaže všechny ostatní hodnoty. Na rozdíl od části pro extrakci zde není možné soubory mazat, ale vybrané soubory je možné extrahovat opět pomocí tlačítka na konci panelu.\\
+			Aplikace umožňuje pouze porovnání dvou složek. Tyto složky vybereme pomocí panelu nástrojů, který je oproti extrakční části změněn. První dvě tlačítka slouží tedy k výběru složek, po jejich stisknutí se zobrazí okno průzkumníka souborů, kde je možné vybrat pouze adresář. Tyto vybrané složky pak můžeme porovnat pomocí tlačítka \textbf{Compare}, které se po výběru složek zpřístupní. Tímto se podobně jako v předchozí části přidají soubory do seznamu v levé části. Tato akce opět zabere nějaký čas, během kterého je zobrazeno načítací okno. V případě, že bychom chtěli porovnat jiné složky, stačí zvolit novou složku pomocí jednoho z tlačítek a~aplikace smaže všechny ostatní hodnoty. Na rozdíl od části pro extrakci zde není možné soubory mazat, ale vybrané soubory je možné extrahovat opět pomocí tlačítka na konci panelu.\\
 		
 		\paragraph{Seznam souborů}
 			Seznam souborů vypadá stejně jako v extrakční části. Rozdílem však je, že zde jednotlivé položky představují zprávy o porovnání daných souborů. Každá tato zpráva pak obsahuje hierarchii tříd a metod, kde je pro každý kontrakt informace, zda byl přidán odebrán či změněn. Také jsou zde informace o přidaných a odebraných metodách a shrnutí zda je daný soubor se svým protějškem shodný v rámci API a kontraktů.
@@ -130,7 +130,7 @@
 			Zbytek aplikace funguje stejným způsobem jako část pro extrahování, ale zobrazená data se liší. Globální statistiky zobrazují hodnoty z porovnání obou složek. Je zde informace o tom, zda jsou dané adresáře shodné na úrovni kontraktů (\textbf{Contract equal}) či na úrovni API (\textbf{API equal}). Je zde také informace o tom, kolik souborů bylo oproti předchozí složce přidáno respektive odebráno (\textbf{Files added / removed}). Tyto informace jsou zde také pro kontrakty. Přibývá však i informace o počtu změněných kontraktech (\textbf{Contracts added / removed / changed}).\\
 		
 		\paragraph{Detail souboru}
-			Sekce zobrazující detaily o souboru obsahují mimo jména souboru také informaci o tom, zda je tento soubor shodný v rámci API a kontraktů vůči svému protějšku. Jedná se tedy o informace, které jsou v globálních statistikách, zde se však týkají pouze vybraného souboru. Také je zde tlačítko \textbf{Show Details}, které zobrazí okno s detaily o daném porovnání.\\
+			Sekce zobrazující detaily o souboru obsahují mimo jména souboru také informaci o tom, zda je tento soubor shodný v rámci API a~kontraktů vůči svému protějšku. Jedná se tedy o informace, které jsou v~globálních statistikách, zde se však týkají pouze vybraného souboru. Také je zde tlačítko \textbf{Show Details}, které zobrazí okno s detaily o daném porovnání.\\
 				
 		\paragraph{Filtry}
 			I v této části jsou filtry umožňující skrýt různé reprezentace kontraktů a také je tu filtr pro minimalistický formát exportu. Navíc zde však přibyl filtr \textbf{Report Only Contract Changes}. Pokud je označen, nejsou zobrazeny žádné informace o souborech, třídách a metodách, které nijak neovlivňují kontrakty. To může velmi zjednodušit data, pokud nás zajímají pouze informace  kontraktech.\\
@@ -150,9 +150,9 @@
 			\end{figure}			
 			
 	\subsubsection{Porovnávání kontraktů - detail souboru}
-		Po stisku tlačítka \textbf{Show Details} se opět otevře nové okno s podrobnostmi o dané položce (viz \ref{guide07}). Stejně jako v případě extrakce, jsou zde také v horní části statistické informace a dole je poté stromové zobrazení. Co se statistických údajů týče, jsou zde informace o tom, zda je daný soubor shodný v rámci kontraktů a API se svým protějškem. Také jsou zde informace o tom, kolik tříd, metod a kontraktů se přidalo nebo ubralo. V případě kontraktů pak také kolik se jich změnilo.\\
+		Po stisku tlačítka \textbf{Show Details} se opět otevře nové okno s podrobnostmi o~dané položce (viz \ref{guide07}). Stejně jako v případě extrakce, jsou zde také v horní části statistické informace a dole je poté stromové zobrazení. Co se statistických údajů týče, jsou zde informace o tom, zda je daný soubor shodný v~rámci kontraktů a API se svým protějškem. Také jsou zde informace o tom, kolik tříd, metod a kontraktů se přidalo nebo ubralo. V případě kontraktů pak také kolik se jich změnilo.\\
 		
-		Stromové zobrazení je opět možné přepnout na JSON formát. Provede se to přepnutím záložky z \textbf{Tree View} na \textbf{Raw Unfiltered JSON}. Jedná se o stejný JSON, který je exportován pokud není vybraná možnost \textbf{MinJSON}.
+		Stromové zobrazení je opět možné přepnout na JSON formát. Provede se to přepnutím záložky z \textbf{Tree View} na \textbf{Raw Unfiltered JSON}. Jedná se o~stejný JSON, který je exportován pokud není vybraná možnost \textbf{MinJSON}.
 		
 			\begin{figure}[!htb]
 				\minipage{1\textwidth}	
@@ -187,7 +187,7 @@
 			
 			Zde je třeba začít pomocí \texttt{-c}, což značí porovnávání. Následují tři povinné parametry, kde prvním (\texttt{<input\_folder1>}) a druhým (\texttt{<input\_folder2>}) jsou vstupní složky, jejichž obsah má být porovnán z hlediska API a zejména z hlediska rozdílnosti kontraktů. Třetím povinným parametrem je opět výstupní složka (\texttt{<output\_folder>}), kam mají být exportovány výsledky.\\
 			
-			Porovnání kontraktů má tři volitelné parametry, které korespondují s grafickou částí aplikace. Prvním z nich je \texttt{-q}. Ten určuje, zda mají být exportovány také objekty, které byly vyhodnoceny jako shodné. Ve výchozím stavu jsou tedy tato data ignorována.\\
+			Porovnání kontraktů má tři volitelné parametry, které korespondují s~grafickou částí aplikace. Prvním z nich je \texttt{-q}. Ten určuje, zda mají být exportovány také objekty, které byly vyhodnoceny jako shodné. Ve výchozím stavu jsou tedy tato data ignorována.\\
 			
 			Dalším parametrem je \texttt{-o}. Pokud je tento přepínač vybrán, budou exportovány pouze změny, které se přímo týkají kontraktů. Tímto je možné zanedbat změny API, které se přímo kontraktů netýkají.\\
 			

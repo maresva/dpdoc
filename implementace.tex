@@ -34,15 +34,15 @@
 	    \subsection{Použité technologie}
 	    
 	    	\subsubsection{Programovací jazyk}
-				Pro tvorbu knihovny jsem použil jazyk Java verze 1.8. Jedním z hlavních důvodů bylo, že nástroj zkoumá reprezentace kontraktů v jazyce Java, díky tomu je možné dané konstrukce snadno testovat a zkoušet přímo v tomto projektu. Vedoucí práce také upřednostňoval použití jazyka Java z důvodů případného propojení s jinými nástroji, které byly vyvinuty pro práci s kontrakty v rámci univerzity a jsou také realizovány v Java. Osobně mám s jazykem Java pravděpodobně největší zkušenosti, což byl další z důvodů, proč tento jazyk použít. Díky těmto okolnostem byla volba jazyka poměrně jednoznačná.\\
+				Pro tvorbu knihovny jsem použil jazyk Java verze 1.8. Jedním z hlavních důvodů bylo, že nástroj zkoumá reprezentace kontraktů v jazyce Java, díky tomu je možné dané konstrukce snadno testovat a zkoušet přímo v tomto projektu. Vedoucí práce také upřednostňoval použití jazyka Java z důvodů případného propojení s jinými nástroji, které byly vyvinuty pro práci s kontrakty v rámci univerzity a jsou také realizovány v Java. Osobně mám s~jazykem Java pravděpodobně největší zkušenosti, což byl další z důvodů, proč tento jazyk použít. Díky těmto okolnostem byla volba jazyka poměrně jednoznačná.\\
 				
-				I přesto, že v průběhu vývoje projektu vyšla verze Java 1.9 a posléze i 1.10, rozhodl jsem se po domluvě s vedoucím práce ponechat stabilní verzi 1.8 a nepřecházet v průběhu vývoje na novější verzi jazyka.
+				I přesto, že v průběhu vývoje projektu vyšla verze Java 1.9 a posléze i~1.10, rozhodl jsem se po domluvě s vedoucím práce ponechat stabilní verzi 1.8 a nepřecházet v průběhu vývoje na novější verzi jazyka.
 				
 			\subsubsection{Vývojové prostředí}				
 				Nástroj byl realizován ve vývojovém prostředí IDEA IntelliJ Ultimate 2017.3.3.
 	    	
 			\subsubsection{Práce se závislostmi}
-				Pro zajištění závislostí jako jsou knihovny třetích stran, ale také pro snadnou distribuci knihovny, jsem zvolil technologii Apache Maven \cite{maven}. Jedná se o široce používaný nástroj pro získávání závislostí a tvorbu projektů.
+				Pro zajištění závislostí jako jsou knihovny třetích stran, ale také pro snadnou distribuci knihovny, jsem zvolil technologii Apache Maven \cite{maven}. Jedná se o~široce používaný nástroj pro získávání závislostí a tvorbu projektů.
 				
 			\subsubsection{Logování}
 				Pro logování, tedy zobrazení a uložení chybových či informačních zpráv, byla použita knihovna Apache Log4j \cite{log4j}. Tato knihovna umožňuje pokročilé možnosti logování, které je možné dobře nastavit pomocí konfiguračních souborů. Opět se jedná o široce používanou technologii.
@@ -75,7 +75,7 @@
 			
 			Vytvořená struktura je následně procházena a jsou z ní extrahovány kontrakty. To zajišťují třídy \texttt{GuavaParser} a \texttt{JSR305Parser} (každá svůj cílený typ kontraktu). Tyto třídy implementují rozhraní \texttt{ContractParser} a továrna \texttt{ParserFactory} umožňuje vytváření jejich instancí. Tímto způsobem se instance objektu \texttt{ExtendedJavaFile} postupně rozšiřuje.\\
 			
-			Poté co byly extrahovány všechny kontrakty, podrobnosti o metodách a třídách jsou již redundantní a z toho důvodu je objekt \texttt{ExtendedJavaFile} zredukován na \texttt{JavaFile}. Totéž platí pro zbytek modelu. K této redukci slouží třída \texttt{Simplifier}.\\
+			Poté co byly extrahovány všechny kontrakty, podrobnosti o metodách a~třídách jsou již redundantní a z toho důvodu je objekt \texttt{ExtendedJavaFile} zredukován na \texttt{JavaFile}. Totéž platí pro zbytek modelu. K této redukci slouží třída \texttt{Simplifier}.\\
 			
 			Poslední částí tohoto modulu je třída \texttt{ContractExtractor}. Ta slouží jako výchozí bod pro komunikaci s ostatními částmi nástroje a spojuje dílčí třídy a jejich funkce dohromady. V podstatě se jedná o API pro vnitřní užití knihovny.\\
 			
@@ -111,17 +111,17 @@
 			\paragraph{Obecně}
 				Poté, co je z Java souboru vytvořen objekt \texttt{ExtendedJavaFile}, je možné začít extrahovat kontrakty. Během získávání kontraktů se tato struktura prochází a postupně se k jednotlivým třídám a metodám přidávají kontrakty. Poté, co jsou všechny extrakce dokončeny, je za pomocí třídy \texttt{Simplifier} objekt převeden na typ \texttt{JavaFile}, který obsahuje pouze relevantní informace a je připraven pro export.	Během získávání kontraktů se také postupně aktualizují statistické údaje o počtu kontraktů a o počtu metod, které kontrakty obsahují.	
 			
-			\paragraph{Guava Precondtions}
+			\paragraph{Guava Preconditions}
 				Vzhledem k tomu, že všechny kontrakty tohoto typu jsou realizovány pomocí volání metod ze třídy \texttt{Preconditions}, zaměřuje se extrakce pouze na těla metod a tříd či ostatních částí metod si algoritmus nevšímá. Postupně se procházejí jednotlivé části metody (objekty \texttt{Node}) a ve chvíli kdy se narazí na \texttt{Node}, který obsahuje název některé z metod třídy \texttt{Preconditions}, je tento výraz dále zpracováván. Název Guava metody je uložen do kontraktu jako atribut \texttt{function}. První parametr metody, ten klíčový, je uložen jako atribut \texttt{expression}. Ostatní parametry, obvykle souvisejí pouze s tvarem chybové zprávy, jsou uloženy do seznamu \texttt{arguments}.\\				
 				
-				Nástroj umožňuje rozpoznání těchto metod: checkArgument, checkState, checkNotNull, checkElementIndex, badElementIndex, checkPositionIndex, badPositionIndex, checkPositionIndexes, badPositionIndexes.\\
+				Nástroj umožňuje rozpoznání těchto metod: \texttt{checkArgument}, \texttt{checkState}, \texttt{checkNotNull}, \texttt{checkElementIndex}, \texttt{badElementIndex}, \texttt{checkPositionIn-}\\\texttt{dex}, \texttt{badPositionIndex}, \texttt{checkPositionIndexes}, \texttt{badPositionIndexes}.\\
 				
 				Vysvětlení, použití a jiné podrobnosti jednotlivých metod je možné zjistit v dokumentace knihovny. I přesto, že projekt v současné podobě umožňuje rozpoznat všechny metody Guava Preconditions, časem mohou přibýt jiné konstrukce, které bude třeba do nástroje doplnit. Vzhledem k tomu, že Guava je stále živý projekt, který se vyvíjí, je třeba kontrolovat nové verze, zda nepřidávají nové metody pro reprezentaci kontraktů.	Názvy metod jsou definovány v konstantě \texttt{PRECONDITIONS\_METHODS}, což je pole řetězců.
 				
 			\paragraph{JSR305}
-				Na rozdíl od Guava Preconditions mohou být kontrakty typu JSR305 obsaženy v anotacích tříd a metod a také v jejich parametrech. Zde je tedy nutné procházet tyto bloky a naopak těla metod je možné zanedbat. Postupně se procházejí jednotlivé anotace tříd i metod. Jakmile je daná anotace výrazem JSR305, je uložena jako kontrakt. Tvar anotace představuje \texttt{function} a stejně jako v případě Guava, první parametr je uložen jako \texttt{expression} a ostatní jsou uloženy do seznamu \texttt{arguments}. Tyto anotace však často parametr nemají. Takto nalezené kontrakty v anotacích třídy jsou označeny za neměnné proměnné a v anotacích metod se pak jedná o výstupní podmínky. Zbývají parametry metod, u kterých se opět zkoumají anotace stejným způsobem. Tyto anotace však vždy mívají alespoň jeden atribut a tím je tvar samotného parametru, takto se extrahují vstupní podmínky.\\			
+				Na rozdíl od Guava Preconditions mohou být kontrakty typu JSR305 obsaženy v anotacích tříd a metod a také v jejich parametrech. Zde je tedy nutné procházet tyto bloky a naopak těla metod je možné zanedbat. Postupně se procházejí jednotlivé anotace tříd i metod. Jakmile je daná anotace výrazem JSR305, je uložena jako kontrakt. Tvar anotace představuje \texttt{function} a stejně jako v případě Guava, první parametr je uložen jako \texttt{expression} a ostatní jsou uloženy do seznamu \texttt{arguments}. Tyto anotace však často parametr nemají. Takto nalezené kontrakty v anotacích třídy jsou označeny za neměnné proměnné a v anotacích metod se pak jedná o~výstupní podmínky. Zbývají parametry metod, u kterých se opět zkoumají anotace stejným způsobem. Tyto anotace však vždy mívají alespoň jeden atribut a~tím je tvar samotného parametru, takto se extrahují vstupní podmínky.\\			
 
-				Nástroj umí rozpoznávat následující anotace: CheckForNull, CheckForSigned, CheckReturnValue, Detainted, MatchesPattern, Nonnegative, Nonnull, Nullable, OverridingMethodsMustInvokeSuper, ParametersAreNonnullByDefault, ParametersAreNullableByDefault, PropertyKey, RegEx, Signed, Syntax, Tainted, Untainted, WillClose, WillCloseWhenClosed, WillNotClose.\\
+				Nástroj umí rozpoznávat následující anotace: \texttt{CheckForNull}, \texttt{CheckFor-}\\\texttt{Signed}, \texttt{CheckReturnValue}, \texttt{Detainted}, \texttt{MatchesPattern}, \texttt{Nonnegative}, \texttt{Nonnull}, \texttt{Nullable}, \texttt{OverridingMethodsMustInvokeSuper}, \texttt{Parameters-}\\\texttt{AreNonnullByDefault}, \texttt{ParametersAreNullableByDefault}, \texttt{PropertyKey}, \texttt{RegEx}, \texttt{Signed}, \texttt{Syntax}, \texttt{Tainted}, \texttt{Untainted}, \texttt{WillClose}, \texttt{WillCloseWhen-}\\\texttt{Closed}, \texttt{WillNotClose}.\\
 				
 				Jedná se o všechny anotace, které má knihovna k dispozici v poslední verzi. Jejich vysvětlení, použití a jiné podrobnosti je možné zjistit v dokumentace knihovny. Vzhledem k tomu, že nástroj je již delší dobu beze změn, není pravděpodobné, že se v blízké době tento seznam bude měnit. 
 			
@@ -133,7 +133,7 @@
 			Tento model obsahuje pouze dvě třídy, \texttt{IOServices} a \texttt{ResourceHandler}. \texttt{ResourceHandler} je třída, která poskytuje metody pro snadnou práci se zdroji jako jsou zobrazované chybové zprávy a \emph{properties} (konfigurovatelné vlastnosti). \texttt{IOServices} pak poskytuje metody pro práci se soubory. Je tu tedy např. metoda, která vrátí seznam souborů v dané složce, získání koncovky souboru, kontrola, zda se jedná o soubor či složku atd. Jsou zde také prostředky pro export do formátu JSON a také metoda pro dekompilaci přeložených souborů. Modul je reprezentován balíčkem \texttt{utils}.
 		
 		\subsubsection{Dekompilace souborů \texttt{.class}}
-			Jak již bylo zmíněno výše, pro dekompilaci Java \texttt{.class} souborů byla použita knihovna Procyon. Ta poskytuje metodu \texttt{void decompile(String internalName, ITextOutput output)}, která přečte vstupní soubor s přeloženým kódem a do jiného souboru uloží jeho dekompilovanou verzi. V mém nástroji dekompilaci obstarává obalovací metoda \texttt{boolean decompileClass-\\File(String filename)}, která se nachází v třídě \texttt{IOServices}. Ta vytvoří dočasný soubor dle konfigurace a vrátí, za byla operace úspěšná. Z hlediska pracovního postupu dekompilaci vyvolává třída \texttt{JavaFileParser} v metodě \texttt{ExtendedJavaFile parseFile(File file)} v případě, že má vstupní soubor koncovku \texttt{.class}. Pokud dekompilace proběhla bez chyb, je daný, dočasně vytvořený, soubor zpracován stejným způsobem, jako by se jednalo o zdrojový soubor. Po zpracování je dočasný soubor smazán.
+			Jak již bylo zmíněno výše, pro dekompilaci Java \texttt{.class} souborů byla použita knihovna Procyon. Ta poskytuje metodu \texttt{void decompile(String internalName, ITextOutput output)}, která přečte vstupní soubor s přeloženým kódem a do jiného souboru uloží jeho dekompilovanou verzi. V mém nástroji dekompilaci obstarává obalovací metoda \texttt{boolean decompileClass-\\File(String filename)}, která se nachází v třídě \texttt{IOServices}. Ta vytvoří dočasný soubor dle konfigurace a vrátí, za byla operace úspěšná. Z hlediska pracovního postupu dekompilaci vyvolává třída \texttt{JavaFileParser} v metodě \texttt{ExtendedJavaFile parseFile(File file)} v případě, že má vstupní soubor koncovku \texttt{.class}. Pokud dekompilace proběhla bez chyb, je daný, dočasně vytvořený, soubor zpracován stejným způsobem, jako by se jednalo o~zdrojový soubor. Po zpracování je dočasný soubor smazán.
 					
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -144,8 +144,8 @@
 		
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
-	    \subsection{Porovnávání modul}
-	    	Modul pro porovnávání kontraktů se skládá ze tří tříd a modelu pro porovnávání. Struktura tohoto modulu je vidět na obrázku \ref{comapreModul}. Model byl představen výše (viz 5. kapitola - Datový model) a nebude zde proto opět detailně rozebírán. Dílčími třídami pak jsou \texttt{ContractComparator}, která specifikuje porovnávání samotných kontraktů, \texttt{JavaFileComparator} pro porovnávání souborů a nakonec \texttt{JavaFolderComparator}, který umožňuje porovnávání složek. Porovnávací modul je v projektu uložen v balíčku \texttt{comparator}.\\
+	    \subsection{Porovnávací modul}
+	    	Modul pro porovnávání kontraktů se skládá ze tří tříd a modelu pro porovnávání. Struktura tohoto modulu je vidět na obrázku \ref{comparatorUMLdiagram}. Model byl představen výše (viz 5. kapitola - Datový model) a nebude zde proto opět detailně rozebírán. Dílčími třídami pak jsou \texttt{ContractComparator}, která specifikuje porovnávání samotných kontraktů, \texttt{JavaFileComparator} pro porovnávání souborů a nakonec \texttt{JavaFolderComparator}, který umožňuje porovnávání složek. Porovnávací modul je v projektu uložen v balíčku \texttt{comparator}.\\
 	    	
 	    	Porovnávací metoda \texttt{compareContracts()} z \texttt{ContractComparator} je využita v modelové třídě \texttt{Contract}, kde je volána v metodě \texttt{compareTo()}. To samé platí pro metodu \texttt{compareJavaFiles()} ze třídy \texttt{JavaFileComparator}, která je volána v \texttt{JavaFile} v metodě \texttt{compareJavaFileTo()}. Díky tomu je možné kontrakty a soubory snadno porovnávat pomocí konstrukce jako např. \texttt{contractX.compareTo(contractY}).\\
 	    	
@@ -163,7 +163,7 @@
 	    
 	    
 	    \subsubsection{Porovnávání kontraktů}
-	    	Při porovnávání kontraktů se nejprve zkontroluje, zda je shodný typ reprezentace kontraktu, typ podmínky a také funkce. Jestliže je nějaká z těchto položek negativní, kontrakty jsou považovány za rozdílné (\texttt{DIFFERENT} dle výčtového typu \texttt{ContractComparison}). Pokud jsou shodné, je porovnán výraz obou kontraktů. Jestliže je výraz rozdílný, je vrácena hodnota \texttt{DIFFERENT\_EXPRESSION}, pokud ne, zkontrolují se ostatní argumenty. Pokud je některý z nich rozdílný, či je jich rozdílný počet, je vrácena hodnota \texttt{MINOR\_CHANGE}). Pokud byly všechny testované položky v pořádku, je vráceno \texttt{EQUAL}.\\
+	    	Při porovnávání kontraktů se nejprve zkontroluje, zda je shodný typ reprezentace kontraktu, typ podmínky a také funkce. Jestliže je nějaká z~těchto položek negativní, kontrakty jsou považovány za rozdílné (\texttt{DIFFERENT} dle výčtového typu \texttt{ContractComparison}). Pokud jsou shodné, je porovnán výraz obou kontraktů. Jestliže je výraz rozdílný, je vrácena hodnota \texttt{DIFFER-}\\\texttt{ENT\_EXPRESSION}, pokud ne, zkontrolují se ostatní argumenty. Pokud je některý z nich rozdílný, či je jich rozdílný počet, je navrácena hodnota \texttt{MINOR-}\\\texttt{\_CHANGE}). Pokud byly všechny testované položky v pořádku, je vráceno \texttt{EQUAL}.\\
 	    	
 	    	Podrobnosti o modelu a jednotlivých hodnotách porovnání byly zmíněny výše v 5.kapitole. Je zde velký prostor pro zlepšení v oblasti porovnávání výrazů, to je více rozebráno níže v kapitole Zhodnocení výsledků.
 	    
@@ -205,10 +205,10 @@
 			\subsubsection{\texttt{ContractExtractorApi}}
 					Zde jsou zejména metody pro získání kontraktů. Metoda \texttt{retrieveContracts} umožňuje extrakci kontraktů ze vstupního souboru. Je možné definovat, které typy kontraktů se mají analyzovat a zda mají být vráceny i objekty bez kontraktů. Vrácena je instance \texttt{JavaFile}, která obsahuje extrahované kontrakty. Další metodou je \texttt{retrieveContractsFromFolder}, která poskytuje stejnou funkcionalitu s tím rozdílem, že vstupem je celá složka nikoliv soubor a je vrácen seznam \texttt{JavaFile}.\\
 					
-					Následně je zde \texttt{exportJavaFilesToJson}. Tato metoda slouží k exportu vstupního seznamu \texttt{JavaFile} do JSON. Je třeba nastavit výstupní složku a také, zda má být formát v minimalistické formě. Poslední metodou pak je \texttt{updateShortPathOfJavaFiles}, která aktualizuje atribut \texttt{shortPath} všech \texttt{JavaFile} v seznamu.	    
+					Následně je zde \texttt{exportJavaFilesToJson}. Tato metoda slouží k exportu vstupního seznamu \texttt{JavaFile} do JSON. Je třeba nastavit výstupní složku a~také, zda má být formát v minimalistické formě. Poslední metodou pak je \texttt{updateShortPathOfJavaFiles}, která aktualizuje atribut \texttt{shortPath} všech \texttt{JavaFile} v seznamu.	    
 			    
 			\subsubsection{\texttt{BatchContractExtractorApi}}	
-				Toto API poskytuje podobnou funkcionalitu jako předchozí. Obsahuje pouze jednu metodu \texttt{retrieveContractsFromFolderExportToJson}. Jedná se v podstatně o kombinaci předchozích metod. Umožňuje načtení kontraktů z dané složky a jejich následný export do zadaného adresáře, součástí je také shodné nastavení. Tato metoda nejprve načte jeden soubor ten zpracuje, exportuje a pak pokračuje dalším, díky tomu je méně náročná na paměť. Toto API je využito pro konzolovou část uživatelské aplikace.
+				Toto API poskytuje podobnou funkcionalitu jako předchozí. Obsahuje pouze jednu metodu a to \texttt{retrieveContractsFromFolderExportToJson}. Jedná se v~podstatně o kombinaci předchozích metod. Umožňuje načtení kontraktů z~dané složky a jejich následný export do zadaného adresáře, součástí je také shodné nastavení. Tato metoda nejprve načte jeden soubor ten zpracuje, exportuje a pak pokračuje dalším, díky tomu je méně náročná na paměť. Toto API je využito pro konzolovou část uživatelské aplikace.
 				
 			\subsubsection{\texttt{ContractComparatorApi}}
 				Poskytuje metodu \texttt{compareJavaFolders}, která porovná dva zadané adresáře na úrovni kontraktů ale i jejich API. Následně vytvoří report typu \texttt{JavaFolderCompareReport} informující o tomto srovnání. Je možné zvolit, zda se mají reportovat shodné objekty a také jestli se mají reportovat změny API, které přímo neovlivňují kontrakty. Druhou metodou je pak \texttt{exportJavaFolderCompareReportToJson}, což umožňuje vytvořený report exportovat do JSON.
@@ -247,7 +247,7 @@
 	    		Dalším krokem je doplnění továrny \texttt{ParserFactory}. Zde je pouze třeba přidat nový \texttt{case} do konstrukce \texttt{switch}. Tento blok by měl vracet instanci nového parseru v případě že vstoupí tento typ v objektu \texttt{ContractType}.
 	    			
 	    	\subsubsection{Testování}
-	    		Pro bezchybnou funkci daného analyzátoru je možné vytvořit jednotkové testy. Testovací data pro současné testy jsou umístěny v \texttt{resources/testFiles}, kde jsou pak dále děleny do složek.
+	    		Pro bezchybnou funkci daného analyzátoru je možné vytvořit jednotkové testy. Testovací data jsou umístěna v \texttt{resources/testFiles}, kde jsou pak dále děleny do složek.
 
     
     
@@ -273,7 +273,7 @@
 		\subsection{Design grafické části aplikace}
 			Grafická část aplikace byla rozdělena na dvě části dle její funkčnosti. První z nich je extrakční, ta umožňuje extrakci kontraktů ze souborů a jejich následný export. Také je možné prohlížet si podrobnosti o jednotlivých souborech.  Druhá část slouží k porovnávání kontraktů. Mezi těmito částmi je možné přepínat pomocí záložky.\\
 			
-			Každá část disponuje panelem nástrojů, pomocí kterého je možné přidávat, mazat a exportovat označené soubory. Dále je zde panel filtrů, kde lze nastavit různé podrobnosti ohledně zobrazených dat. Obě části také mají seznam souborů, kde jsou zobrazeny všechny soubory, které byly přidány (může být ovlivněno filtry). Jednotlivé soubory pak mohou být označeny pro výše zmíněné mazání a export. Součástí obou částí jsou také globální statistiky, které zobrazují různé podrobnosti a shrnutí vybraných souborů. Vidět je také detail právě vybraného souboru. Zde je možné zobrazit si podrobnosti a otevřít tak nové okno aplikace, kde jsou detailní informace o daném souboru, včetně stromové reprezentace daného souboru.\\
+			Každá část disponuje panelem nástrojů, pomocí kterého je možné přidávat, mazat a exportovat označené soubory. Dále je zde panel filtrů, kde lze nastavit různé podrobnosti ohledně zobrazených dat. Obě části také mají seznam souborů, kde jsou zobrazeny všechny soubory, které byly přidány (může být ovlivněno filtry). Jednotlivé soubory pak mohou být označeny pro výše zmíněné mazání a export. Součástí obou částí jsou také globální statistiky, které zobrazují různé podrobnosti a shrnutí vybraných souborů. Vidět je také detail právě vybraného souboru. Zde je možné zobrazit si podrobnosti a otevřít tak nové okno aplikace, kde jsou detailní informace o~daném souboru, včetně stromové reprezentace daného souboru.\\
 			
 			Tato sekce představuje pouze krátké shrnutí toho, jak je aplikace členěna a co umožňuje pro pochopení kontextu. Pro podrobnější popis je možné nahlédnout do přílohy A Uživatelská příručka, kde jsou podrobně vysvětleny všechny funkce za pomoci obrázků aplikace.
 		
@@ -293,7 +293,7 @@
 				Nachází se zde třída \texttt{Settings}, která uchovává nastavení filtrů aplikace. Potenciálně je tuto část možné rozšířit o další nastavení, které by mohlo měnit chování či vzhled aplikace. Hlavní třídou balíčku je pak \texttt{ApplicationData}. Ta obsahuje data obou záložek i zmíněné nastavení, jedná se o přístupový bod ke zbytku aplikace. Samotné záložky jsou pak definovány dvěma třídami \texttt{ExtractorApplicationTab} a \texttt{ComparatorApplicationTab}. Ty obě dělí od obecné třídy \texttt{ApplicationTab}. Každá z těchto tříd také obsahuje třídu \texttt{ExtractorFileList} respektive \texttt{ComparatorFileList}, které obsahují detaily o seznamech souborů včetně samotných souborů.
 				
 			\subsubsection{Balíček \texttt{controller}}
-				Tento balíček je poměrně přímočarý a obsahuje pouze jedinou třídu \texttt{Controller}. Zde jsou pak mapovány metody na jednotlivá stisknutí tlačítek.
+				Tento balíček je poměrně přímočarý a obsahuje pouze jednu třídu \texttt{Controller}. Zde jsou pak mapovány metody na jednotlivá stisknutí tlačítek.
 		
 			\subsubsection{Balíček \texttt{utils}}
 				Třída \texttt{ConsoleApplication} představuje konzolovou část aplikace. Zde probíhá zpracování vstupních parametrů a jejich následné předání patřičným metodám. Jsou zde také ošetřeny chybné vstupy a nastavení chybových zpráv.\\
@@ -306,7 +306,7 @@
 		
 	    	   
 	   \subsection{Ovládání aplikace}
-	   		Pro zlepšení práce s aplikací, byla rozdělena na dvě části. Aplikaci je možné spustit bez parametrů jako grafickou aplikaci, případně je možné aplikaci spustit s parametry, čímž se provede jednorázová akce pro dávkové zpracování. Podrobné informace o spouštění a používání aplikace jsou uvedeny v příloze A. Uživatelská příručka.
+	   		Pro zlepšení práce s aplikací, byla rozdělena na dvě části. Aplikaci je možné spustit bez parametrů jako grafickou aplikaci, případně je možné aplikaci spustit s parametry, čímž se provede jednorázová akce pro dávkové zpracování. Podrobné informace o spouštění a používání aplikace jsou uvedeny v~příloze A. Uživatelská příručka.
 	   		
 	   		\subsubsection{Grafická část}
 	   			Standardním spuštěním aplikace bez parametrů se zobrazí grafická uživatelská část. Zde je možné extrahovat kontrakty, zobrazovat si je v kontextu hierarchie daného souboru, exportovat získaná data a také porovnávat složky za účelem zjištění rozdílů v API a kontraktech. Všechny tyto činnosti je možné obsluhovat pomocí jednoduchého a intuitivního uživatelského rozhraní.			   			  		

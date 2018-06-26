@@ -2,7 +2,7 @@
 	S cílem zajistit co největší spolehlivost a tedy i kvalitu tohoto nástroje, byla knihovna i uživatelská aplikace řádně otestována. Nástroj byl otestován pomocí automatizovaných jednotkových testů, ale také manuálním testováním.
 	
 	\section{Jednotkové testy}
-		V rámci knihovny byla vytvořena řada jednotkových testů. Tyto testy ověřují různé aspekty nástroje a byly použity pro zajištění spolehlivosti výsledného produktu, ale také jako kontrola během vývoje. Testy jsou zaměřeny zejména na extrakci kontraktů, kde se snaží analyzovat kontrakty z uměle vytvořených testovacích dat (viz níže). Jsou zde také testy pro ověření správnosti porovnávacího nástroje a modulu pro tokenizaci zdrojových souborů. Celkem bylo implementováno 55 jednotkových testů různé komplexity.
+		V rámci knihovny byla vytvořena řada jednotkových testů. Tyto testy ověřují různé aspekty nástroje a byly použity pro zajištění spolehlivosti výsledného produktu, ale také jako kontrola během vývoje. Testy jsou zaměřeny zejména na extrakci kontraktů, kde se snaží analyzovat kontrakty z uměle vytvořených testovacích dat (viz níže). Jsou zde také testy pro ověření správnosti porovnávacího nástroje a modulu pro tokenizaci zdrojových souborů. Celkem bylo implementováno 56 jednotkových testů různé komplexity.
 		
 		\subsection{Ukázka jednotkového testu}
 			Následuje ukázka jednotkového testu \texttt{testGuava()}, který se nachází ve třídě \texttt{ContractExtractorGuavaTest}. Tento test je použit v projektu a zde je zobrazen formou zjednodušeného Java kódu. Testovací soubor je pak zobrazen níže a jeho obsah je téměř shodný s reálným souborem. Jedná se o soubor \texttt{testFiles/Guava/TestGuava.java}. Ostatní testy byly realizovány obdobným způsobem.
@@ -50,8 +50,8 @@
 			
 			Skutečná data byla použita při manuálním testování nástroje. Díky své obsáhlosti mi nepřišla data vhodná pro automatizované testy. Mnoho jednotkových testů však bylo inspirováno použitím reálných reprezentací kontraktů nalezených v těchto datech.
 			
-		\subsection{Syntaktická data}
-			V reálných datech je obvyklé, že se využije jen část funkčnosti, kterou daná knihovna nabízí. Aby byl nástroj řádně otestován, uměle jsem vytvořil data, která pokryla různé možnosti použití kontraktů. To jak vytvořená data je dobře vidět v ukázce jednotkového testu výše. Zde se jedná o jednoduchý test vhodný pro demonstraci v dokumentu, jiná testovací data jsou více komplexní. Všechna tato data se nacházejí v projektu ve zdrojích ve složce \texttt{testFiles}. Zde jsou rozděleny do složek podle oblasti testování (\texttt{comparator} pro porovnávání kontraktů, \texttt{extractor} pro extrakci kontraktů a \texttt{parser} pro analýzu jazyka Java). Tato data jsou umístěna na CD ve složce \texttt{src/ContractParser/src/main/resources/testFiles}.		 
+		\subsection{Syntetická data}
+			V reálných datech je obvyklé, že se využije jen část funkčnosti, kterou daná knihovna nabízí. Aby byl nástroj řádně otestován, uměle jsem vytvořil data, která pokryla různé možnosti použití kontraktů. To jak vytvořená data je dobře vidět v ukázce jednotkového testu výše. Zde se jedná o~jednoduchý test vhodný pro demonstraci v dokumentu, jiná testovací data jsou více komplexní. Všechna tato data se nacházejí v projektu ve zdrojích ve složce \texttt{testFiles}. Zde jsou rozděleny do složek podle oblasti testování (\texttt{comparator} pro porovnávání kontraktů, \texttt{extractor} pro extrakci kontraktů a \texttt{parser} pro analýzu jazyka Java). Tato data jsou umístěna na CD ve složce \texttt{src/ContractParser/src/main/resources/testFiles}.		 
 		 
 	\section{Výsledky testů}
 		Ve finální verzi nástroje byly všechny testy úspěšně vykonány. Testy byly aktivně využívány v závěrečné fázi vývoje, kdy byly používány k zjištění, zda je stále zachována funkčnost nástroje po provedených změnách. 

@@ -11,10 +11,10 @@
 			Je logické, že software musí splňovat požadovanou funkčnost, jinak by nebyl k prospěchu. V závislosti na typu projektu ale může být vhodné udělat kompromis za účelem zvýhodnění jiných vlastností.	
 	
 		\subsubsection{Udržitelnost}
-			Určuje jak obtížné je provést změny na daném software. Tyto změny mohou být za účelem oprav, přizpůsobení se novým požadavkům, přidání nové funkčnosti atp. Obecně je snahou, aby tyto změny bylo možné provádět s využitím co nejmenšího množství zdrojů.
+			Určuje, jak obtížné je provést změny na daném software. Tyto změny mohou být za účelem oprav, přizpůsobení se novým požadavkům, přidání nové funkčnosti atp. Obecně je snahou, aby tyto změny bylo možné provádět s~využitím co nejmenšího množství zdrojů.
 		
 		\subsubsection{Spolehlivost}
-			Spolehlivý systém by měl odolávat vnějším vlivům, jako jsou například výpadky či útoky a neměl způsobit škodu při selhání. V důsledku by pak měl být software co nejvíce dostupný.
+			Spolehlivý systém by měl odolávat vnějším vlivům, jako jsou například výpadky či útoky, a neměl by způsobit škodu při selhání. V důsledku by pak měl být software co nejvíce dostupný.
 		
 		\subsubsection{Efektivita}
 			Software by měl pracovat co nejefektivněji, tedy s co nejmenším využitím zdrojů. Často nás zajímá rychlost a nízké nároky na hardware.
@@ -28,14 +28,14 @@
 		\subsubsection{Testovatelnost}
 			Dobrý software je možné kvalitně otestovat a je známá množina testovacích případů. Díky tomu lze lépe předcházet chybám.\\
 
-Všechny tyto atributy určují kvalitu software a v závislosti na typu projektu by mělo být cílem každého týmu, dosáhnout co nejlepších výsledků v daných oblastech. 
+Všechny tyto atributy určují kvalitu software a v závislosti na typu projektu by mělo být cílem každého týmu, dosáhnout co nejlepších výsledků v~daných oblastech. 
 
 
 \section{Aspekty ovlivňující kvalitu software}
 Po uvedení klíčových vlastností definující kvalitní systém je na místě prozkoumat možnosti zajištění těchto vlastností. Aspektů, které tyto vlastnosti ovlivňují je celá řada a zde je seznam některých z nich:
 
 	\subsection{Metodika řízení softwarového projektu}
-		Volba vhodné metodiky řízení projektu je velmi důležitá, protože ovlivní celý průběh vývoje. Tato volba je závislá na více faktorech jako je povaha a rozsah projektu, velikost a zkušenosti týmu, který bude na projektu pracovat atd. V dnešní době se obecně dává přednost agilním metodikám jako je např. SCRUM, což platí zejména pro větší projekty.
+		Volba vhodné metodiky řízení projektu je velmi důležitá, protože ovlivní celý průběh vývoje. Tato volba je závislá na více faktorech jako je povaha a~rozsah projektu, velikost a zkušenosti týmu, který bude na projektu pracovat atd. V dnešní době se obecně dává přednost agilním metodikám jako je např. SCRUM, což platí zejména pro větší projekty.
 	
 	\subsection{Analýza požadavků}
 		Analýza a sběr požadavků jsou jedny z prvních činností, které je třeba při tvorbě software provést. Jedná se o důležitý krok, jehož chyby se mohou posléze projevit v celém projektu a typicky mohou vést k vyšším nárokům na zdroje, což se může negativně odrazit na výsledné kvalitě software. Je třeba nalézt všechny aktéry a rozpoznat všechny případy užití. Na základě toho zpracovat funkční i mimo-funkční požadavky, které zákazník očekává a zároveň budou v kompetenci vývojářů. Důležité je také správně stanovit rozsah projektu a určit si hranice. 
@@ -55,15 +55,15 @@ Po uvedení klíčových vlastností definující kvalitní systém je na míst�
 		
 
 	\subsection{Defenzivní programování}
-		Defenzivní programování \cite{defProgram} je technika, ve které předpokládáme, že náš program obsahuje chyby a očekáváme nejhorší možný vstup. Myšlenkou tedy je, snažit se odhalit všechny potenciální problémy (jakkoliv drobné) a pokusit se jím předejít. Ve výsledku to pak znamená větší množství ověřování a kontrol než je zvyklé při běžném programování. Snahou programátora by také mělo být naspat co nejpřehlednější kód, který umožňuje znovupoužitelnost a snižuje šanci chyb.\\ 
+		Defenzivní programování \cite{defProgram} je technika, ve které předpokládáme, že náš program obsahuje chyby a očekáváme nejhorší možný vstup. Myšlenkou tedy je, snažit se odhalit všechny potenciální problémy (jakkoliv drobné) a pokusit se jím předejít. Ve výsledku to pak znamená větší množství ověřování a kontrol než je zvyklé při běžném programování. Snahou programátora by také mělo být napsat co nejpřehlednější kód, který umožňuje znovupoužitelnost a snižuje šanci chyb.\\ 
 		
-		V rámci této techniky je důležité upravit své programovací návyky, které mohou vézt k chybovosti kódu. Častou chybou může být např. ignorování návratového typu různých metod, které zpravují o její úspěšnosti. Problémy také mohou způsobovat neinicializované proměnné, u kterých nemáme žádnou informaci o tom, jakou obsahují hodnotu. Obecně je také potřeba vždy kontrolovat uživatelské vstupy a důkladně je ověřovat. Tím se můžeme vyhnout např. přístupu do jiné části paměti či práci s nulovými objekty. Pro zvýšení účinnosti kontrol můžeme také použít různé specializované techniky, které umožní lepší kontrolu našeho programu. Příkladem mohou být doporučení pro psaní bezpečného kódu či kontrakty (viz níže).\\
+		V rámci této techniky je důležité upravit své programovací návyky, které mohou vést k chybovosti kódu. Častou chybou může být např. ignorování návratového typu různých metod, které zpravují o její úspěšnosti. Problémy také mohou způsobovat neinicializované proměnné, u kterých nemáme žádnou informaci o tom, jakou obsahují hodnotu. Obecně je také potřeba vždy kontrolovat uživatelské vstupy a důkladně je ověřovat. Tím se můžeme vyhnout např. přístupu do jiné části paměti či práci s nulovými objekty. Pro zvýšení účinnosti kontrol můžeme také použít různé specializované techniky, které umožní lepší kontrolu našeho programu. Příkladem mohou být doporučení pro psaní bezpečného kódu či kontrakty (viz níže).\\
 		
 		Defenzivní programování je dobrý způsob, jak zvýšit přehlednost a snížit chybovost kódu, nicméně v extrémních případech můžeme docílit opačného efektu. Důvodem může být např. opakované kontrolování stejných hodnot, předcházení situacím, které nemohou nikdy nastat atd. Tuto techniku je tedy třeba brát s mírou.
 		
 	
 	\subsection{Doporučení pro psaní kódu}
-		Jednou z preventivních technik pro zajištění kvality jsou různá doporučení pro psaní kódu. Ta mohou být určena standardem, neoficiálními konvencemi či firemní politikou. Kód psaný na základě těchto doporučení bývá zpravidla více čitelný pro ostatní členy týmu, efektivnější a bezpečnější.
+		Jednou z preventivních technik pro zajištění kvality jsou různá doporučení pro psaní kódu. Ta mohou být určena standardem, neoficiálními konvencemi či firemní politikou. Kód psaný na základě těchto doporučení bývá zpravidla více čitelný pro ostatní členy týmu, efektivnější a bezpečnější.\\
 		
 		Příkladem kódovacího standardu může být MISRA \cite{misra}. Jedná se o standard, který byl původně navržen pro zvýšení bezpečnosti a spolehlivosti vestavěných systémů v automobilech napsaných v jazyce C. Postupem času se rozšířil také do jazyka C++ a dostal se i mimo oblast automobilového průmyslu. 		
 		
